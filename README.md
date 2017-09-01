@@ -1,6 +1,7 @@
 # NestPullView
 
 基于之前分享的 《基于NestScroll机制实现下拉刷新 overScroll 等》
+[《基于NestScroll机制实现下拉刷新 overScroll 等》](http://www.jianshu.com/p/4f6be42abad4)
 进行头部抽离拆分封装，易于扩展性
 继承RefreshWrapBase实现不同头尾
 默认实现了一个DefaultRefreshWrap" --
