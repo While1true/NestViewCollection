@@ -85,7 +85,8 @@ public abstract class RefreshWrapBase {
 
 ```
 
-```public class DefaultRefreshWrap extends RefreshWrapBase {
+```
+public class DefaultRefreshWrap extends RefreshWrapBase {
     private static String[] pulldown = {"下拉刷新", "释放刷新", "正在刷新", "刷新完成"};
     private static String[] pullup = {"上拉加载", "释放加载", "正在加载", "加载完成"};
 
