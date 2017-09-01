@@ -87,15 +87,11 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
 
     String[] pulldown = {"下拉刷新", "释放刷新", "正在刷新", "刷新完成"};
     String[] pullup = {"上拉加载", "释放加载", "正在加载", "加载完成"};
-    private RotateAnimation animation;
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (animation != null) {
-            animation.cancel();
-            animation = null;
-        }
+
         if (animator != null) {
             animator.cancel();
             animator = null;
@@ -104,6 +100,8 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
             animator1.cancel();
             animator1 = null;
         }
+        headerRefreshWrap.OnDetachFromWindow();
+        footerRefreshWrap.OnDetachFromWindow();
     }
 
     public SScrollview(Context context) {
@@ -494,8 +492,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
 
     public void notifyRefreshComplete() {
         Log.i(TAG, "notifyRefreshComplete: smoothScroll");
-        if (animation != null)
-            animation.cancel();
         long current = System.currentTimeMillis() - beginRefreshing;
         footerRefreshWrap.onComplete();
         headerRefreshWrap.onComplete();
