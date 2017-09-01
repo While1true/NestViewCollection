@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">NestRefreshLib</string>
+    <string name="sprogress_string">当前进度%.1f%%</string>
+</resources>
