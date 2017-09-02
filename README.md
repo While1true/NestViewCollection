@@ -1,32 +1,29 @@
-`
+### 让自己的库易于扩展
+> 浅谈本人的封装抽离思路
+---
+> [本文简书地址](http://www.jianshu.com/p/88795dff987c)
+
+> 基于之前分享的 [《基于NestScroll机制实现下拉刷新 overScroll 等》](http://www.jianshu.com/p/4f6be42abad4) 
+
+---
+> 将之前库进行，头尾布局拆分、抽离易于扩展。
+
+---
+
+#### 1.相比之前做了些什么？
+- 新的头尾布局，继承RefreshWrapBase 根据自身需求，实现下拉，上拉过程中动画，文字等相关变化
+- 默认实现了一个DefaultRefreshWrap，同时包含头尾布局
 
 
-# NestPullView
-
-基于之前分享的 《基于NestScroll机制实现下拉刷新 overScroll 等》
-[《基于NestScroll机制实现下拉刷新 overScroll 等》](http://www.jianshu.com/p/4f6be42abad4)
-
-进行头部抽离拆分封装，易于扩展性
-继承RefreshWrapBase实现不同头尾
-默认实现了一个DefaultRefreshWrap" --
-[master (root-commit) 16e13c9] Initial commit 基于之前分享的 《基于NestScroll机制实现下拉刷新 overScroll 等》 进行头部抽离拆分封装，易于扩展性 继承RefreshWrapBase实现不同头尾 默认实现了一个DefaultRefreshWrap
-
+#### 2.思路
+- 无论是上拉刷新，下拉加载，要完成完整过程动画需要知道以下几点
+  1. 滑动的过程值（用于过程动画及文字变化）
+  2. 正在刷新状态 （正在刷新动画）
+  3. 完成状态     （完成状态下，让动画结束或文字改变）
+  
+定义一个BaseClass将需要的方法申明
 ```
-public abstract class RefreshWrapBase {
-    protected View viewLayout;
-
-    private WrapInterface parent;
-
-    protected int height;
-
-    public RefreshWrapBase(WrapInterface parent){
-        this.parent=parent;
-        viewLayout = LayoutInflater.from(parent.getContext()).inflate(getLayout(), parent.getParentView(), false);
-    }
-    public abstract int getLayout();
-
-
-/**
+    /**
      * 拉动过程
      * @param pull
      */
@@ -41,31 +38,61 @@ public abstract class RefreshWrapBase {
      * 刷新完整调用
      */
     public abstract void onComplete();
+```
 
-    /**
-     * 进行一些组件的初始化
-     */
-    public abstract void initViews();
+   
+- 父布局在滑动，或刷新完成过程中，只需要将值和状态传给header和footer。 header和footer 自己实现不同布局，不同组件的动画
+- 我打算header或footer用同一个BaseClass.不同头布局 或者尾部局只要实现baseClass就行
+- 由于要把头尾布局添加到父ViewGroup的头部或尾部，BaseClass需要知道以下几点
+  1. 用户实现的是头布局还是尾部局（头布局就添加到头布局，尾布局。。。）
+  2. 获取Context以及父布局的头尾容器（Context用于LayoutInflater，父布局头尾容器用于将头尾布局添加到父ViewGroup)
+  
+ 获取父布局的相关属性，定义如下接口，让父View实现
 
-    /**
-     * 高度
-     * @return
-     */
-    public abstract int getHeight();
+```
+public interface WrapInterface {
+    LinearLayout getHeaderLayout();
+    LinearLayout getFootLayout();
+    Context getContext();
+}
+```
+将wrapInterface 和是否是头尾布局通过构造函数传入
 
-    /**
-     * 做一些销毁操作
+```
+public RefreshWrapBase(WrapInterface parent,boolean header){
+        this.header=header;
+        this.parent=parent;
+        //加载自定义布局
+        viewLayout =LayoutInflater.from(parent.getContext()).inflate(getLayout(),parent.getHeaderLayout(),false);
+        //抽象方法，让子类实现，获取组件做相应动画
+        initViews();
+        //将自定义布局添加到父头、尾布局
+        addRefreshtoParent();
+    }
+    
+    
+    
+     /**
+     * 将布局添加到父ViewGroup
+     * @param
      */
-    public void OnDetachFromWindow(){
-        viewLayout=null;
-        parent=null;
-        parent=null;
+    protected void addRefreshtoParent(){
+        LinearLayout wrapParent = header ? getHeaderWrapParent() : getfooterWrapParent();
+        wrapParent.removeAllViews();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getHeight());
+        params.gravity = Gravity.CENTER_VERTICAL;
+        wrapParent.setOrientation(LinearLayout.HORIZONTAL);
+
+        if (header)
+            params.topMargin = -getHeight();
+
+        wrapParent.setLayoutParams(params);
+        wrapParent.addView(viewLayout);
     }
 
 
-
     /**
-     * 头跟布局
+     * 获取父View头容器
      * @param
      * @return
      */
@@ -74,16 +101,22 @@ public abstract class RefreshWrapBase {
     }
 
     /**
-     * 尾跟布局
+     * 获取父View尾容器
      * @param
      * @return
      */
     protected LinearLayout getfooterWrapParent(){
         return parent.getFootLayout();
     }
-}
-
 ```
+### 3.默认实现 继承Base
+
+1. getLayout 中返回当前自定义布局id，getHeight（）设置布局高度
+2. 在initView中获取参与滑动的组件，设置初始值
+3. onPull（）方法中根据值做执行过程动画
+4. onRefresh（）正在刷新时的方法
+5. onComplete（）刷新完成的方法
+6. OnDetachFromWindow（）进行销毁操作
 
 ```
 public class DefaultRefreshWrap extends RefreshWrapBase {
@@ -93,19 +126,26 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
     ImageView progress;
     TextView headTitle;
 
-
-    private boolean header;
     private RotateAnimation animation;
 
     /**
      * 构造调用intViews初始化组件
+     *
      * @param parent
      * @param header
      */
     public DefaultRefreshWrap(WrapInterface parent, boolean header) {
-        super(parent);
-        this.header = header;
+        super(parent, header);
         initViews();
+    }
+    /**
+     * 高度
+     *
+     * @return
+     */
+    @Override
+    public int getHeight() {
+        return dp2px(45);
     }
 
     @Override
@@ -143,36 +183,17 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
 
     @Override
     public void initViews() {
-        LinearLayout wrapParent = header ? getHeaderWrapParent() : getfooterWrapParent();
         progress = (ImageView) viewLayout.findViewById(R.id.pull_to_refresh_image);
         headTitle = (TextView) viewLayout.findViewById(R.id.pull_to_refresh_text);
         String title = header ? pulldown[0] : pullup[0];
-        if (title != headTitle.getText().toString())
-            headTitle.setText(title);
-
-        wrapParent.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getHeight());
-        params.gravity = Gravity.CENTER_VERTICAL;
-        wrapParent.setOrientation(LinearLayout.HORIZONTAL);
-
-        if (header)
-            params.topMargin = -getHeight();
-
-        wrapParent.setLayoutParams(params);
-        wrapParent.addView(viewLayout);
-    }
-
-    @Override
-    public int getHeight() {
-        if (height == 0)
-            height = dp2px(55);
-        return height;
+        headTitle.setText(title);
     }
 
     @Override
     public void OnDetachFromWindow() {
         progress = null;
         headTitle = null;
+        if(animation!=null)
         animation.cancel();
         animation = null;
     }
@@ -195,3 +216,51 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
 
         progress.startAnimation(animation);
     }
+}
+```
+### 4.header或footer的传入
+1. 通过addHeader（）addFooter（）传入头尾布局
+2. 或者addDefaultHeaderFooter（）来设置初始
+   
+```
+   public SRecyclerView addHeader(RefreshWrapBase wrapBase) {
+        this.headerRefreshWrap = wrapBase;
+        return this;
+    }
+
+    public SRecyclerView addFooter(RefreshWrapBase wrapBase) {
+        this.footerRefreshWrap = wrapBase;
+        return this;
+    }
+    
+    
+   public SRecyclerView addDefaultHeaderFooter() {
+       headerRefreshWrap = new DefaultRefreshWrap(this, true);
+       footerRefreshWrap = new DefaultRefreshWrap(this, false);
+       return this;
+    }
+    
+```
+### 5.使用（可参考上篇文章）
+> lib同样实现了RecyclerView和ScrollView
+[《基于NestScroll机制实现下拉刷新 overScroll 等》](http://www.jianshu.com/p/4f6be42abad4) 
+```
+ recyclerView.addDefaultHeaderFooter()
+             .addHeader(new DefaultRefreshWrap(this,true)
+             .addfooter(new DefaultRefreshWrap(this,false)
+```
+
+### 6.总结：
+同之前一样，本文也只是提供一些拆分，扩展思路。
+毕竟水平有限，一个全面的封装要考虑太多。
+
+---
+总之适合自己的才是最好的。
+
+[Github地址](https://github.com/While1true/NestPullView)
+
+
+
+
+
+
