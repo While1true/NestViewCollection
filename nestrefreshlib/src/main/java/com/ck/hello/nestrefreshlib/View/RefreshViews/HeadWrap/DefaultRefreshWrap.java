@@ -93,10 +93,6 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
         animation = null;
     }
 
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, viewLayout.getResources().getDisplayMetrics());
-    }
-
     /**
      * 下拉progress的动画
      */

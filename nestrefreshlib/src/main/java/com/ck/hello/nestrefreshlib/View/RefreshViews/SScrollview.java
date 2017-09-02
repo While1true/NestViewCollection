@@ -31,6 +31,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 
 import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.DefaultRefreshWrap;
+import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.EmptyRefreshWrap;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.RefreshWrapBase;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.WrapInterface;
 
@@ -81,8 +82,8 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
     private boolean canOverscrollheader = false, canOverscrollfooter = false;
 
     //头布局
-    private RefreshWrapBase headerRefreshWrap;
-    private RefreshWrapBase footerRefreshWrap;
+    private RefreshWrapBase headerRefreshWrap=new EmptyRefreshWrap(this,true);
+    private RefreshWrapBase footerRefreshWrap=new EmptyRefreshWrap(this,false);
 
 
     String[] pulldown = {"下拉刷新", "释放刷新", "正在刷新", "刷新完成"};
@@ -102,6 +103,8 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
         }
         headerRefreshWrap.OnDetachFromWindow();
         footerRefreshWrap.OnDetachFromWindow();
+        headerRefreshWrap=null;
+        footerRefreshWrap=null;
     }
 
     public SScrollview(Context context) {

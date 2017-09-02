@@ -1,5 +1,6 @@
 package com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap;
 
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,11 @@ public abstract class RefreshWrapBase {
     public RefreshWrapBase(WrapInterface parent, boolean header) {
         this.header = header;
         this.parent = parent;
-        viewLayout = LayoutInflater.from(parent.getContext()).inflate(getLayout(), header?parent.getHeaderLayout():parent.getFootLayout(), false);
-        initViews();
-        addRefreshtoParent();
+        if(getLayout()!=0) {
+            viewLayout = LayoutInflater.from(parent.getContext()).inflate(getLayout(), header ? parent.getHeaderLayout() : parent.getFootLayout(), false);
+            initViews();
+            addRefreshtoParent();
+        }
     }
 
     public abstract int getLayout();
@@ -104,5 +107,9 @@ public abstract class RefreshWrapBase {
      */
     protected LinearLayout getfooterWrapParent() {
         return parent.getFootLayout();
+    }
+
+    protected int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, parent.getContext().getResources().getDisplayMetrics());
     }
 }

@@ -33,6 +33,7 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.DefaultRefreshWrap;
+import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.EmptyRefreshWrap;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.RefreshWrapBase;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.WrapInterface;
 
@@ -91,8 +92,8 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     private boolean actruallyHead = true, actruallyFoot = true;
     private boolean prenomore = true;
     //头布局
-    private RefreshWrapBase headerRefreshWrap;
-    private RefreshWrapBase footerRefreshWrap;
+    private RefreshWrapBase headerRefreshWrap=new EmptyRefreshWrap(this,true);
+    private RefreshWrapBase footerRefreshWrap=new EmptyRefreshWrap(this,false);
 
 
     @Override
@@ -108,6 +109,8 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         }
         headerRefreshWrap.OnDetachFromWindow();
         footerRefreshWrap.OnDetachFromWindow();
+        headerRefreshWrap=null;
+        footerRefreshWrap=null;
     }
 
     public LinearLayout getHeaderLayout() {
@@ -145,6 +148,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         addView(headLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         addView(myRecyclerView, new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         addView(footLayout, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
     }
 
     public SRecyclerView setRefreshMode(boolean head, boolean foot, boolean canLoadingHeader, boolean canloadingFooter) {
