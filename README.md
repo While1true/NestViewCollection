@@ -9,7 +9,7 @@
 > 将之前库进行，头尾布局拆分、抽离易于扩展。
 
 ---
-![2017-09-02-11-55-26.gif](http://upload-images.jianshu.io/upload_images/6456519-612198e8d0577168.gif?imageMogr2/auto-orient/strip)
+![image](http://upload-images.jianshu.io/upload_images/6456519-612198e8d0577168.gif?imageMogr2/auto-orient/strip)
 #### 1.相比之前做了些什么？
 - 新的头尾布局，继承RefreshWrapBase 根据自身需求，实现下拉，上拉过程中动画，文字等相关变化
 - 默认实现了一个DefaultRefreshWrap，同时包含头尾布局
