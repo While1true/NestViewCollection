@@ -246,11 +246,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
         return footLayout;
     }
 
-    @Override
-    public ViewGroup getParentView() {
-        return this;
-    }
-
 
     public abstract static class OnRefreshListener {
         public void pullDown(int height) {

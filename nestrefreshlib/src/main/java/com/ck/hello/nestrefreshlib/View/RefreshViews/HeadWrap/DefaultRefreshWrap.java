@@ -22,19 +22,25 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
     ImageView progress;
     TextView headTitle;
 
-
-    private boolean header;
     private RotateAnimation animation;
 
     /**
-     * 构造调用intViews初始化组件
+     * 构造
+     *
      * @param parent
      * @param header
      */
     public DefaultRefreshWrap(WrapInterface parent, boolean header) {
-        super(parent);
-        this.header = header;
-        initViews();
+        super(parent, header);
+    }
+    /**
+     * 高度
+     *
+     * @return
+     */
+    @Override
+    public int getHeight() {
+        return dp2px(45);
     }
 
     @Override
@@ -72,36 +78,17 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
 
     @Override
     public void initViews() {
-        LinearLayout wrapParent = header ? getHeaderWrapParent() : getfooterWrapParent();
         progress = (ImageView) viewLayout.findViewById(R.id.pull_to_refresh_image);
         headTitle = (TextView) viewLayout.findViewById(R.id.pull_to_refresh_text);
         String title = header ? pulldown[0] : pullup[0];
-        if (title != headTitle.getText().toString())
-            headTitle.setText(title);
-
-        wrapParent.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getHeight());
-        params.gravity = Gravity.CENTER_VERTICAL;
-        wrapParent.setOrientation(LinearLayout.HORIZONTAL);
-
-        if (header)
-            params.topMargin = -getHeight();
-
-        wrapParent.setLayoutParams(params);
-        wrapParent.addView(viewLayout);
-    }
-
-    @Override
-    public int getHeight() {
-        if (height == 0)
-            height = dp2px(55);
-        return height;
+        headTitle.setText(title);
     }
 
     @Override
     public void OnDetachFromWindow() {
         progress = null;
         headTitle = null;
+        if(animation!=null)
         animation.cancel();
         animation = null;
     }

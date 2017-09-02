@@ -12,5 +12,4 @@ public interface WrapInterface {
     LinearLayout getHeaderLayout();
     LinearLayout getFootLayout();
     Context getContext();
-    ViewGroup getParentView();
 }

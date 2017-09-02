@@ -118,11 +118,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         return footLayout;
     }
 
-    @Override
-    public ViewGroup getParentView() {
-        return this;
-    }
-
     public SRecyclerView(Context context) {
         this(context, null);
     }
