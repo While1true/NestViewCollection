@@ -70,11 +70,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         holder.setBackgroundColor(R.id.tv, 0xff226666);
                     }
 
-
+                    @Override
+                    protected boolean isfull() {
+                        return true;
+                    }
 
                     @Override
                     public boolean istype(String item,int position) {
-                        return position %4==2;
+                        return position ==10||position==22||position==30;
                     }
                 })
                 .addType(R.layout.test3, new SBaseMutilAdapter.ITEMHOLDER<String>() {
@@ -83,10 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         holder.setText(R.id.tv, item + "类星3 ");
                         holder.setBackgroundColor(R.id.tv, 0xff662266);
                     }
-                    @Override
-                    protected boolean isfull() {
-                        return true;
-                    }
+
                     @Override
                     public boolean istype(String item,int position) {
                         return true;
