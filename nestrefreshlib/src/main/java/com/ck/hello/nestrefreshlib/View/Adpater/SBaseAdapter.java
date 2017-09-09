@@ -46,7 +46,6 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
 
     //是否全屏
     private boolean full = true;
-    private SLoading sLoading;
 
     public void setStateLayout(int emptyres, int loadingres, int errorres, boolean full) {
         this.emptyres = emptyres;
@@ -114,17 +113,13 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
         this.height = height;
         this.showstate = showstate;
         this.e = e;
-        if (showstate != SHOW_LOADING && sLoading != null)
-            sLoading.stopAnimator();
+       StateHandler.switchState();
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if (sLoading != null) {
-            sLoading.stopAnimator();
-            sLoading = null;
-        }
+       StateHandler.destory();
     }
 
     private RecyclerView.ViewHolder creatHolder(int layout, ViewGroup viewGroup) {

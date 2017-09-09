@@ -14,4 +14,6 @@ public interface StateInterface<T> {
     void BindLoadingHolder(RecyclerView.ViewHolder holder,T t);
     void BindNomoreHolder(RecyclerView.ViewHolder holder,T t);
     void destory();
+
+    void switchState();
 }

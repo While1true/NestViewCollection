@@ -69,7 +69,23 @@ public class StateHandler implements StateInterface<String> {
     }
 
 
+    /**
+     * 销毁时调用
+     */
     public void destory() {
         listener=null;
+        if (sLoading != null) {
+            sLoading.stopAnimator();
+            sLoading = null;
+        }
+    }
+
+    /**
+     * 切换状态时调用，关闭一些动画
+     */
+    @Override
+    public void switchState() {
+        if (sLoading != null)
+            sLoading.stopAnimator();
     }
 }

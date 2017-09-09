@@ -50,7 +50,6 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
 
     //是否全屏
     private boolean full = true;
-    private SLoading sLoading;
 
     public void setStateLayout(int emptyres, int loadingres, int errorres, boolean full) {
         this.emptyres = emptyres;
@@ -114,8 +113,7 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
         this.height = height;
         this.showstate = showstate;
         this.e = e;
-        if (showstate != SHOW_LOADING && sLoading != null)
-            sLoading.stopAnimator();
+        StateHandler.switchState();
     }
 
     @Override
@@ -124,10 +122,6 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
         StateHandler.destory();
         StateHandler = null;
         Holdersid.clear();
-        if (sLoading != null) {
-            sLoading.stopAnimator();
-            sLoading = null;
-        }
     }
 
     private RecyclerView.ViewHolder creatHolder(int layout, ViewGroup viewGroup) {
