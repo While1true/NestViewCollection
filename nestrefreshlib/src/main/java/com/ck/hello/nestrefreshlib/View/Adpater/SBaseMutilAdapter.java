@@ -71,7 +71,7 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
         return this;
     }
 
-    public SBaseMutilAdapter<String, String> setStateListener(StateClickListener listener) {
+    public SBaseMutilAdapter<T, E> setStateListener(StateClickListener listener) {
         StateHandler.setStateClickListener(listener);
         return this;
     }
