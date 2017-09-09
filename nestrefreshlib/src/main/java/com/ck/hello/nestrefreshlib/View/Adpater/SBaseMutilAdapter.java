@@ -129,16 +129,15 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if(layoutManager instanceof GridLayoutManager){
+        if (layoutManager instanceof GridLayoutManager) {
             GridLayoutManager manager = (GridLayoutManager) layoutManager;
             final int spanCount = manager.getSpanCount();
             manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
                     int itemViewType = getItemViewType(position);
-
-                    return (itemViewType>=0&&itemViewType<Holdersid.size())?
-                            (Holdersid.get(itemViewType).isfull()?spanCount:1):(isfullspan(itemViewType)?spanCount:1);
+                    return (itemViewType >= 0 && itemViewType < Holdersid.size()) ?
+                            (Holdersid.get(itemViewType).gridSpanSize(list.get(position),position)) : (isfullspan(itemViewType) ? spanCount : 1);
                 }
             });
         }
@@ -156,17 +155,17 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
-        if(params instanceof StaggeredGridLayoutManager.LayoutParams){
+        if (params instanceof StaggeredGridLayoutManager.LayoutParams) {
             int itemViewType = holder.getItemViewType();
-         ((StaggeredGridLayoutManager.LayoutParams) params).setFullSpan((itemViewType>=0&&itemViewType<Holdersid.size())?
-                 Holdersid.get(itemViewType).isfull():isfullspan(itemViewType));
+            ((StaggeredGridLayoutManager.LayoutParams) params).setFullSpan((itemViewType >= 0 && itemViewType < Holdersid.size()) ?
+                    Holdersid.get(itemViewType).isfull() : isfullspan(itemViewType));
 
         }
     }
 
-    public boolean isfullspan(int type){
+    public boolean isfullspan(int type) {
 
-        if(type==SHOW_EMPTY||type==SHOW_ERROR||type==SHOW_LOADING||type==SHOW_NOMORE)
+        if (type == SHOW_EMPTY || type == SHOW_ERROR || type == SHOW_LOADING || type == SHOW_NOMORE)
             return true;
         return false;
     }
@@ -253,12 +252,9 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
                 }
                 break;
         }
-        for (int i = 0; i < Holdersid.size(); i++) {
-            if (Holdersid.get(i).istype(list.get(position), position)) {
-                Holdersid.get(i).onBind((SimpleViewHolder) holder, list.get(position), position);
-                break;
-            }
-        }
+
+        Holdersid.get(holder.getItemViewType()).onBind((SimpleViewHolder) holder, list.get(position), position);
+
 
     }
 
@@ -329,12 +325,41 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     public static abstract class ITEMHOLDER<T> {
         private int layout;
 
+        /**
+         * StaggeredLayoutManager重写此方法
+         *
+         * @return 是否占据一个
+         */
         protected boolean isfull() {
             return false;
         }
 
+        /**
+         * GrideLayoutManager重写此方法
+         *
+         * @param position
+         * @return 占的个数
+         */
+        protected int gridSpanSize(T item,int position) {
+            return 1;
+        }
+
+        /**
+         * onBind时调用
+         *
+         * @param holder
+         * @param item
+         * @param position
+         */
         public abstract void onBind(SimpleViewHolder holder, T item, int position);
 
+        /**
+         * 是否是这种Type的view
+         *
+         * @param item
+         * @param position
+         * @return
+         */
         public abstract boolean istype(T item, int position);
 
         public int getLayout() {

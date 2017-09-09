@@ -1,25 +1,21 @@
 package com.ck.hello.nestpullview;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
+import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.StateListener;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
-import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LinearLayoutManager extends AppCompatActivity implements View.OnClickListener {
 
     private SBaseMutilAdapter adapter;
 
@@ -27,8 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<String> list = new ArrayList<>(50);
-        for (int i = 0; i < 35; i++) {
+        setTitle("LinearLayoutManager");
+        List<String> list = new ArrayList<>(56);
+        for (int i = 0; i < 55; i++) {
             list.add(i + "");
         }
         findViewById(R.id.button).setOnClickListener(this);
@@ -44,15 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         holder.setText(R.id.tv, item + "类星2 ");
                         holder.setBackgroundColor(R.id.tv, 0xff226666);
                     }
-
                     @Override
-                    protected boolean isfull() {
-                        return true;
-                    }
-
-                    @Override
-                    public boolean istype(String item,int position) {
-                        return position ==10||position==22||position==30;
+                    public boolean istype(String item, int position) {
+                        return position % 4 == 2;
                     }
                 })
                 .addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
@@ -63,18 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     @Override
-                    public boolean istype(String item,int position) {
+                    public boolean istype(String item, int position) {
                         return position % 4 == 0;
                     }
                 }).addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星1 " );
+                        holder.setText(R.id.tv, item + "类星1 ");
                         holder.setBackgroundColor(R.id.tv, 0xff226666);
                     }
+
                     @Override
-                    public boolean istype(String item,int position) {
-                        return position %4==1;
+                    public boolean istype(String item, int position) {
+                        return position % 4 == 1;
                     }
                 })
 
@@ -82,11 +74,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
                         holder.setText(R.id.tv, item + "类星3 ");
-                        holder.setBackgroundColor(R.id.tv, 0xff662266);
+                        holder.itemView.setBackgroundColor(0xff662266);
                     }
 
                     @Override
-                    public boolean istype(String item,int position) {
+                    public boolean istype(String item, int position) {
                         return true;
                     }
                 })
@@ -106,50 +98,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recyclerView.addDefaultHeaderFooter()
                 .setRefreshMode(true, true, true, true)
-                .setAdapter(new StaggeredGridLayoutManager(5,StaggeredGridLayoutManager.VERTICAL), adapter).setRefreshingListener(new SRecyclerView.OnRefreshListener() {
-            @Override
-            public void Refreshing() {
-                recyclerView.postDelayed(new Runnable() {
+                .setAdapter(new android.support.v7.widget.LinearLayoutManager(this, android.support.v7.widget.LinearLayoutManager.VERTICAL, false), adapter)
+                .setRefreshingListener(new SRecyclerView.OnRefreshListener() {
                     @Override
-                    public void run() {
-                        adapter.showState(SBaseAdapter.SHOW_NOMORE, "ggg");
-                        recyclerView.notifyRefreshComplete();
+                    public void Refreshing() {
+                        recyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.showState(SBaseAdapter.SHOW_NOMORE, "ggg");
+                                recyclerView.notifyRefreshComplete();
+                            }
+                        }, 1000);
+
+
                     }
-                }, 1000);
 
-
-            }
-
-            @Override
-            public void PreLoading() {
-                super.PreLoading();
-                Toast.makeText(MainActivity.this, "滑倒底部，正在预加载", Toast.LENGTH_LONG).show();
-                recyclerView.postDelayed(new Runnable() {
                     @Override
-                    public void run() {
-                        recyclerView.notifyRefreshComplete();
+                    public void PreLoading() {
+                        super.PreLoading();
+                        Toast.makeText(LinearLayoutManager.this, "滑倒底部，正在预加载", Toast.LENGTH_LONG).show();
+                        recyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                recyclerView.notifyRefreshComplete();
+                            }
+                        }, 5000);
                     }
-                }, 5000);
-            }
 
-            @Override
-            public void Loading() {
-                super.Loading();
-                recyclerView.postDelayed(new Runnable() {
                     @Override
-                    public void run() {
-                        recyclerView.notifyRefreshComplete();
+                    public void Loading() {
+                        super.Loading();
+                        recyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                recyclerView.notifyRefreshComplete();
+                            }
+                        }, 1000);
                     }
-                }, 1000);
-            }
-        }).setRefreshing();
+                }).setRefreshing();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
-                adapter.showState(SBaseAdapter.SHOW_LOADING, null);
+                adapter.showLoading();
                 break;
             case R.id.button1:
                 adapter.showItem();
@@ -158,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 adapter.showState(SBaseAdapter.SHOW_NOMORE, "没有更多了");
                 break;
             case R.id.button3:
-                adapter.showState(SBaseAdapter.SHOW_ERROR, null);
+                adapter.setShowError();
                 break;
             case R.id.button4:
                 adapter.showEmpty();

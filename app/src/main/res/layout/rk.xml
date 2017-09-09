@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/GridLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="16dp"
+        android:text="MutilAdapter GridLayoutManager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/StaggledLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        android:text="MutilAdapter-StaggledLayoutManager"
+        app:layout_constraintLeft_toLeftOf="@+id/GridLayoutManager"
+        app:layout_constraintRight_toRightOf="@+id/GridLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/GridLayoutManager" />
+
+    <Button
+        android:id="@+id/LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="false"
+        android:text="MutilAdapter-LineraLayoutManager"
+        app:layout_constraintLeft_toLeftOf="@+id/StaggledLayoutManager"
+        app:layout_constraintRight_toRightOf="@+id/StaggledLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/StaggledLayoutManager" />
+
+    <Button
+        android:id="@+id/SingleTypeAdapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="SimpleAdapter"
+        android:textAllCaps="false"
+        app:layout_constraintLeft_toLeftOf="@+id/LinearLayoutManager"
+        app:layout_constraintRight_toRightOf="@+id/LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/LinearLayoutManager" />
+</android.support.constraint.ConstraintLayout>
