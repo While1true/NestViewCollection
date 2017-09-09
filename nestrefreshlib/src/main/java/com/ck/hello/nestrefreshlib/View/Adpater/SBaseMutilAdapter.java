@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ck.hello.nestrefreshlib.R;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateClickListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateInterface;
@@ -33,6 +34,14 @@ import java.util.List;
  *           如果StateHandler写死就不用管E
  */
 public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
+    /**
+     * 存储全局布局id
+     */
+    private static Recorder recorder;
+    public static void init(Recorder recorder1) {
+        recorder = recorder1;
+    }
+
     public static final int SHOW_EMPTY = -100, SHOW_LOADING = -200, SHOW_ERROR = -300, SHOW_NOMORE = -400;
     protected int showstate = SHOW_LOADING;
     protected List<T> list;
@@ -44,24 +53,44 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     private int height = 0;
 
 
-    //各种状态的资源id
-    int emptyres = R.layout.empty_textview, loadingres = R.layout.sbase_loading, errorres = R.layout.network_error, nomore = R.layout.nomore;
-
-    //是否全屏
-    private boolean full = true;
-
-    public void setStateLayout(int emptyres, int loadingres, int errorres, boolean full) {
-        this.emptyres = emptyres;
-        this.loadingres = loadingres;
-        this.errorres = errorres;
-        this.full = full;
+    /**
+     * 设置布局layout
+     * @param emptyres
+     * @param loadingres
+     * @param errorres
+     * @param nomore
+     * @param
+     */
+    public SBaseMutilAdapter<T, E> setStateLayout(int emptyres, int loadingres, int errorres,int nomore) {
+        Recorder.Builder builder = new Recorder.Builder();
+        if(emptyres!=0)
+            builder.setEmptyRes(emptyres);
+        if(loadingres!=0)
+            builder.setLoadingRes(loadingres);
+        if(errorres!=0)
+            builder.setErrorRes(errorres);
+        if(nomore!=0)
+            builder.setNomoreRes(nomore);
+        recorder=builder.build();
+        return this;
     }
 
+    /**
+     * 设置数据构造
+     * @param list
+     */
     public SBaseMutilAdapter(List<T> list) {
+        if(recorder==null)
+            recorder=new Recorder.Builder().build();
         this.list = list;
         StateHandler = new StateHandler();
     }
 
+    /**
+     *
+     * @param handler 设置状态布局的处理器
+     * @return
+     */
     public SBaseMutilAdapter<T, E> setStateHandler(StateInterface handler) {
         if (StateHandler.getStateClickListener() != null)
             handler.setStateClickListener(StateHandler.getStateClickListener());
@@ -69,6 +98,11 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
         return this;
     }
 
+    /**
+     * 设置状态布局的监听
+     * @param listener
+     * @return
+     */
     public SBaseMutilAdapter<T, E> setStateListener(StateClickListener listener) {
         StateHandler.setStateClickListener(listener);
         return this;
@@ -90,7 +124,6 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     @Override
     public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        if (full) {
             recyclerView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -99,20 +132,23 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
 //                    notifyDataSetChanged();
                 }
             });
-
-        }
     }
 
     public void showState(int showstate, E e) {
+        if (this.showstate != showstate)
+            StateHandler.switchState();
         this.showstate = showstate;
         this.e = e;
+        notifyDataSetChanged();
     }
 
     public void showState(int showstate, E e, int height) {
+        if (this.showstate != showstate)
+            StateHandler.switchState();
         this.height = height;
         this.showstate = showstate;
         this.e = e;
-        StateHandler.switchState();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -137,13 +173,13 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case SHOW_EMPTY:
-                return creatHolder(emptyres, parent);
+                return creatHolder(recorder.getEmptyres(), parent);
             case SHOW_LOADING:
-                return creatHolder(loadingres, parent);
+                return creatHolder(recorder.getLoadingres(), parent);
             case SHOW_ERROR:
-                return creatHolder(errorres, parent);
+                return creatHolder(recorder.getErrorres(), parent);
             case SHOW_NOMORE:
-                return creatHolder(R.layout.nomore, parent);
+                return creatHolder(recorder.getNomore(), parent);
         }
         return onCreate(parent, viewType);
     }

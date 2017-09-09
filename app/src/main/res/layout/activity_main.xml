@@ -5,10 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ck.hello.nestpullview.MainActivity">
+<LinearLayout
+    android:id="@+id/ll"
 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"> <Button
+    android:id="@+id/button3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="错误布局" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="显示尾更多" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="内容" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="正在加载" /></LinearLayout>
     <com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView
         android:id="@+id/sre"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/ll"
+        app:layout_constraintVertical_bias="0.0">
+
+
+    </com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView>
 
 </android.support.constraint.ConstraintLayout>

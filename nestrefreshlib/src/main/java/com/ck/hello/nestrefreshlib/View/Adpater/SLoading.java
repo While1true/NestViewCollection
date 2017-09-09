@@ -157,6 +157,7 @@ public class SLoading extends View {
             set.cancel();
             set.getChildAnimations().clear();
         }
+
         set = new AnimatorSet();
 
         for (int i = 0; i < num; i++) {
@@ -194,6 +195,7 @@ public class SLoading extends View {
         if (set != null) {
             set.cancel();
             set.getChildAnimations().clear();
+            play=null;
             setVisibility(GONE);
         }
     }

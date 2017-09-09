@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
     >
 
 
     <TextView
         android:id="@+id/tv"
-        android:paddingTop="100dp"
-        android:drawableTop="@drawable/show_order_icon"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
+        android:textColor="#353535"
         android:gravity="center"
         android:text="没有相关内容" />
 </RelativeLayout>

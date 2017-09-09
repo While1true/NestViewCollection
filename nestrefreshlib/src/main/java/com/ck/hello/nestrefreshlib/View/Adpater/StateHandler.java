@@ -1,6 +1,7 @@
 package com.ck.hello.nestrefreshlib.View.Adpater;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -54,10 +55,11 @@ public class StateHandler implements StateInterface<String> {
 
     @Override
     public void BindLoadingHolder(RecyclerView.ViewHolder holder, String s) {
-
+        Log.i("DEBUG", "BindLoadingHolder: ");
         if (sLoading == null) {
             sLoading = (SLoading) holder.itemView.findViewById(R.id.sloading);
         }
+        Log.i("DEBUG", "BindLoadingHolder: "+(sLoading != null));
         if (sLoading != null)
             sLoading.startAnimator();
     }
