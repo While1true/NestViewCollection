@@ -38,31 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button4).setOnClickListener(this);
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
         adapter = new SBaseMutilAdapter<String, String>(list)
-                .addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
-                    @Override
-                    public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星0 ");
-                        holder.setBackgroundColor(R.id.tv, 0xff666666);
-                    }
-
-                    @Override
-                    public boolean istype(String item,int position) {
-                        return position % 4 == 0;
-                    }
-                }).addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
-                    @Override
-                    public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星1 " );
-                        holder.setBackgroundColor(R.id.tv, 0xff226666);
-                    }
-
-
-
-                    @Override
-                    public boolean istype(String item,int position) {
-                        return position %4==1;
-                    }
-                })
                 .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
@@ -80,6 +55,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         return position ==10||position==22||position==30;
                     }
                 })
+                .addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, int position) {
+                        holder.setText(R.id.tv, item + "类星0 ");
+                        holder.setBackgroundColor(R.id.tv, 0xff666666);
+                    }
+
+                    @Override
+                    public boolean istype(String item,int position) {
+                        return position % 4 == 0;
+                    }
+                }).addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, int position) {
+                        holder.setText(R.id.tv, item + "类星1 " );
+                        holder.setBackgroundColor(R.id.tv, 0xff226666);
+                    }
+                    @Override
+                    public boolean istype(String item,int position) {
+                        return position %4==1;
+                    }
+                })
+
                 .addType(R.layout.test3, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
