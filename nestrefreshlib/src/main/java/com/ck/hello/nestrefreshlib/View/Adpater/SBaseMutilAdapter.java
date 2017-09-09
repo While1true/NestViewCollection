@@ -27,6 +27,12 @@ import java.util.List;
  * SHOW_EMPTY:为空时  SHOW_LOADING：加载  SHOW_ERROR：网络错误 SHOW_NOMORE：无更多
  */
 
+/**
+ *
+ * @param <T> data的泛型
+ * @param <E> 传给状态布局的泛型
+ *           如果StateHandler写死就不用管E
+ */
 public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
     public static final int SHOW_EMPTY = -100, SHOW_LOADING = -200, SHOW_ERROR = -300, SHOW_NOMORE = -400;
     protected int showstate = SHOW_LOADING;
