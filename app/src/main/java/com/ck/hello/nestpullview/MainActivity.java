@@ -3,13 +3,16 @@ package com.ck.hello.nestpullview;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateClickListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.StateListener;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
 
@@ -25,53 +28,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         List<String> list = new ArrayList<>(50);
-        for (int i = 0; i < 54; i++) {
+        for (int i = 0; i < 5004; i++) {
             list.add(i + "");
         }
         findViewById(R.id.button).setOnClickListener(this);
         findViewById(R.id.button1).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         findViewById(R.id.button3).setOnClickListener(this);
+        findViewById(R.id.button4).setOnClickListener(this);
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
         adapter = new SBaseMutilAdapter<String, String>(list)
                 .addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星1 " + position);
+                        holder.setText(R.id.tv, item + "类星0 ");
                         holder.setBackgroundColor(R.id.tv, 0xff666666);
                     }
 
                     @Override
-                    public boolean istype(int position) {
-                        return position % 3 == 0;
+                    public boolean istype(String item,int position) {
+                        return position % 4 == 0;
                     }
-                }).addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                }).addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星2 " + position);
+                        holder.setText(R.id.tv, item + "类星1 " );
                         holder.setBackgroundColor(R.id.tv, 0xff226666);
                     }
 
-                    @Override
-                    public boolean istype(int position) {
-                        return position % 3 == 1;
-                    }
-                }).addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
-                    @Override
-                    public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星3 " + position);
-                        holder.setBackgroundColor(R.id.tv, 0xff662266);
-                    }
+
 
                     @Override
-                    public boolean istype(int position) {
-                        return position % 3 == 2;
+                    public boolean istype(String item,int position) {
+                        return position %4==1;
                     }
                 })
-                .setStateListener(new StateClickListener() {
+                .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, int position) {
+                        holder.setText(R.id.tv, item + "类星2 ");
+                        holder.setBackgroundColor(R.id.tv, 0xff226666);
+                    }
+
+
+
+                    @Override
+                    public boolean istype(String item,int position) {
+                        return position %4==2;
+                    }
+                })
+                .addType(R.layout.test3, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, int position) {
+                        holder.setText(R.id.tv, item + "类星3 ");
+                        holder.setBackgroundColor(R.id.tv, 0xff662266);
+                    }
+                    @Override
+                    protected boolean isfull() {
+                        return true;
+                    }
+                    @Override
+                    public boolean istype(String item,int position) {
+                        return true;
+                    }
+                })
+                .setStateListener(new StateListener() {
                     @Override
                     public void netError(Context context) {
-                        adapter.showState(SBaseAdapter.SHOW_NOMORE, "ggg");
+                        adapter.showState(SBaseAdapter.SHOW_LOADING, "ggg");
                         Toast.makeText(context, "ddd", Toast.LENGTH_LONG).show();
                     }
 
@@ -83,9 +107,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
         recyclerView.addDefaultHeaderFooter()
-                .setPreLoadingCount(1)
                 .setRefreshMode(true, true, true, true)
-                .setAdapter(new LinearLayoutManager(this), adapter).setRefreshingListener(new SRecyclerView.OnRefreshListener() {
+                .setAdapter(new StaggeredGridLayoutManager(5,StaggeredGridLayoutManager.VERTICAL), adapter).setRefreshingListener(new SRecyclerView.OnRefreshListener() {
             @Override
             public void Refreshing() {
                 recyclerView.postDelayed(new Runnable() {
@@ -102,10 +125,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void PreLoading() {
                 super.PreLoading();
+                Toast.makeText(MainActivity.this, "滑倒底部，正在预加载", Toast.LENGTH_LONG).show();
                 recyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.showState(SBaseMutilAdapter.SHOW_ERROR, "网络错误？？？");
                         recyclerView.notifyRefreshComplete();
                     }
                 }, 5000);
@@ -131,13 +154,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 adapter.showState(SBaseAdapter.SHOW_LOADING, null);
                 break;
             case R.id.button1:
-                adapter.showState(SBaseAdapter.TYPE_ITEM, null);
+                adapter.showItem();
                 break;
             case R.id.button2:
                 adapter.showState(SBaseAdapter.SHOW_NOMORE, "没有更多了");
                 break;
             case R.id.button3:
                 adapter.showState(SBaseAdapter.SHOW_ERROR, null);
+                break;
+            case R.id.button4:
+                adapter.showEmpty();
                 break;
         }
     }

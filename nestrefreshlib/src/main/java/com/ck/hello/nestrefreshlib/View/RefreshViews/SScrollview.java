@@ -308,7 +308,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
                 scrolls += dy;
                 if (scrolls > 0)
                     scrolls = 0;
-                Log.i(TAG, "onNestedPreScroll:下拉回拉时 ");
                 if (actruallyHead)
                     scrollTo(0, scrolls / pullRate);
                 headerRefreshWrap.onPull(scrolls / pullRate);
@@ -326,7 +325,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
                 scrolls += dy;
                 if (scrolls < 0)
                     scrolls = 0;
-                Log.i(TAG, "onNestedPreScroll:上拉回拉时 ");
                 if (actruallyFoot)
                     scrollTo(0, scrolls / pullRate);
                 consumed[1] = dy;
@@ -361,7 +359,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
         if ((dyUnconsumed < 0 && canheader) || (dyUnconsumed > 0 && canfooter)) {
             scrolls += dyUnconsumed;
             int pull = scrolls / pullRate;
-            Log.i(TAG, "onNestedScroll: " + dyUnconsumed);
             if (scrolls < 0 && actruallyHead)
                 scrollTo(0, pull);
             else if (scrolls > 0 && actruallyFoot)
@@ -381,7 +378,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        Log.i(TAG, "onNestedFling: " + scrolls + "==" + velocityY);
         if (myScrollView.canPull(1) && myScrollView.canPull(-1))
             return false;
         boolean canOverscroll = false;
@@ -390,7 +386,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
                 canOverscroll = true;
                 if (animator1 != null)
                     animator1.cancel();
-                Log.i(TAG, "onNestedFling: " + velocityY);
 //                scrollerCompat.fling(0, getScrollY(), 0, (int) velocityY, 0, 0, 0, maxFastOverScroll, 0, myScrollView.computeVerticalScrollRange());
                 scrollerCompat.fling(0, myScrollView.getScrollY(), 0, (int) velocityY, 0, 0, -2 * maxFastOverScroll, myScrollView.computeVerticalScrollRange() + 2 * maxFastOverScroll);
                 ViewCompat.postInvalidateOnAnimation(this);
@@ -412,7 +407,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
     public void computeScroll() {
 
         if (scrollerCompat.computeScrollOffset()) {
-            Log.i(TAG + "a", "computeScroll: xiala" + "--" + scrollerCompat.getFinalY() + "--scrollerCompat.getCurrY()" + scrollerCompat.getCurrY());
             if ((myScrollView.canPull(-1) && scrollerCompat.getCurrY() < 0)) {
                 int i = scrollerCompat.getFinalY() - scrollerCompat.getCurrY();
 
@@ -489,7 +483,6 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
     }
 
     public void notifyRefreshComplete() {
-        Log.i(TAG, "notifyRefreshComplete: smoothScroll");
         long current = System.currentTimeMillis() - beginRefreshing;
         footerRefreshWrap.onComplete();
         headerRefreshWrap.onComplete();
@@ -505,11 +498,9 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
     @Override
     public void onStopNestedScroll(View child) {
         scrollingParentHelper.onStopNestedScroll(child);
-        Log.i(TAG, "onStopNestedScroll: 111");
         if (isLoading || !scrollerCompat.isFinished()) {
             return;
         }
-        Log.i(TAG, "onStopNestedScroll:222 ");
         if (scrolls / pullRate <= -headerRefreshWrap.getHeight() && canLoadingHeader) {
             if (listener != null && !isLoading) {
                 headerRefreshWrap.onRefresh();

@@ -347,7 +347,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
             if (myRecyclerView.canPull(-1) && dy > 0 && scrolls < 0) {
                 scrolls += dy;
                 if (scrolls <= 0) {
-                    Log.i(TAG, "onNestedPreScroll:下拉回拉时 ");
                     if (actruallyHead)
                         scrollTo(0, scrolls / pullRate);
 
@@ -373,7 +372,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
             if (myRecyclerView.canPull(1) && dy < 0 && scrolls > 0) {
                 scrolls += dy;
                 if (scrolls >= 0) {
-                    Log.i(TAG, "onNestedPreScroll:上拉回拉时 ");
                     if (actruallyFoot)
                         scrollTo(0, scrolls / pullRate);
                     consumed[1] = dy;
@@ -400,7 +398,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         //TODO拉动的处理
         if ((myRecyclerView.canPull(-1) && dyUnconsumed < 0 && canheader) || (myRecyclerView.canPull(1) && dyUnconsumed > 0 && canfooter)) {
             scrolls += dyUnconsumed;
-            Log.i(TAG, "onNestedScroll: " + dyUnconsumed);
             int pull = scrolls / pullRate;
             if (scrolls < 0 && actruallyHead)
                 scrollTo(0, pull);
@@ -454,7 +451,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
 
     public void notifyRefreshComplete() {
-        Log.i(TAG, "notifyRefreshComplete: smoothScroll");
         if (animator != null) {
             animator.cancel();
         }
@@ -478,12 +474,10 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     @Override
     public void onStopNestedScroll(View child) {
         scrollingParentHelper.onStopNestedScroll(child);
-        Log.i(TAG, "onStopNestedScroll: 111");
         if (isLoading) {
             return;
         }
         int pull = scrolls / pullRate;
-        Log.i(TAG, "onStopNestedScroll:222 ");
         if (pull <= -headerRefreshWrap.getHeight() && canLoadingHeader) {
             if (listener != null && !isLoading) {
                 headerRefreshWrap.onRefresh();
@@ -501,7 +495,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
             isLoading = true;
             smoothScroll(pull, footerRefreshWrap.getHeight(), SCROLLTYPE.PULLUP);
         } else {
-            Log.i(TAG, "onStopNestedScroll: 3333");
             smoothScroll(pull, 0, scrolls >= 0 ? SCROLLTYPE.PULLUP : SCROLLTYPE.PULLDOWN);
         }
     }
@@ -509,7 +502,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     private void smoothScroll(final int from, final int to, final SCROLLTYPE type) {
         if (from == to)
             return;
-        Log.i(TAG, "smoothScroll: " + from + "-" + to);
         if (animator != null) {
             animator.cancel();
             animator.setIntValues(from, to);
@@ -558,7 +550,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         scrollingParentHelper.onNestedScrollAccepted(child, target, axes);
     }
 
-    private class MyRecyclerView extends RecyclerView {
+    private static class MyRecyclerView extends RecyclerView {
         private StaggeredGridLayoutManager staggeredGridLayoutManager = null;
         private LinearLayoutManager linearLayoutManager = null;
         private GridLayoutManager gridLayoutManager = null;

@@ -1,6 +1,7 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Base;
 
 import com.ck.hello.nestrefreshlib.R;
+import com.ck.hello.nestrefreshlib.View.Adpater.StateHandler;
 
 /**
  * Created by ck on 2017/9/9.
@@ -30,7 +31,6 @@ public class Recorder {
     private void setEmptyres(int emptyres) {
         this.emptyres = emptyres;
     }
-
 
     private void setErrorres(int errorres) {
         this.errorres = errorres;
@@ -85,7 +85,6 @@ public class Recorder {
             this.errorres = res;
             return this;
         }
-
         public Recorder build() {
             Recorder recorder = new Recorder();
             recorder.setLoadingres(Loadingres);

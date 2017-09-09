@@ -1,5 +1,6 @@
 package com.ck.hello.nestrefreshlib.View.Adpater;///*
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 /* Copyright (c) 2017. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -9,14 +10,15 @@ import android.support.v7.widget.RecyclerView;
  */
 
 
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ck.hello.nestrefreshlib.R;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateClickListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateInterface;
 
 import java.util.List;
@@ -78,6 +80,8 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
     }
 
     public SBaseAdapter(List<T> list, int layoutid) {
+        if(recorder==null)
+            recorder=new Recorder.Builder().build();
         this.list = list;
         this.layoutid = layoutid;
         StateHandler = new StateHandler();
@@ -90,7 +94,7 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
         return this;
     }
 
-    public SBaseAdapter<T, E> setStateListener(StateClickListener listener) {
+    public SBaseAdapter<T, E> setStateListener(BaseStateListener listener) {
         StateHandler.setStateClickListener(listener);
         return this;
     }
@@ -112,21 +116,44 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
     @Override
     public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        StateHandler.destory();
-        StateHandler = null;
-        if (full) {
-            recyclerView.post(new Runnable() {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if(layoutManager instanceof GridLayoutManager){
+            GridLayoutManager manager = (GridLayoutManager) layoutManager;
+            final int spanCount = manager.getSpanCount();
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
-                public void run() {
-                    if (height == 0)
-                        height = recyclerView.getMeasuredHeight();
-//                    notifyDataSetChanged();
+                public int getSpanSize(int position) {
+                    int itemViewType = getItemViewType(position);
+                    return (isfullspan(itemViewType)?spanCount:1);
                 }
             });
+        }
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (height == 0)
+                    height = recyclerView.getMeasuredHeight();
+//                    notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+        if(params instanceof StaggeredGridLayoutManager.LayoutParams){
+            int itemViewType = holder.getItemViewType();
+            ((StaggeredGridLayoutManager.LayoutParams) params).setFullSpan(isfullspan(itemViewType));
 
         }
     }
+    public boolean isfullspan(int type){
 
+        if(type==SHOW_EMPTY||type==SHOW_ERROR||type==SHOW_LOADING||type==SHOW_NOMORE)
+            return true;
+        return false;
+    }
     public void showState(int showstate, E e) {
         if (this.showstate != showstate)
             StateHandler.switchState();
@@ -135,13 +162,20 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void showState(int showstate, E e, int height) {
-        if (this.showstate != showstate)
-            StateHandler.switchState();
-        this.height = height;
-        this.showstate = showstate;
-        this.e = e;
-        notifyDataSetChanged();
+    public void showEmpty() {
+        showState(SBaseMutilAdapter.SHOW_EMPTY, null);
+    }
+    public void setShowError() {
+        showState(SBaseMutilAdapter.SHOW_ERROR, null);
+    }
+    public void showItem() {
+        showState(SBaseMutilAdapter.TYPE_ITEM, null);
+    }
+    public void showLoading() {
+        showState(SBaseMutilAdapter.SHOW_LOADING, null);
+    }
+    public void setShowNomore() {
+        showState(SBaseMutilAdapter.SHOW_NOMORE, null);
     }
 
     @Override
@@ -150,27 +184,18 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
         StateHandler.destory();
     }
 
-    private RecyclerView.ViewHolder creatHolder(int layout, ViewGroup viewGroup) {
-
-        return new RecyclerView.ViewHolder(InflateView(layout, viewGroup)) {
-            @Override
-            public String toString() {
-                return super.toString();
-            }
-        };
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case SHOW_EMPTY:
-                return creatHolder(recorder.getEmptyres(), parent);
+                return SimpleViewHolder.createViewHolder(parent.getContext(),InflateView(recorder.getEmptyres(), parent));
             case SHOW_LOADING:
-                return creatHolder(recorder.getLoadingres(), parent);
+                return SimpleViewHolder.createViewHolder(parent.getContext(),InflateView(recorder.getLoadingres(), parent));
             case SHOW_ERROR:
-                return creatHolder(recorder.getErrorres(), parent);
+                return SimpleViewHolder.createViewHolder(parent.getContext(),InflateView(recorder.getErrorres(), parent));
             case SHOW_NOMORE:
-                return creatHolder(recorder.getNomore(), parent);
+                return SimpleViewHolder.createViewHolder(parent.getContext(),InflateView(recorder.getNomore(), parent));
         }
         return onCreate(parent, viewType);
     }
@@ -186,28 +211,27 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
             case SHOW_EMPTY:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                StateHandler.BindEmptyHolder(holder, e);
+                StateHandler.BindEmptyHolder((SimpleViewHolder) holder, e);
                 return;
             case SHOW_LOADING:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                StateHandler.BindLoadingHolder(holder, e);
+                StateHandler.BindLoadingHolder((SimpleViewHolder) holder, e);
 
                 return;
             case SHOW_ERROR:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
 
-                StateHandler.BindErrorHolder(holder, e);
+                StateHandler.BindErrorHolder((SimpleViewHolder) holder, e);
                 return;
             case SHOW_NOMORE:
                 if (position == getItemCount() - 1) {
-                    StateHandler.BindNomoreHolder(holder, e);
+                    StateHandler.BindNomoreHolder((SimpleViewHolder) holder, e);
                     return;
                 }
                 break;
         }
-        if (holder instanceof SimpleViewHolder)
             onBind((SimpleViewHolder) holder, list.get(position), position);
 
     }

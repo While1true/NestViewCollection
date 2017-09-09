@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ck.hello.nestrefreshlib.R;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateClickListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateInterface;
 
 /**
@@ -14,23 +15,23 @@ import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateInterface;
  */
 
 public class StateHandler implements StateInterface<String> {
-    private StateClickListener listener;
+    private StateListener listener;
     private SLoading sLoading;
 
-    public StateHandler setStateClickListener(StateClickListener listener) {
-        this.listener = listener;
+    public StateHandler setStateClickListener(BaseStateListener listener) {
+        this.listener = (StateListener) listener;
         return this;
     }
 
     @Override
-    public StateClickListener getStateClickListener() {
+    public BaseStateListener getStateClickListener() {
         return listener;
     }
 
     @Override
-    public void BindEmptyHolder(RecyclerView.ViewHolder holder, String s) {
-        TextView tv = (TextView) holder.itemView.findViewById(R.id.tv);
-        if (tv != null)
+    public void BindEmptyHolder(SimpleViewHolder holder, String s) {
+        TextView tv =holder.getView(R.id.tv);
+        if (tv != null&&s!=null)
             tv.setText(s);
         if (tv != null && listener != null)
             tv.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +43,7 @@ public class StateHandler implements StateInterface<String> {
     }
 
     @Override
-    public void BindErrorHolder(RecyclerView.ViewHolder holder, String s) {
+    public void BindErrorHolder(SimpleViewHolder holder, String s) {
         View reloadbt = holder.itemView.findViewById(R.id.reload);
         if (reloadbt != null && listener != null)
             reloadbt.setOnClickListener(new View.OnClickListener() {
@@ -54,19 +55,18 @@ public class StateHandler implements StateInterface<String> {
     }
 
     @Override
-    public void BindLoadingHolder(RecyclerView.ViewHolder holder, String s) {
-        Log.i("DEBUG", "BindLoadingHolder: ");
+    public void BindLoadingHolder(SimpleViewHolder holder, String s) {
         if (sLoading == null) {
-            sLoading = (SLoading) holder.itemView.findViewById(R.id.sloading);
+            sLoading = holder.getView(R.id.sloading);
         }
-        Log.i("DEBUG", "BindLoadingHolder: "+(sLoading != null));
         if (sLoading != null)
             sLoading.startAnimator();
     }
 
     @Override
-    public void BindNomoreHolder(RecyclerView.ViewHolder holder, String s) {
-        ((TextView) holder.itemView.findViewById(R.id.tv_nomore)).setText(s);
+    public void BindNomoreHolder(SimpleViewHolder holder, String s) {
+        if(s!=null)
+        ((TextView) holder.getView(R.id.tv_nomore)).setText(s);
     }
 
 
