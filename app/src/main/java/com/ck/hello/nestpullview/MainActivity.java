@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         List<String> list = new ArrayList<>(50);
-        for (int i = 0; i < 5004; i++) {
+        for (int i = 0; i < 35; i++) {
             list.add(i + "");
         }
         findViewById(R.id.button).setOnClickListener(this);
