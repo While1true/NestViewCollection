@@ -1,4 +1,4 @@
-package com.ck.hello.nestrefreshlib.View;
+package com.ck.hello.nestrefreshlib.View.Adpater;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;

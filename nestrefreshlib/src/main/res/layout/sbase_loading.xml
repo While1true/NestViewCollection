@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<com.ck.hello.nestrefreshlib.View.SLoading
+<com.ck.hello.nestrefreshlib.View.Adpater.SLoading
     app:snum="4"
     app:sgap="15dp"
     app:scolor="#ff4070"

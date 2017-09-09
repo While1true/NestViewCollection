@@ -10,7 +10,6 @@ import com.ck.hello.nestrefreshlib.R;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateClickListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateInterface;
-import com.ck.hello.nestrefreshlib.View.SLoading;
 
 import java.util.List;
 
