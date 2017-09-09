@@ -61,14 +61,14 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
         StateHandler = new StateHandler();
     }
 
-    public SBaseAdapter setStateHandler(StateInterface handler) {
+    public SBaseAdapter<T,E> setStateHandler(StateInterface handler) {
         if (StateHandler.getStateClickListener() != null)
             handler.setStateClickListener(StateHandler.getStateClickListener());
         this.StateHandler = handler;
         return this;
     }
 
-    public SBaseAdapter setStateListener(StateClickListener listener) {
+    public SBaseAdapter<T,E> setStateListener(StateClickListener listener) {
         StateHandler.setStateClickListener(listener);
         return this;
     }

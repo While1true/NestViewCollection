@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
             list.add(i + "");
         }
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
-        final SBaseMutilAdapter adapter = new SBaseMutilAdapter<String,String>(list)
-                .addType(R.layout.nomore, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+        final SBaseMutilAdapter<String,String> adapter = new SBaseMutilAdapter<>(list)
+               .addType(R.layout.nomore, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
                         holder.setText(R.id.tv_nomore, item);
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(context, "ddad", Toast.LENGTH_LONG).show();
                     }
                 });
+
         recyclerView.addDefaultHeaderFooter()
                 .setRefreshMode(true, true, true, true)
                 .setAdapter(new LinearLayoutManager(this), adapter).setRefreshingListener(new SRecyclerView.OnRefreshListener() {
