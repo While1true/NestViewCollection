@@ -45,7 +45,7 @@ import com.ck.hello.nestrefreshlib.View.RefreshViews.HeadWrap.WrapInterface;
  * 出列快速滑动时的处理不是很完美，但能用
  */
 
-public class SRecyclerView extends LinearLayout implements NestedScrollingParent,WrapInterface {
+public class SRecyclerView extends LinearLayout implements NestedScrollingParent, WrapInterface {
     public static final String TAG = "SRecyclerView";
     private NestedScrollingParentHelper scrollingParentHelper;
     private LinearLayout headLayout;
@@ -92,8 +92,8 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     private boolean actruallyHead = true, actruallyFoot = true;
     private boolean prenomore = true;
     //头布局
-    private RefreshWrapBase headerRefreshWrap=new EmptyRefreshWrap(this,true);
-    private RefreshWrapBase footerRefreshWrap=new EmptyRefreshWrap(this,false);
+    private RefreshWrapBase headerRefreshWrap = new EmptyRefreshWrap(this, true);
+    private RefreshWrapBase footerRefreshWrap = new EmptyRefreshWrap(this, false);
 
 
     @Override
@@ -109,8 +109,8 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         }
         headerRefreshWrap.OnDetachFromWindow();
         footerRefreshWrap.OnDetachFromWindow();
-        headerRefreshWrap=null;
-        footerRefreshWrap=null;
+        headerRefreshWrap = null;
+        footerRefreshWrap = null;
     }
 
     public LinearLayout getHeaderLayout() {
@@ -189,7 +189,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     }
 
     public SRecyclerView setRefreshing() {
-        headLayout.postDelayed(new Runnable() {
+        headLayout.post(new Runnable() {
             @Override
             public void run() {
                 scrolls = headerRefreshWrap.getHeight();
@@ -200,7 +200,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
                     listener.Refreshing();
                 }
             }
-        }, 300);
+        });
         return this;
     }
 
@@ -413,7 +413,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
                     footerRefreshWrap.onPull(pull);
                 } else {
                     listener.pullDown(pull);
-                  headerRefreshWrap.onPull(pull);
+                    headerRefreshWrap.onPull(pull);
                 }
             }
         }
@@ -455,6 +455,9 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
     public void notifyRefreshComplete() {
         Log.i(TAG, "notifyRefreshComplete: smoothScroll");
+        if (animator != null) {
+            animator.cancel();
+        }
         footerRefreshWrap.onComplete();
         headerRefreshWrap.onComplete();
         long current = System.currentTimeMillis() - beginRefreshing;
@@ -464,7 +467,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
                 isLoading = false;
                 smoothScroll(scrolls / pullRate, 0, scrolls >= 0 ? SCROLLTYPE.PULLUP : SCROLLTYPE.PULLDOWN);
             }
-        }, current > 500 ? 100 : 500);
+        }, current > 550 ? 100 : 550);
     }
 
     public void notifyRefreshComplete(boolean prenomore) {
@@ -488,7 +491,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
                 beginRefreshing = System.currentTimeMillis();
             }
             isLoading = true;
-            smoothScroll(pull, -footerRefreshWrap.getHeight(), SCROLLTYPE.PULLDOWN);
+            smoothScroll(pull, -headerRefreshWrap.getHeight(), SCROLLTYPE.PULLDOWN);
         } else if (pull >= footerRefreshWrap.getHeight() && canLoadingFooter) {
 
             if (listener != null && !isLoading) {
