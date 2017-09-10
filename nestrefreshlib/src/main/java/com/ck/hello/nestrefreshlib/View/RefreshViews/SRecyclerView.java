@@ -108,8 +108,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         }
         headerRefreshWrap.OnDetachFromWindow();
         footerRefreshWrap.OnDetachFromWindow();
-        headerRefreshWrap = null;
-        footerRefreshWrap = null;
     }
 
     public LinearLayout getHeaderLayout() {

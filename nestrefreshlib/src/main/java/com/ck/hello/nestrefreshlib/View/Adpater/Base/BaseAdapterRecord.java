@@ -259,13 +259,13 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case SHOW_EMPTY:
-                return SimpleViewHolder.createViewHolder(parent.getContext(), InflateView(recorder.getEmptyres(), parent));
+                return SimpleViewHolder.createViewHolder(InflateView(recorder.getEmptyres(), parent));
             case SHOW_LOADING:
-                return SimpleViewHolder.createViewHolder(parent.getContext(), InflateView(recorder.getLoadingres(), parent));
+                return SimpleViewHolder.createViewHolder(InflateView(recorder.getLoadingres(), parent));
             case SHOW_ERROR:
-                return SimpleViewHolder.createViewHolder(parent.getContext(), InflateView(recorder.getErrorres(), parent));
+                return SimpleViewHolder.createViewHolder(InflateView(recorder.getErrorres(), parent));
             case SHOW_NOMORE:
-                return SimpleViewHolder.createViewHolder(parent.getContext(), InflateView(recorder.getNomore(), parent));
+                return SimpleViewHolder.createViewHolder(InflateView(recorder.getNomore(), parent));
         }
         return onCreateHolder(parent, viewType);
     }

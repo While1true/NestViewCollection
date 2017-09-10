@@ -39,7 +39,7 @@ public abstract class SBaseAdapter<T> extends BaseAdapterRecord<T, Object> {
     }
 
     protected SimpleViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-        return SimpleViewHolder.createViewHolder(parent.getContext(), InflateView(layoutid, parent));
+        return SimpleViewHolder.createViewHolder(InflateView(layoutid, parent));
     }
 
     @Override

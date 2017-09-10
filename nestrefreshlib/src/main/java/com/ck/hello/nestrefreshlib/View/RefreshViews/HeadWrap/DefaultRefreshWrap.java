@@ -73,6 +73,7 @@ public class DefaultRefreshWrap extends RefreshWrapBase {
     public void onComplete() {
         if (animation != null)
             animation.cancel();
+        if(headTitle!=null)
         headTitle.setText(header ? pulldown[3] : pullup[3]);
     }
 

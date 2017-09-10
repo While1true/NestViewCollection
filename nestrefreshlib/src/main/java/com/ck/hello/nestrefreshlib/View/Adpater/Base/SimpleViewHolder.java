@@ -26,27 +26,25 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
     private View mConvertView;
     private Context mContext;
 
-    public SimpleViewHolder(Context context, View itemView) {
+    public SimpleViewHolder(View itemView) {
         super(itemView);
-        mContext = context;
+        mContext = itemView.getContext();
         mConvertView = itemView;
         mViews = new SparseArray<View>();
     }
 
-    public static SimpleViewHolder createViewHolder(Context context, View itemView) {
-        SimpleViewHolder holder = new SimpleViewHolder(context, itemView);
+    public static SimpleViewHolder createViewHolder(View itemView) {
+        SimpleViewHolder holder = new SimpleViewHolder(itemView);
         return holder;
     }
 
-    public static SimpleViewHolder createViewHolder(Context context, ViewGroup parent, int layoutId) {
-        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        SimpleViewHolder holder = new SimpleViewHolder(context, itemView);
+    public static SimpleViewHolder createViewHolder(ViewGroup parent, int layoutId) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+        SimpleViewHolder holder = new SimpleViewHolder(itemView);
         return holder;
     }
 
-    /**
-     * ͨ��viewId��ȡ�ؼ� * * @param viewId * @return
-     */
+
     public <T extends View> T getView(int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {

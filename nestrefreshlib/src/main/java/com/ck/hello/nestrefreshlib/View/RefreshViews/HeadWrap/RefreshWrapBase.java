@@ -66,7 +66,6 @@ public abstract class RefreshWrapBase {
     public void OnDetachFromWindow() {
         viewLayout = null;
         parent = null;
-        parent = null;
     }
 
 

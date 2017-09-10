@@ -74,9 +74,9 @@ public class SBaseMutilAdapter<T> extends BaseAdapterRecord<T, Object> {
 
     protected SimpleViewHolder onCreateHolder(ViewGroup parent, int viewType) {
         if (viewType >= 0 && viewType < Holdersid.size())
-            return SimpleViewHolder.createViewHolder(parent.getContext(), InflateView(Holdersid.get(viewType).getLayout(), parent));
+            return SimpleViewHolder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
         //add type未处理完的数据空显示
-        return SimpleViewHolder.createViewHolder(parent.getContext(), new View(parent.getContext()));
+        return SimpleViewHolder.createViewHolder(new View(parent.getContext()));
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.ck.hello.nestrefreshlib.View.Adpater;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
