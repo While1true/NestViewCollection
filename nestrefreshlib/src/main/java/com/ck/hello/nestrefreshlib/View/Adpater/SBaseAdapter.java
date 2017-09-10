@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
@@ -29,15 +30,11 @@ import java.util.List;
  * SHOW_EMPTY:为空时  SHOW_LOADING：加载  SHOW_ERROR：网络错误 SHOW_NOMORE：无更多
  */
 
-public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
+public abstract class SBaseAdapter<T, E> extends BaseAdapterRecord {
     /**
      * 存储全局布局id
      */
-    private static Recorder recorder;
-
-    public static void init(Recorder recorder1) {
-        recorder = recorder1;
-    }
+    private  Recorder recorder;
 
     public static final int SHOW_EMPTY = -100, SHOW_LOADING = -200, SHOW_ERROR = -300, SHOW_NOMORE = -400;
     protected int showstate = SHOW_LOADING;
@@ -80,6 +77,7 @@ public abstract class SBaseAdapter<T, E> extends RecyclerView.Adapter {
     }
 
     public SBaseAdapter(List<T> list, int layoutid) {
+        recorder=globalrecorder;
         if(recorder==null)
             recorder=new Recorder.Builder().build();
         this.list = list;

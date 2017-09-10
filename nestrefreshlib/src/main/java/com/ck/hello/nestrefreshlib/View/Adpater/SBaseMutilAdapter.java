@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
@@ -34,15 +35,13 @@ import java.util.List;
  * @param <E> 传给状态布局的泛型
  *            如果StateHandler写死就不用管E
  */
-public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
+public class SBaseMutilAdapter<T, E> extends BaseAdapterRecord {
     /**
      * 存储全局布局id
      */
-    private static Recorder recorder;
 
-    public static void init(Recorder recorder1) {
-        recorder = recorder1;
-    }
+    private  Recorder recorder;
+
 
     public static final int SHOW_EMPTY = -100, SHOW_LOADING = -200, SHOW_ERROR = -300, SHOW_NOMORE = -400;
     protected int showstate = SHOW_LOADING;
@@ -84,6 +83,7 @@ public class SBaseMutilAdapter<T, E> extends RecyclerView.Adapter {
      * @param list
      */
     public SBaseMutilAdapter(List<T> list) {
+        recorder=globalrecorder;
         if (recorder == null)
             recorder = new Recorder.Builder().build();
         this.list = list;
