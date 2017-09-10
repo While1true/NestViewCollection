@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
-import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
-import com.ck.hello.nestrefreshlib.View.Adpater.StateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.DefaultStateListener;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SingleLayoutManager extends AppCompatActivity implements View.OnClickListener {
 
-    private SBaseAdapter adapter;
+    private BaseAdapterRecord adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +36,12 @@ public class SingleLayoutManager extends AppCompatActivity implements View.OnCli
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
         adapter = new SBaseAdapter<String,String>(list,R.layout.test3) {
             @Override
-            protected void onBind(SimpleViewHolder holder, String item, int position) {
+            protected void onBindView(SimpleViewHolder holder, String item, int position) {
                 holder.setText(R.id.tv, item + "--1");
                 holder.setBackgroundColor(R.id.tv, 0xff226666);
             }
         }
-                .setStateListener(new StateListener() {
+                .setStateListener(new DefaultStateListener() {
                     @Override
                     public void netError(Context context) {
                         adapter.showState(SBaseAdapter.SHOW_LOADING, "ggg");
@@ -52,6 +52,11 @@ public class SingleLayoutManager extends AppCompatActivity implements View.OnCli
                     public void showEmpty(Context context) {
                         super.showEmpty(context);
                         Toast.makeText(context, "ddad", Toast.LENGTH_LONG).show();
+                    }
+                }).setStateListener(new DefaultStateListener() {
+                    @Override
+                    public void netError(Context context) {
+
                     }
                 });
 
@@ -112,7 +117,7 @@ public class SingleLayoutManager extends AppCompatActivity implements View.OnCli
                 adapter.showState(SBaseAdapter.SHOW_NOMORE, "没有更多了");
                 break;
             case R.id.button3:
-                adapter.setShowError();
+                adapter.ShowError();
                 break;
             case R.id.button4:
                 adapter.showEmpty();

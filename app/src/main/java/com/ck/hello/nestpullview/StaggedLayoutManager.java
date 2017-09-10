@@ -3,14 +3,14 @@ package com.ck.hello.nestpullview;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.StateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.DefaultStateListener;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
 
@@ -19,7 +19,8 @@ import java.util.List;
 
 public class StaggedLayoutManager extends AppCompatActivity implements View.OnClickListener {
 
-    private SBaseMutilAdapter adapter;
+
+    private BaseAdapterRecord adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class StaggedLayoutManager extends AppCompatActivity implements View.OnCl
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
-        adapter = new SBaseMutilAdapter<String, String>(list)
+       adapter = new SBaseMutilAdapter<String, String>(list)
                 .addType(R.layout.test3, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
@@ -66,17 +67,17 @@ public class StaggedLayoutManager extends AppCompatActivity implements View.OnCl
                         return position % 4 == 0;
                     }
                 }).addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
-                    @Override
-                    public void onBind(SimpleViewHolder holder, String item, int position) {
-                        holder.setText(R.id.tv, item + "类星1 ");
-                        holder.setBackgroundColor(R.id.tv, 0xff226666);
-                    }
+            @Override
+            public void onBind(SimpleViewHolder holder, String item, int position) {
+                holder.setText(R.id.tv, item + "类星1 ");
+                holder.setBackgroundColor(R.id.tv, 0xff226666);
+            }
 
-                    @Override
-                    public boolean istype(String item, int position) {
-                        return position % 4 == 1;
-                    }
-                })
+            @Override
+            public boolean istype(String item, int position) {
+                return position % 4 == 1;
+            }
+        })
 
                 .addType(R.layout.test3, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
@@ -90,7 +91,7 @@ public class StaggedLayoutManager extends AppCompatActivity implements View.OnCl
                         return true;
                     }
                 })
-                .setStateListener(new StateListener() {
+                .setStateListener(new DefaultStateListener() {
                     @Override
                     public void netError(Context context) {
                         adapter.showState(SBaseAdapter.SHOW_LOADING, "ggg");
@@ -159,7 +160,7 @@ public class StaggedLayoutManager extends AppCompatActivity implements View.OnCl
                 adapter.showState(SBaseAdapter.SHOW_NOMORE, "没有更多了");
                 break;
             case R.id.button3:
-                adapter.setShowError();
+                adapter.ShowError();
                 break;
             case R.id.button4:
                 adapter.showEmpty();

@@ -1,25 +1,23 @@
 package com.ck.hello.nestrefreshlib.View.Adpater;
 
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ck.hello.nestrefreshlib.R;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateInterface;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateHandlerInterface;
 
 /**
  * Created by ck on 2017/9/9.
  */
 
-public class StateHandler implements StateInterface<String> {
-    private StateListener listener;
+public class DefaultStateHandler implements StateHandlerInterface<String> {
+    private DefaultStateListener listener;
     private SLoading sLoading;
 
-    public StateHandler setStateClickListener(BaseStateListener listener) {
-        this.listener = (StateListener) listener;
+    public DefaultStateHandler setStateClickListener(BaseStateListener listener) {
+        this.listener = (DefaultStateListener) listener;
         return this;
     }
 

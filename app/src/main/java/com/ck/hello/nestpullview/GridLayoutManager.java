@@ -6,10 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
-import com.ck.hello.nestrefreshlib.View.Adpater.StateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.DefaultStateListener;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class GridLayoutManager extends AppCompatActivity implements View.OnClickListener {
 
-    private SBaseMutilAdapter adapter;
+    private BaseAdapterRecord adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
-        adapter = new SBaseMutilAdapter<String, String>(list)
+      adapter= new SBaseMutilAdapter<String,String>(list)
                 .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
@@ -95,7 +96,7 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
                         return true;
                     }
                 })
-                .setStateListener(new StateListener() {
+                .setStateListener(new DefaultStateListener() {
                     @Override
                     public void netError(Context context) {
                         adapter.showState(SBaseAdapter.SHOW_LOADING, "ggg");
@@ -164,7 +165,7 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
                 adapter.showState(SBaseAdapter.SHOW_NOMORE, "没有更多了");
                 break;
             case R.id.button3:
-                adapter.setShowError();
+                adapter.ShowError();
                 break;
             case R.id.button4:
                 adapter.showEmpty();

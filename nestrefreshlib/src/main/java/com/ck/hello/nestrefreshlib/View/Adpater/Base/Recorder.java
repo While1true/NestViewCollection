@@ -1,7 +1,7 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Base;
 
 import com.ck.hello.nestrefreshlib.R;
-import com.ck.hello.nestrefreshlib.View.Adpater.StateHandler;
+import com.ck.hello.nestrefreshlib.View.Adpater.DefaultStateHandler;
 
 /**
  * Created by ck on 2017/9/9.
@@ -12,8 +12,17 @@ public class Recorder {
     private int emptyres = R.layout.empty_textview;
     private int errorres = R.layout.network_error;
     private int nomore = R.layout.nomore;
+    private Class<? extends StateHandlerInterface> clazz;
 
     private Recorder() {
+    }
+
+    public Class<? extends StateHandlerInterface> getClazz() {
+        return clazz;
+    }
+
+    private void setClazz(Class<? extends StateHandlerInterface> clazz) {
+        this.clazz = clazz;
     }
 
     public int getNomore() {
@@ -63,7 +72,7 @@ public class Recorder {
         private int emptyres = R.layout.empty_textview;
         private int errorres = R.layout.network_error;
         private int nomore = R.layout.nomore;
-
+        private Class<? extends StateHandlerInterface> clazz=DefaultStateHandler.class;
 
 
          public Builder setNomoreRes(int res) {
@@ -85,12 +94,19 @@ public class Recorder {
             this.errorres = res;
             return this;
         }
+
+        public Builder setStateHandlerClazz(Class<? extends StateHandlerInterface> clazz) {
+            this.clazz = clazz;
+            return this;
+        }
+
         public Recorder build() {
             Recorder recorder = new Recorder();
             recorder.setLoadingres(Loadingres);
             recorder.setEmptyres(emptyres);
             recorder.setErrorres(errorres);
             recorder.setNomore(nomore);
+            recorder.setClazz(clazz);
             return recorder;
         }
 

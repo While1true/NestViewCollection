@@ -4,8 +4,8 @@ package com.ck.hello.nestrefreshlib.View.Adpater.Base;
  * Created by ck on 2017/9/9.
  */
 
-public interface StateInterface<T> {
-    StateInterface  setStateClickListener(BaseStateListener listener);
+public interface StateHandlerInterface<T> {
+    StateHandlerInterface setStateClickListener(BaseStateListener listener);
     BaseStateListener getStateClickListener();
     void BindEmptyHolder(SimpleViewHolder holder,T t);
     void BindErrorHolder(SimpleViewHolder holder,T t);
