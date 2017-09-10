@@ -7,7 +7,7 @@
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:textColor="#353535"
-        android:gravity="center"
+        android:gravity="left"
         android:text="没有相关内容" />
 
 

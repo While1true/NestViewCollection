@@ -46,11 +46,16 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
                         return position % 4 == 2;
                     }
                 })
-                .addType(R.layout.test, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {
                         holder.setText(R.id.tv, item + "类星0 ");
                         holder.setBackgroundColor(R.id.tv, 0xff666666);
+                    }
+
+                    @Override
+                    protected int gridSpanSize(String item, int position) {
+                        return 2;
                     }
 
                     @Override
@@ -63,7 +68,10 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
                         holder.setText(R.id.tv, item + "类星1 ");
                         holder.setBackgroundColor(R.id.tv, 0xff226666);
                     }
-
+                    @Override
+                    protected int gridSpanSize(String item, int position) {
+                        return 2;
+                    }
                     @Override
                     public boolean istype(String item, int position) {
                         return position % 4 == 1;
