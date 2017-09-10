@@ -1,5 +1,6 @@
 package com.ck.hello.nestrefreshlib.View.Adpater;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
 
     @Override
     public void BindEmptyHolder(SimpleViewHolder holder, String s) {
+
         TextView tv =holder.getView(R.id.tv);
         if (tv != null&&s!=null)
             tv.setText(s);

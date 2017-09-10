@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SingleLayoutManager extends AppCompatActivity implements View.OnClickListener {
 
-    private BaseAdapterRecord adapter;
+    private SBaseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class SingleLayoutManager extends AppCompatActivity implements View.OnCli
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
-        adapter = new SBaseAdapter<String,String>(list,R.layout.test3) {
+        adapter = new SBaseAdapter<String>(list,R.layout.test3) {
             @Override
             protected void onBindView(SimpleViewHolder holder, String item, int position) {
                 holder.setText(R.id.tv, item + "--1");
@@ -52,11 +52,6 @@ public class SingleLayoutManager extends AppCompatActivity implements View.OnCli
                     public void showEmpty(Context context) {
                         super.showEmpty(context);
                         Toast.makeText(context, "ddad", Toast.LENGTH_LONG).show();
-                    }
-                }).setStateListener(new DefaultStateListener() {
-                    @Override
-                    public void netError(Context context) {
-
                     }
                 });
 

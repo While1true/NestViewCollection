@@ -6,7 +6,9 @@ import android.view.ViewGroup;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateHandlerInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +28,10 @@ import java.util.List;
 
 /**
  * @param <T> data的泛型
- * @param <E> 传给状态布局的泛型
+ * @param  Object 传给状态布局的泛型
  *            如果StateHandler写死就不用管E
  */
-public class SBaseMutilAdapter<T, E> extends BaseAdapterRecord<T, E> {
+public class SBaseMutilAdapter<T> extends BaseAdapterRecord<T, Object> {
     /**
      * 设置数据构造
      *
@@ -91,7 +93,7 @@ public class SBaseMutilAdapter<T, E> extends BaseAdapterRecord<T, E> {
 
     ArrayList<ITEMHOLDER> Holdersid = new ArrayList<>(3);
 
-    public SBaseMutilAdapter<T, E> addType(int layoutid, ITEMHOLDER<T> itemholder) {
+    public SBaseMutilAdapter addType(int layoutid, ITEMHOLDER itemholder) {
         Holdersid.add(itemholder.setLayout(layoutid));
         return this;
     }
@@ -153,5 +155,21 @@ public class SBaseMutilAdapter<T, E> extends BaseAdapterRecord<T, E> {
             this.layout = layout;
             return this;
         }
+    }
+
+
+    @Override
+    public SBaseMutilAdapter<T> setStateHandler(StateHandlerInterface handler) {
+        return (SBaseMutilAdapter<T>) super.setStateHandler(handler);
+    }
+
+    @Override
+    public SBaseMutilAdapter<T> setStateListener(BaseStateListener listener) {
+        return (SBaseMutilAdapter<T>) super.setStateListener(listener);
+    }
+
+    @Override
+    public SBaseMutilAdapter<T> setStateLayout(Recorder.Builder builder) {
+        return (SBaseMutilAdapter<T>) super.setStateLayout(builder);
     }
 }

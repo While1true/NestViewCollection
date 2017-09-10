@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GridLayoutManager extends AppCompatActivity implements View.OnClickListener {
 
-    private BaseAdapterRecord adapter;
+    private SBaseMutilAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
         findViewById(R.id.button3).setOnClickListener(this);
         findViewById(R.id.button4).setOnClickListener(this);
         final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
-      adapter= new SBaseMutilAdapter<String,String>(list)
+      adapter= new SBaseMutilAdapter(list)
                 .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
                     @Override
                     public void onBind(SimpleViewHolder holder, String item, int position) {

@@ -115,11 +115,11 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
      * @param handler 设置状态布局的处理器
      * @return
      */
-    public <R extends BaseAdapterRecord<T,E>>R setStateHandler(StateHandlerInterface handler) {
+    public BaseAdapterRecord setStateHandler(StateHandlerInterface handler) {
         if (StateHandler.getStateClickListener() != null)
             handler.setStateClickListener(StateHandler.getStateClickListener());
         this.StateHandler = handler;
-        return (R)this;
+        return this;
     }
 
     /**
@@ -128,9 +128,9 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
      * @param listener
      * @return
      */
-    public <R extends BaseAdapterRecord<T,E>>R setStateListener(BaseStateListener listener) {
+    public BaseAdapterRecord setStateListener(BaseStateListener listener) {
         StateHandler.setStateClickListener(listener);
-        return  (R)this;
+        return this;
     }
 
     /**
@@ -138,9 +138,9 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
      *
      * @param builder
      */
-    public <R extends BaseAdapterRecord<T,E>>R setStateLayout(Recorder.Builder builder) {
+    public BaseAdapterRecord setStateLayout(Recorder.Builder builder) {
         recorder = builder.build();
-        return (R)this;
+        return this;
     }
 
     /**

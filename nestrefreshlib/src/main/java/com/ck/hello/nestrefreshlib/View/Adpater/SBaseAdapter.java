@@ -11,9 +11,12 @@ package com.ck.hello.nestrefreshlib.View.Adpater;///*
 import android.view.ViewGroup;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
-        import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateHandlerInterface;
 
-        import java.util.List;
+import java.util.List;
 
 
 /**
@@ -21,7 +24,7 @@ import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
  * SHOW_EMPTY:为空时  SHOW_LOADING：加载  SHOW_ERROR：网络错误 SHOW_NOMORE：无更多
  */
 
-public abstract class SBaseAdapter<T, E> extends BaseAdapterRecord<T, E> {
+public abstract class SBaseAdapter<T> extends BaseAdapterRecord<T, Object> {
 
     private int layoutid;
 
@@ -50,5 +53,21 @@ public abstract class SBaseAdapter<T, E> extends BaseAdapterRecord<T, E> {
     @Override
     protected int setIfGridLayoutManagerSpan(int itemViewType, int position, int spanCount) {
         return (isfullspan(itemViewType) ? spanCount : 1);
+    }
+
+
+    @Override
+    public SBaseAdapter<T> setStateHandler(StateHandlerInterface handler) {
+        return (SBaseAdapter<T>) super.setStateHandler(handler);
+    }
+
+    @Override
+    public SBaseAdapter<T> setStateListener(BaseStateListener listener) {
+        return (SBaseAdapter<T>) super.setStateListener(listener);
+    }
+
+    @Override
+    public SBaseAdapter<T> setStateLayout(Recorder.Builder builder) {
+        return (SBaseAdapter<T>) super.setStateLayout(builder);
     }
 }
