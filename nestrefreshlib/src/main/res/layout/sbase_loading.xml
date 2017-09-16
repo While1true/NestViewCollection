@@ -6,7 +6,6 @@
 <com.ck.hello.nestrefreshlib.View.Adpater.SLoading
     app:snum="4"
     app:sgap="15dp"
-    app:scolor="#ff4070"
     android:layout_centerInParent="true"
     app:sradius="12dp"
     android:id="@+id/sloading"

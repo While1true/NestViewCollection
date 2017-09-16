@@ -12,7 +12,8 @@
     <declare-styleable name="SLoading">
         <attr name="snum" format="integer"/>
         <attr name="sgap" format="dimension"/>
-        <attr name="scolor" format="color"/>
+        <attr name="scolorarray" format="reference"/>
         <attr name="sradius" format="dimension"/>
+        <attr name="scolortype" format="integer"/>
     </declare-styleable>
-</resources>
+    </resources>

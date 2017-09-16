@@ -1,19 +1,22 @@
 package com.ck.hello.nestrefreshlib.View.Adpater;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.animation.FloatEvaluator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-
 import com.ck.hello.nestrefreshlib.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,21 +28,52 @@ import java.util.List;
 public class SLoading extends View {
 
 
-    private int color = 0xffff4070;
+    /**
+     * 颜色变幻数组
+     */
+    private int[] color = {0xFFF4511E, 0xFFFDD835, 0xFF43A047,
+            0xFF1E88E5, 0xFF8E24AA, 0xFF546E7A};
 
+    /**
+     * 圆间隔
+     */
     private float gap = -1;
 
+    /**
+     * 圆半径
+     */
     private float radius = -1;
 
+    /**
+     * 圆个数
+     */
     private int num = 3;
+
+    /**
+     * 变方式
+     * 0：单色 1：多色
+     */
+    int type = 0;
 
     private Paint paint;
 
+    /**
+     * 默认宽高
+     */
     private int width = 60;
     private int height = 100;
+
+    /**
+     * 圆实体
+     */
     List<Progress> list = new ArrayList<>();
-    private AnimatorSet.Builder play;
+
+    /**
+     * 动画集
+     */
     private AnimatorSet set;
+    private List<Animator> animators;
+    private int contentLength;
 
     public SLoading(Context context) {
         this(context, null);
@@ -56,18 +90,24 @@ public class SLoading extends View {
     }
 
     private void obtainData(AttributeSet attrs) {
-        TypedArray a=getContext().obtainStyledAttributes(attrs, R.styleable.SLoading);
-        radius=a.getDimension(R.styleable.SLoading_sradius,-1);
-        gap=a.getDimension(R.styleable.SLoading_sgap,-1);
-        num=a.getInt(R.styleable.SLoading_snum,-1);
-        color=a.getColor(R.styleable.SLoading_scolor,0xff4070);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SLoading);
+        radius = a.getDimension(R.styleable.SLoading_sradius, -1);
+        gap = a.getDimension(R.styleable.SLoading_sgap, -1);
+        num = a.getInt(R.styleable.SLoading_snum, -1);
+        type = a.getInt(R.styleable.SLoading_scolortype, 0);
+        int resourceId = a.getResourceId(R.styleable.SLoading_scolorarray, 0);
+        try {
+            if (resourceId != 0)
+                color = getResources().getIntArray(resourceId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         a.recycle();
     }
 
     private void initialized() {
         paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(color);
     }
 
     @Override
@@ -76,16 +116,18 @@ public class SLoading extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        contentLength = (int) (2 * num * radius + (num - 1) * gap);
         if (widthMode == MeasureSpec.EXACTLY) {
             width = widthSize;
         } else {
-            width = Math.min(width, widthSize);
+            width = Math.min(contentLength, widthSize);
         }
 
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else {
-            height = Math.min(height, heightSize);
+            height = (int) Math.min(2 * radius, heightSize);
         }
         if (gap == -1)
             gap = height / 2;
@@ -93,10 +135,12 @@ public class SLoading extends View {
         if (radius == -1)
             radius = height / 2;
 
-        for (int i = num; i > 0; i--) {
-            list.add(new Progress((float) i / (float) num, i == num ? 0 : 1, radius * i / num));
-        }
+        if (list.size() == 0) {
+            for (int i = 0; i < num; i++) {
+                list.add(new Progress(radius, type == 0 ? 0 : ((num - i) % num)));
+            }
 
+        }
         setMeasuredDimension(width, height);
     }
 
@@ -105,7 +149,9 @@ public class SLoading extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         for (int i = 0; i < num; i++) {
-            paint.setAlpha((int) ((0.3+0.7*list.get(i).getPercentage())*255));
+            Log.i("=----------", "onDraw: " + ((0.1 + 0.6 * list.get(i).getPercentage()) * 255));
+            paint.setAlpha((int) ((0.1 + 0.7 * list.get(i).getPercentage()) * 255));
+            paint.setColor(color[list.get(i).getColorIndex() % color.length]);
             canvas.drawCircle(calculateCenterX(i), height / 2, list.get(i).getCurrent(), paint);
         }
     }
@@ -116,29 +162,20 @@ public class SLoading extends View {
 
 
     private int calculateStart() {
-        int contentLength = (int) (2 * num * radius + (num - 1) * gap);
-
         return width / 2 - contentLength / 2;
     }
 
-    public SLoading setColor(int color) {
+    public SLoading setColor(int[] color) {
         this.color = color;
         return this;
     }
 
-    public SLoading setGap(int gap) {
-        this.gap = gap;
-        return this;
+    public int getType() {
+        return type;
     }
 
-    public SLoading setRadius(int radius) {
-        this.radius = radius;
-        return this;
-    }
-
-    public SLoading setNum(int num) {
-        this.num = num;
-        return this;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public SLoading startAnimator() {
@@ -152,42 +189,62 @@ public class SLoading extends View {
         return this;
     }
 
-    private void goAnimator() {
-        if (set != null) {
-            set.cancel();
-            set.getChildAnimations().clear();
-        }
-
-        set = new AnimatorSet();
-
-        for (int i = 0; i < num; i++) {
-            final int z = i;
-            ValueAnimator animator = ValueAnimator.ofFloat(list.get(i).getType() == 0 ? radius : 0, list.get(i).getType() == 0 ? 0 : radius);
-            animator.setDuration(500);
-            animator.setRepeatCount(-1);
-            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-            animator.setRepeatMode(ValueAnimator.REVERSE);
-            animator.setCurrentPlayTime((long) (500 * list.get(i).getPercentage()));
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    private ObjectAnimator getAnimator(final Progress progress, final int i) {
+        ObjectAnimator animator = ObjectAnimator.ofObject(progress, "percentage", new FloatEvaluator(), 0.2, 1, 0.2);
+        animator.setDuration(1200);
+        animator.setRepeatCount(-1);
+        animator.setStartDelay((long) (i * 700 / num));
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        if (i == 0) {
+            ValueAnimator.AnimatorUpdateListener listener = new ValueAnimator.AnimatorUpdateListener() {
                 @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    list.get(z).setPercentage(z==0?1-animation.getAnimatedFraction():animation.getAnimatedFraction());
-                    list.get(z).setCurrent((Float) animation.getAnimatedValue());
-                    if (z == 0)
-                        postInvalidate();
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                    postInvalidate();
                 }
-            });
-            if (play == null)
-                play = set.play(animator);
-            else
-                play.with(animator);
+            };
+            animator.addUpdateListener(listener);
         }
-        set.start();
+        animator.addListener(new Anl(progress));
+
+        return animator;
+    }
+
+    private void goAnimator() {
+        Log.i("aa", "resizeToNum: " + num + "--" + list.size());
+        if (set == null) {
+            set = new AnimatorSet();
+            animators = new ArrayList<>(num);
+            for (int i = 0; i < num; i++) {
+                ObjectAnimator animator = getAnimator(list.get(i), i);
+                animators.add(animator);
+            }
+            set.playTogether(animators);
+            set.start();
+        } else {
+            if (!set.isStarted()) {
+                for (int i = 0; i < num; i++) {
+                    list.get(i).setColorIndex(type == 0 ? 0 : (num - i % num));
+                    list.get(i).setRadius(radius);
+                    list.get(i).setPercentage(0);
+                }
+                set.start();
+            }
+        }
+    }
+
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return super.onSaveInstanceState();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         stopAnimator();
+        if (animators != null)
+            animators.clear();
         super.onDetachedFromWindow();
     }
 
@@ -195,38 +252,40 @@ public class SLoading extends View {
         if (set != null) {
             set.cancel();
             set.getChildAnimations().clear();
-            play=null;
             setVisibility(GONE);
         }
     }
 
-    class Progress implements Serializable {
+    private static class Progress {
+        //进度百分比
         float percentage = 0;
-        //0 减 1增
-        int type;
-
-        public Progress(float percentage, int type, float current) {
-            this.percentage = percentage;
-            this.type = type;
-            this.current = current;
-        }
-
+        //当前半径
         float current;
+        //最大半径
+        float radius;
+        //颜色下标
+        int colorIndex;
 
-        public int getType() {
-            return type;
+        public Progress(float radius, int colorIndex) {
+            this.current = percentage * radius;
+            this.radius = radius;
+            this.colorIndex = colorIndex;
         }
 
-        public void setType(int type) {
-            this.type = type;
+        public void setColorIndex(int colorIndex) {
+            this.colorIndex = colorIndex;
+        }
+
+        public void setRadius(float radius) {
+            this.radius = radius;
+        }
+
+        public int getColorIndex() {
+            return colorIndex;
         }
 
         public float getCurrent() {
             return current;
-        }
-
-        public void setCurrent(float current) {
-            this.current = current;
         }
 
         public float getPercentage() {
@@ -235,8 +294,38 @@ public class SLoading extends View {
 
         public void setPercentage(float percentage) {
             this.percentage = percentage;
+            this.current = percentage * radius;
         }
     }
 
+    static class Anl implements Animator.AnimatorListener {
+        Progress progress;
 
+        public Anl(Progress progress) {
+            this.progress = progress;
+        }
+
+
+        @Override
+        public void onAnimationStart(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+            int colorIndex = progress.getColorIndex();
+            progress.setColorIndex(++colorIndex);
+            Log.i("dddd", "onAnimationRepeat: " + colorIndex);
+        }
+    }
 }

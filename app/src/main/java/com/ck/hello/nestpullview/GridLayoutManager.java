@@ -87,6 +87,11 @@ public class GridLayoutManager extends AppCompatActivity implements View.OnClick
                     }
 
                     @Override
+                    protected boolean isfull() {
+                        return super.isfull();
+                    }
+
+                    @Override
                     protected int gridSpanSize(String item, int position) {
                         return 5;
                     }
