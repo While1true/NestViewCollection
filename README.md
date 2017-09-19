@@ -1,3 +1,188 @@
+## 打造一个强大的万能RecyclerView  Adapter
+
+---
+## [github 地址](https://github.com/While1true/SuperAdapter)
+## [简书 地址](http://www.jianshu.com/p/3e413feabdcd)
+## [示例apk 地址](https://github.com/While1true/SuperAdapter/blob/master/app-debug.apk)
+
+### 做了些什么？
+1. 封装了错误布局，空布局，底部更多布局
+2. 支持多类型布局 
+3. 支持GridLayoutManage 设置单个spancount
+4. 支持StaggledLayoutManager 设置单个类型item、全屏
+5. 支付扩展状态布局类型，调用等
+
+---
+### 1.效果
+
+![2017-09-10-15-46-16.gif](http://upload-images.jianshu.io/upload_images/6456519-6ca0f77cb7dceb4d.gif?imageMogr2/auto-orient/strip)
+### 2.使用
+### -  简单使用
+
+切换状态
+```
+
+    /*params showstate  SHOW_EMPTY、SHOW_LOADING 、SHOW_ERROR、SHOW_NOMORE、TYPE_ITEM
+    *@ params E 传递给相应布局数据
+    */
+    void showState(int showstate, E e);
+
+    //不需要传递改变就调用如下
+    void showEmpty();
+
+    void ShowError();
+
+    void showItem();
+
+    void showLoading();
+
+    void showNomore();
+```
+
+  
+```
+单item类型
+ final SRecyclerView recyclerView = (SRecyclerView) findViewById(R.id.sre);
+        adapter = new SBaseAdapter<String>(list,R.layout.test3) {
+            @Override
+            protected void onBindView(SimpleViewHolder holder, String item, int position) {
+                holder.setText(R.id.tv, item + "--1");
+                holder.setBackgroundColor(R.id.tv, 0xff226666);
+            }
+        }
+            
+
+```
+
+```
+多item类型
+new SBaseMutilAdapter(list)
+               
+                .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, int position) {
+                        holder.setText(R.id.tv, item + "类0 ");
+                        holder.setBackgroundColor(R.id.tv, 0xff666666);
+                    }
+                     @Override
+                    public boolean istype(String item, int position) {
+                        return item.type==1;
+                    }
+                })
+                 .addType(R.layout.test1, new SBaseMutilAdapter.ITEMHOLDER<String>() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, 
+                     .....
+                 })
+
+```
+
+
+- 设置状态布局相应按钮的监听
+```
+    .setStateListener(new DefaultStateListener() {
+                    @Override
+                    public void netError(Context context) {
+                        adapter.showState(SBaseAdapter.SHOW_LOADING, "ggg");
+                        Toast.makeText(context, "ddd", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void showEmpty(Context context) {
+                        super.showEmpty(context);
+                        Toast.makeText(context, "ddad", Toast.LENGTH_LONG).show();
+                    }
+                });
+```
+- 设置GridLayoutManager staggedlayoutManager item占的空间
+
+```
+                 //如果是GridelayoutManager 重写ITEMHOLDER此方法返回item占据大小
+                    @Override
+                    protected int gridSpanSize(String item, int position) {
+                        return 2;
+                    }
+                    //如果是staggedlayoutManager 重写ITEMHOLDER此方法返回
+                   //是该类型布局就return true
+                    @Override
+                    protected boolean isfull() {
+                        return super.isfull();
+                    }
+```
+### - 自定义使用
+-    在application中配置全局的资源id
+
+```
+ BaseAdapterRecord.init(new Recorder.Builder()
+                .setEmptyRes()
+                .setNomoreRes()
+                .setLoadingRes()
+                .setErrorRes()
+                .setStateHandlerClazz(DefaultStateHandler.class)
+                .build());
+```
+- 自定义状态布局处理handler
+```
+实现StateHandlerInterface接口
+可以仿照默认的DefaultStateHandler来编写
+
+    /**
+     * 用于传递相应的监听 在Adapter设置监听
+     * @param listener 继承BaseStateListener 定义自己想要的监听方法
+     * @return
+     */
+    StateHandlerInterface setStateClickListener(BaseStateListener listener);
+    BaseStateListener getStateClickListener();
+
+
+    /**
+     * BindView时调用
+     * @param holder
+     * @param t 由Adapter showState(int showstate, E e);传递过来的数据
+     *          默认定义为String，如果你有不同需求，可改为任意类型
+     */
+    void BindEmptyHolder(SimpleViewHolder holder,T t);
+    void BindErrorHolder(SimpleViewHolder holder,T t);
+    void BindLoadingHolder(SimpleViewHolder holder,T t);
+    void BindNomoreHolder(SimpleViewHolder holder,T t);
+
+    /**
+     * detachFromWindow时调用 销毁一些持有的引用
+     */
+    void destory();
+
+    /**
+     * 切换状态时调用，可以用来关闭一些之前状态的动画
+     */
+    void switchState();
+```
+- 代码中也可局部改变单一的状态布局id 和相应handler
+
+### 实现方式
+- 拦截Adapter的getItemCount() getItemViewType()来实现状态布局
+- 多类型布局是托管给静态内部类ITEMHOLDER，通过添加不同ITEMHOLDER实例达到不同item类型
+
+
+### 总结
+ 具体实现请下载源码查看，参考。ViewHolder封装类是参考鸿洋大神的，但进行了一定改版。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------SrecyclerView----------------------------------------------------------
 ### 让自己的库易于扩展
 > 浅谈本人的封装抽离思路
 ---
