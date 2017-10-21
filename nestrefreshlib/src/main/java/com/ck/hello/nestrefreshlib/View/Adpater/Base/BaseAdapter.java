@@ -31,7 +31,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     //showstate传递的数据
     private E e = null;
     //状态onindBView
-    protected StateHandlerInterface StateHandler;
+    protected StateHandlerInterface stateHandler;
 
     private int height = 0;
 
@@ -62,7 +62,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
         if (recorder == null)
             recorder = new Recorder.Builder().build();
         try {
-            StateHandler =recorder.getClazz().newInstance();
+            stateHandler =recorder.getClazz().newInstance();
         } catch (InstantiationException e1) {
             e1.printStackTrace();
         } catch (IllegalAccessException e1) {
@@ -137,9 +137,9 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      * @return
      */
     public BaseAdapter setStateHandler(StateHandlerInterface handler) {
-        if (StateHandler.getStateClickListener() != null)
-            handler.setStateClickListener(StateHandler.getStateClickListener());
-        this.StateHandler = handler;
+        if (stateHandler.getStateClickListener() != null)
+            handler.setStateClickListener(stateHandler.getStateClickListener());
+        this.stateHandler = handler;
         return this;
     }
 
@@ -150,7 +150,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      * @return
      */
     public BaseAdapter setStateListener(BaseStateListener listener) {
-        StateHandler.setStateClickListener(listener);
+        stateHandler.setStateClickListener(listener);
         return this;
     }
 
@@ -171,7 +171,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      */
     public void showState(int showstate, E e) {
         if (this.showstate != showstate)
-            StateHandler.switchState();
+            stateHandler.switchState();
         this.showstate = showstate;
         this.e = e;
         notifyDataSetChanged();
@@ -217,8 +217,8 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        StateHandler.destory();
-        StateHandler = null;
+        stateHandler.destory();
+        stateHandler = null;
         if(list!=null)list.clear();
     }
 
@@ -252,21 +252,21 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
             case SHOW_EMPTY:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                StateHandler.BindEmptyHolder((SimpleViewHolder) holder, e);
+                stateHandler.BindEmptyHolder((SimpleViewHolder) holder, e);
                 return;
             case SHOW_LOADING:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                StateHandler.BindLoadingHolder((SimpleViewHolder) holder, e);
+                stateHandler.BindLoadingHolder((SimpleViewHolder) holder, e);
                 return;
             case SHOW_ERROR:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                StateHandler.BindErrorHolder((SimpleViewHolder) holder, e);
+                stateHandler.BindErrorHolder((SimpleViewHolder) holder, e);
                 return;
             case SHOW_NOMORE:
                 if (position == getItemCount() - 1) {
-                    StateHandler.BindNomoreHolder((SimpleViewHolder) holder, e);
+                    stateHandler.BindNomoreHolder((SimpleViewHolder) holder, e);
                     return;
                 }
                 break;

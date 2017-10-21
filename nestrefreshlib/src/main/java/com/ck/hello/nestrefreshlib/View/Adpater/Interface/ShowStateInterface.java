@@ -1,6 +1,5 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Interface;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
 
 /**
  * Created by ck on 2017/9/10.
