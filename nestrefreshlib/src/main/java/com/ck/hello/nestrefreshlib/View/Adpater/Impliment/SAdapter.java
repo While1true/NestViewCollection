@@ -1,17 +1,17 @@
-package com.ck.hello.nestrefreshlib.View.Adpater;///*
+package com.ck.hello.nestrefreshlib.View.Adpater.Impliment;///*
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapter;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /* Copyright (c) 2017. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -28,19 +28,10 @@ import java.util.List;
 
 /**
  * @param <T> data的泛型
- * @aramp   传给状态布局的泛型
+ * @paam  Object 传给状态布局的泛型
  *            如果StateHandler写死就不用管E
  */
-@Deprecated
-public class SBaseMutilAdapter<T> extends BaseAdapterRecord<T, Object> {
-    /**
-     * 设置数据构造
-     *
-     * @param list
-     */
-    public SBaseMutilAdapter(List<T> list) {
-        super(list);
-    }
+public class SAdapter<T> extends BaseAdapter<T, Object> {
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
@@ -92,9 +83,9 @@ public class SBaseMutilAdapter<T> extends BaseAdapterRecord<T, Object> {
                 Holdersid.get(itemViewType).isfull() : isfullspan(itemViewType);
     }
 
-    ArrayList<ITEMHOLDER> Holdersid = new ArrayList<>(3);
+    ArrayList<ItemHolder> Holdersid = new ArrayList<>(3);
 
-    public SBaseMutilAdapter addType(int layoutid, ITEMHOLDER itemholder) {
+    public SAdapter addType(int layoutid, ItemHolder itemholder) {
         Holdersid.add(itemholder.setLayout(layoutid));
         return this;
     }
@@ -109,68 +100,20 @@ public class SBaseMutilAdapter<T> extends BaseAdapterRecord<T, Object> {
         return TYPE_ITEM;
     }
 
-    public static abstract class ITEMHOLDER<T> {
-        private int layout;
-        /**
-         * StaggeredLayoutManager重写此方法
-         *
-         * @return 是否占据一个
-         */
-        protected boolean isfull() {
-            return false;
-        }
-
-        /**
-         * GrideLayoutManager重写此方法
-         *
-         * @param position
-         * @return 占的个数
-         */
-        protected int gridSpanSize(T item, int position) {
-            return 1;
-        }
-
-        /**
-         * onBind时调用
-         *
-         * @param holder
-         * @param item
-         * @param position
-         */
-        public abstract void onBind(SimpleViewHolder holder, T item, int position);
-
-        /**
-         * 是否是这种Type的view
-         *
-         * @param item
-         * @param position
-         * @return
-         */
-        public abstract boolean istype(T item, int position);
-
-        public int getLayout() {
-            return layout;
-        }
-
-        public ITEMHOLDER setLayout(int layout) {
-            this.layout = layout;
-            return this;
-        }
-    }
 
 
     @Override
-    public SBaseMutilAdapter<T> setStateHandler(StateHandlerInterface handler) {
-        return (SBaseMutilAdapter<T>) super.setStateHandler(handler);
+    public SAdapter<T> setStateHandler(StateHandlerInterface handler) {
+        return (SAdapter<T>) super.setStateHandler(handler);
     }
 
     @Override
-    public SBaseMutilAdapter<T> setStateListener(BaseStateListener listener) {
-        return (SBaseMutilAdapter<T>) super.setStateListener(listener);
+    public SAdapter<T> setStateListener(BaseStateListener listener) {
+        return (SAdapter<T>) super.setStateListener(listener);
     }
 
     @Override
-    public SBaseMutilAdapter<T> setStateLayout(Recorder.Builder builder) {
-        return (SBaseMutilAdapter<T>) super.setStateLayout(builder);
+    public SAdapter<T> setStateLayout(Recorder.Builder builder) {
+        return (SAdapter<T>) super.setStateLayout(builder);
     }
 }

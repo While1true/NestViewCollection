@@ -1,4 +1,4 @@
-package com.ck.hello.nestrefreshlib.View.Adpater.Base;
+package com.ck.hello.nestrefreshlib.View.Adpater.Interface;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseMutilAdapter;
 

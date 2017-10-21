@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.SBaseAdapter;
-import com.ck.hello.nestrefreshlib.View.Adpater.DefaultStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.DefaultStateListener;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 
 import java.util.ArrayList;

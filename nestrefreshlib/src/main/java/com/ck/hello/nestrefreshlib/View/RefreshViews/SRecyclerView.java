@@ -77,7 +77,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
     private boolean canheader = true, canfooter = false;
     private ValueAnimator animator;
-    private ValueAnimator animator1;
     //超出距离是否加载
     private boolean canLoadingHeader = true, canLoadingFooter = false;
 
@@ -102,12 +101,8 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
             animator.cancel();
             animator = null;
         }
-        if (animator1 != null) {
-            animator1.cancel();
-            animator1 = null;
-        }
-        headerRefreshWrap.OnDetachFromWindow();
-        footerRefreshWrap.OnDetachFromWindow();
+//        headerRefreshWrap.OnDetachFromWindow();
+//        footerRefreshWrap.OnDetachFromWindow();
     }
 
     public LinearLayout getHeaderLayout() {

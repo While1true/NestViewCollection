@@ -11,10 +11,10 @@ package com.ck.hello.nestrefreshlib.View.Adpater;///*
 import android.view.ViewGroup;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapterRecord;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateHandlerInterface;
+import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by S0005 on 2017/4/17.
  * SHOW_EMPTY:为空时  SHOW_LOADING：加载  SHOW_ERROR：网络错误 SHOW_NOMORE：无更多
  */
-
+@Deprecated
 public abstract class SBaseAdapter<T> extends BaseAdapterRecord<T, Object> {
 
     private int layoutid;

@@ -101,8 +101,8 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
             animator1.cancel();
             animator1 = null;
         }
-        headerRefreshWrap.OnDetachFromWindow();
-        footerRefreshWrap.OnDetachFromWindow();
+//        headerRefreshWrap.OnDetachFromWindow();
+//        footerRefreshWrap.OnDetachFromWindow();
     }
 
     public SScrollview(Context context) {

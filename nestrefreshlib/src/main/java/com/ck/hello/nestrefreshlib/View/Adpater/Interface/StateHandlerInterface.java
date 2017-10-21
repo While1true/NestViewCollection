@@ -1,4 +1,6 @@
-package com.ck.hello.nestrefreshlib.View.Adpater.Base;
+package com.ck.hello.nestrefreshlib.View.Adpater.Interface;
+
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 
 /**
  * Created by ck on 2017/9/9.
@@ -21,7 +23,7 @@ public interface StateHandlerInterface<T> {
      * @param t 由Adapter showState(int showstate, E e);传递过来的数据
      *          默认定义为String，如果你有不同需求，可改为任意类型
      */
-    void BindEmptyHolder(SimpleViewHolder holder,T t);
+    void BindEmptyHolder(SimpleViewHolder holder, T t);
     void BindErrorHolder(SimpleViewHolder holder,T t);
     void BindLoadingHolder(SimpleViewHolder holder,T t);
     void BindNomoreHolder(SimpleViewHolder holder,T t);

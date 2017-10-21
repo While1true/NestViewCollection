@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.ShowStateInterface;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
@@ -17,8 +16,8 @@ import java.util.List;
 /**
  * Created by ck on 2017/9/10.
  */
-@Deprecated
-public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter implements ShowStateInterface<E> {
+
+public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements ShowStateInterface<E> {
     //全局id记录者
     protected static Recorder globalrecorder;
     //实例id记录
@@ -35,16 +34,33 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
     protected StateHandlerInterface StateHandler;
 
     private int height = 0;
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    private int count=0;
     /**
      * 设置数据构造
      *
      * @param list
      */
-    public BaseAdapterRecord(List<T> list) {
+    public BaseAdapter(List<T> list) {
+        this.list = list;
+        init();
+    }
+    public BaseAdapter(int count){
+        this.count=count;
+        init();
+    }
+    public BaseAdapter(){
+        init();
+    }
+
+    private void init() {
         recorder=globalrecorder;
         if (recorder == null)
             recorder = new Recorder.Builder().build();
-        this.list = list;
         try {
             StateHandler =recorder.getClazz().newInstance();
         } catch (InstantiationException e1) {
@@ -53,6 +69,7 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
             e1.printStackTrace();
         }
     }
+
     /**
      * 全局初始化状态 layout id
      *
@@ -119,7 +136,7 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
      * @param handler 设置状态布局的处理器
      * @return
      */
-    public BaseAdapterRecord setStateHandler(StateHandlerInterface handler) {
+    public BaseAdapter setStateHandler(StateHandlerInterface handler) {
         if (StateHandler.getStateClickListener() != null)
             handler.setStateClickListener(StateHandler.getStateClickListener());
         this.StateHandler = handler;
@@ -132,7 +149,7 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
      * @param listener
      * @return
      */
-    public BaseAdapterRecord setStateListener(BaseStateListener listener) {
+    public BaseAdapter setStateListener(BaseStateListener listener) {
         StateHandler.setStateClickListener(listener);
         return this;
     }
@@ -142,7 +159,7 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
      *
      * @param builder
      */
-    public BaseAdapterRecord setStateLayout(Recorder.Builder builder) {
+    public BaseAdapter setStateLayout(Recorder.Builder builder) {
         recorder = builder.build();
         return this;
     }
@@ -161,23 +178,23 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
     }
 
     public void showEmpty() {
-        showState(BaseAdapterRecord.SHOW_EMPTY, null);
+        showState(BaseAdapter.SHOW_EMPTY, null);
     }
 
     public void ShowError() {
-        showState(BaseAdapterRecord.SHOW_ERROR, null);
+        showState(BaseAdapter.SHOW_ERROR, null);
     }
 
     public void showItem() {
-        showState(BaseAdapterRecord.TYPE_ITEM, null);
+        showState(BaseAdapter.TYPE_ITEM, null);
     }
 
     public void showLoading() {
-        showState(BaseAdapterRecord.SHOW_LOADING, null);
+        showState(BaseAdapter.SHOW_LOADING, null);
     }
 
     public void showNomore() {
-        showState(BaseAdapterRecord.SHOW_NOMORE, null);
+        showState(BaseAdapter.SHOW_NOMORE, null);
     }
 
 
@@ -254,7 +271,7 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
                 }
                 break;
         }
-        onBindView((SimpleViewHolder) holder, list.get(position), position);
+        onBindView((SimpleViewHolder) holder, list==null?null:list.get(position), position);
     }
     /**
      * bindview 先拦截设置状态onCreateViewHolder
@@ -288,7 +305,7 @@ public abstract class BaseAdapterRecord<T, E> extends RecyclerView.Adapter imple
         return getCount();
     }
     private int getCount() {
-        return list == null ? 0 : list.size();
+        return list == null ? count : list.size();
     }
     /**
      * item type

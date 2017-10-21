@@ -1,12 +1,13 @@
-package com.ck.hello.nestrefreshlib.View.Adpater;
+package com.ck.hello.nestrefreshlib.View.Adpater.Impliment;
 
 import android.view.View;
 import android.widget.TextView;
 
 import com.ck.hello.nestrefreshlib.R;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateHandlerInterface;
+import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
+import com.ck.hello.nestrefreshlib.View.Adpater.SLoading;
 
 /**
  * Created by ck on 2017/9/9.

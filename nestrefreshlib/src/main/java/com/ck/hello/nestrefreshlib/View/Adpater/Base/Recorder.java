@@ -1,7 +1,8 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Base;
 
 import com.ck.hello.nestrefreshlib.R;
-import com.ck.hello.nestrefreshlib.View.Adpater.DefaultStateHandler;
+import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.DefaultStateHandler;
+import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
 
 /**
  * Created by ck on 2017/9/9.

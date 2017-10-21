@@ -1,8 +1,8 @@
-package com.ck.hello.nestrefreshlib.View.Adpater;
+package com.ck.hello.nestrefreshlib.View.Adpater.Impliment;
 
 import android.content.Context;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseStateListener;
+import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 
 /**
  * Created by ck on 2017/9/9.

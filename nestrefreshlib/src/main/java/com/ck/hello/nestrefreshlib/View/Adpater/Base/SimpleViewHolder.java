@@ -63,11 +63,7 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
         tv.setText(text);
         return this;
     }
-    public SimpleViewHolder setButtonText(int viewId, CharSequence text) {
-        Button tv = getView(viewId);
-        tv.setText(text);
-        return this;
-    }
+
     public SimpleViewHolder setImageResource(int viewId, int resId) {
         ImageView view = getView(viewId);
         view.setImageResource(resId);
