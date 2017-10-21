@@ -23,6 +23,7 @@ public class RKActivity extends AppCompatActivity implements View.OnClickListene
         findViewById(R.id.StaggledLayoutManager).setOnClickListener(this);
         findViewById(R.id.LinearLayoutManager).setOnClickListener(this);
         findViewById(R.id.SingleTypeAdapter).setOnClickListener(this);
+        findViewById(R.id.statelayout).setOnClickListener(this);
         DefaultStateListener a= new DefaultStateListener(){
             @Override
             public void netError(Context context) {
@@ -49,6 +50,9 @@ public class RKActivity extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.SingleTypeAdapter:
                 startActivity(new Intent(this,SingleLayoutManager.class));
+                break;
+            case R.id.statelayout:
+                startActivity(new Intent(this,Main2Activity.class));
                 break;
         }
 
