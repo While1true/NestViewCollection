@@ -112,7 +112,6 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         ViewStub errorView = new ViewStub(getContext(), recorder.getErrorres());
         addView(errorView);
         views.put(StateShowInterface.ERROR, errorView);
-
         showLoading();
         return this;
     }
@@ -129,7 +128,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         if(this.showstate!=showstate){
             stateHandler.switchState();
         }
-
+        this.showstate=showstate;
         if (showstate==StateShowInterface.ERROR&&!errorInflated) {
             errorInflated = true;
             views.put(showstate, ((ViewStub) views.get(showstate)).inflate());
@@ -140,7 +139,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         }
         for (int i = 0; i < views.size(); i++) {
             if(i!=showstate){
-                views.get(showstate).setVisibility(GONE);
+                views.get(i).setVisibility(GONE);
             }else{
                 switch (showstate){
                     case StateShowInterface.CONTENT:
@@ -156,7 +155,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
                         stateHandler.BindErrorHolder(SimpleViewHolder.createViewHolder(views.get(showstate)),o);
                         break;
                 }
-                views.get(showstate).setVisibility(VISIBLE);
+                views.get(i).setVisibility(VISIBLE);
             }
         }
     }
@@ -204,35 +203,5 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         Log.i("TAG", "getButton:返回了null");
         return null;
     }
-
-    public TextView getTextview(View view) {
-        if (view instanceof TextView && !(view instanceof Button)) {
-            return (TextView) view;
-        } else if (view instanceof ViewGroup) {
-            int childCount = ((ViewGroup) view).getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                TextView textview = getTextview(((ViewGroup) view).getChildAt(i));
-                if (textview != null)
-                    return textview;
-            }
-        }
-        return null;
-    }
-
-    public ImageView getImageView(View view) {
-        if (view instanceof ImageView) {
-
-            return (ImageView) view;
-        } else if (view instanceof ViewGroup) {
-            int childCount = ((ViewGroup) view).getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                ImageView imageView = getImageView(((ViewGroup) view).getChildAt(i));
-                if (imageView != null)
-                    return imageView;
-            }
-        }
-        return null;
-    }
-
 }
 

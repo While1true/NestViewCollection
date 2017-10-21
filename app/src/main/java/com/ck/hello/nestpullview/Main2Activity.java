@@ -22,15 +22,17 @@ public class Main2Activity extends AppCompatActivity {
                     public void showEmpty(Context context) {
                         super.showEmpty(context);
                         stateLayout.ShowError();
+                        Toast.makeText(Main2Activity.this,"fftf",0).show();
                     }
 
                     @Override
                     public void netError(Context context) {
                         stateLayout.showEmpty();
+                        Toast.makeText(Main2Activity.this,"fftf",0).show();
                     }
                 });
         setContentView(stateLayout);
-
+        stateLayout.showLoading();
         stateLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
