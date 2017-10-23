@@ -1,3 +1,27 @@
+
+
+
+### 新版
+> 数据结构是list 使用和之前一样 不是list 设置position 只对position预估
+--- 
+名称更改
+new SAdapter.addType(R.layout.layout,new PositionHandler
+{})
+
+--- 
+
+> Stateyout采用和adapter一样的状态布局，适用于activity
+--- 
+setcontentView(new StateLayout(this).setcontent(R.Layout.layout))
+--- 
+
+
+
+
+
+
+
+
 ### 让自己的库易于扩展
 > 浅谈本人的封装抽离思路
 ---
