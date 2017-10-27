@@ -11,12 +11,13 @@
 1. 封装了下拉刷新，便于扩展
 2. 支持预加载一件设置
 3. 多种刷新下拉模式支持
----
+```
  srecyclerview
                 .addDefaultHeaderFooter()
                 .setRefreshMode(false,false,false,false)
                 .setAdapter(manager, adapter);
----
+                更详细使用请看之前文档
+```
 
 
 ### Apdapter部分
@@ -27,7 +28,7 @@
 5. 支付扩展状态布局类型，调用等
 6. 支持list模式的多类型布局，和非list类型的多类型布局
 
----
+```
 list模式
   adapter = new SAdapter(List<String>)
                 .addType(R.layout.label_layout, new StringHolder() {
@@ -75,14 +76,14 @@ list模式
 
     void showLoading();
 
----
+```
 
 
 
 ### StateLayout
 1. 封装了错误布局，空布局，底部更多布局
 
----
+```
 切换状态
     void showState(int showstate, E e);
 
@@ -96,7 +97,7 @@ list模式
     void showLoading();
 
     void showNomore();
----
+```
 
 ---
 ### 1.效果
