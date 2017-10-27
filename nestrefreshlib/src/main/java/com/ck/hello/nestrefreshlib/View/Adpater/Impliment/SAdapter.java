@@ -42,7 +42,7 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
     protected int getType(int position) {
         if (Holdersid.size() == 0)
             return TYPE_ITEM;
-        else return getMutilType(list.get(position), position);
+        else return getMutilType(list==null?null:list.get(position), position);
     }
 
 
@@ -61,7 +61,7 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
     @Override
     protected int setIfGridLayoutManagerSpan(int itemViewType, int position, int spanCount) {
         return (itemViewType >= 0 && itemViewType < Holdersid.size()) ?
-                (Holdersid.get(itemViewType).gridSpanSize(list.get(position), position)) : (isfullspan(itemViewType) ? spanCount : 1);
+                (Holdersid.get(itemViewType).gridSpanSize(list==null?null:list.get(position), position)) : (isfullspan(itemViewType) ? spanCount : 1);
     }
 
     protected SimpleViewHolder onCreateHolder(ViewGroup parent, int viewType) {

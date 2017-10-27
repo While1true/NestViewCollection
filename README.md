@@ -6,11 +6,98 @@
 ## [示例apk 地址](https://github.com/While1true/SuperAdapter/blob/master/app-debug.apk)
 
 ### 做了些什么？
+### Recyclerview
+1. 封装了下拉刷新，便于扩展
+2. 支持预加载一件设置
+3. 多种刷新下拉模式支持
+---
+ srecyclerview
+                .addDefaultHeaderFooter()
+                .setRefreshMode(false,false,false,false)
+                .setAdapter(manager, adapter);
+
+  更多详细看之前文档
+---
+
+
+### Apdapter部分
 1. 封装了错误布局，空布局，底部更多布局
 2. 支持多类型布局 
 3. 支持GridLayoutManage 设置单个spancount
 4. 支持StaggledLayoutManager 设置单个类型item、全屏
 5. 支付扩展状态布局类型，调用等
+6. 支持list模式的多类型布局，和非list类型的多类型布局
+
+---
+list模式
+  adapter = new SAdapter(List<String>)
+                .addType(R.layout.label_layout, new StringHolder() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, String item, int position) {
+                    }
+
+                    @Override
+                    public boolean istype(String item, int position) {
+                        return true;
+                    }
+                })
+                .addType(){...}
+                .setStateListener(new DefaultStateListener() {
+                    @Override
+                    public void netError(Context context) {
+                        loadData();
+                    }
+                });
+
+非list模式
+    adapter=new SAdapter(100)
+                .addType(R.layout.conversation, new PositionHolder() {
+                    @Override
+                    public void onBind(SimpleViewHolder holder, int position) {
+
+                    }
+
+                    @Override
+                    public boolean istype(int position) {
+                        return false;
+                    }
+                })
+                .addType()
+
+切换状态
+    void showState(int showstate, E e);
+
+    //不需要传递改变就调用如下
+    void showEmpty();
+
+    void ShowError();
+
+    void showItem();
+
+    void showLoading();
+
+---
+
+
+
+### StateLayout
+1. 封装了错误布局，空布局，底部更多布局
+
+---
+切换状态
+    void showState(int showstate, E e);
+
+    //不需要传递改变就调用如下
+    void showEmpty();
+
+    void ShowError();
+
+    void showItem();
+
+    void showLoading();
+
+    void showNomore();
+---
 
 ---
 ### 1.效果
