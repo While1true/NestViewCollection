@@ -170,15 +170,19 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      * @param e
      */
     public void showState(int showstate, E e) {
-        if (this.showstate != showstate)
-            stateHandler.switchState();
-        this.showstate = showstate;
-        this.e = e;
+        showStateNotNotify(showstate,e);
         notifyDataSetChanged();
     }
 
     public void showEmpty() {
         showState(BaseAdapter.SHOW_EMPTY, null);
+    }
+
+    public void showStateNotNotify(int showstate, E e){
+        if (this.showstate != showstate)
+            stateHandler.switchState(showstate);
+        this.showstate = showstate;
+        this.e = e;
     }
 
     public void ShowError() {

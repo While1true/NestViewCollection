@@ -36,5 +36,5 @@ public interface StateHandlerInterface<T> {
     /**
      * 切换状态时调用，可以用来关闭一些之前状态的动画
      */
-    void switchState();
+    void switchState(int state);
 }

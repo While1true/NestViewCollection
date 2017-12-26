@@ -251,6 +251,9 @@ public class SLoading extends View {
     public void stopAnimator() {
         if (set != null) {
             set.cancel();
+            for (Animator animator : set.getChildAnimations()) {
+                animator.cancel();
+            }
             set.getChildAnimations().clear();
             setVisibility(GONE);
         }
