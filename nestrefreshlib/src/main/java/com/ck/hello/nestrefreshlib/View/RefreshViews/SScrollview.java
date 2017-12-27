@@ -189,6 +189,7 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent, 
                 smoothScroll(0, -headerRefreshWrap.getHeight(), SCROLLTYPE.PULLDOWN);
                 isLoading = true;
                 if (listener != null) {
+                    headerRefreshWrap.onRefresh();
                     listener.Refreshing();
                 }
             }
