@@ -40,7 +40,9 @@ public abstract class ItemHolder<T> {
      * @param position
      * @return
      */
-    public abstract boolean istype(T item, int position);
+    public boolean istype(T item, int position){
+        return true;
+    }
 
     public int getLayout() {
         return layout;

@@ -89,7 +89,13 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
         Holdersid.add(itemholder.setLayout(layoutid));
         return this;
     }
-
+    public SAdapter addType(ItemHolder itemholder) {
+        if(itemholder.getLayout()==0){
+            throw new NullPointerException("layoutid not defined");
+        }
+        Holdersid.add(itemholder);
+        return this;
+    }
     protected int getMutilType(T item, int position) {
         for (int i = 0; i < Holdersid.size(); i++) {
             if (Holdersid.get(i).istype(item, position)) {
