@@ -126,7 +126,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
     @Override
     public void showState(int showstate, Object o) {
         if(this.showstate!=showstate){
-            stateHandler.switchState();
+            stateHandler.switchState(showstate);
         }
         this.showstate=showstate;
         if (showstate==StateShowInterface.ERROR&&!errorInflated) {
