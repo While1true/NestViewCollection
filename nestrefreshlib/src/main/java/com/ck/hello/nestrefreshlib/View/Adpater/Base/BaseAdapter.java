@@ -129,7 +129,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      * @return
      */
     public boolean isfullspan(int type) {
-        if (type < 4)
+        if (type < 3)
             return true;
         return false;
     }

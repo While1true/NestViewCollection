@@ -1,5 +1,7 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Impliment;///*
 
+import android.util.ArrayMap;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -72,15 +74,12 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
      */
     @Override
     protected int setIfGridLayoutManagerSpan(int itemViewType, int position, int spanCount) {
-        return (itemViewType >= 0 && itemViewType < Holdersid.size()) ?
+        return (itemViewType>=StateEnum.values().length) ?
                 (Holdersid.get(itemViewType).gridSpanSize(list==null?null:list.get(position), position)) : (isfullspan(itemViewType) ? spanCount : 1);
     }
 
     protected Holder onCreateHolder(ViewGroup parent, int viewType) {
-        if (viewType >= 0 && viewType < Holdersid.size())
             return Holder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
-        //add type未处理完的数据空显示
-        return Holder.createViewHolder(new View(parent.getContext()));
     }
 
     /**
@@ -91,27 +90,28 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
      */
     @Override
     protected boolean setIfStaggedLayoutManagerFullspan(int itemViewType) {
-        return (itemViewType >= 0 && itemViewType < Holdersid.size()) ?
+        return (itemViewType>=StateEnum.values().length) ?
                 Holdersid.get(itemViewType).isfull() : isfullspan(itemViewType);
     }
 
-    ArrayList<ItemHolder> Holdersid = new ArrayList<>(3);
+    SparseArray<ItemHolder> Holdersid = new SparseArray<>(3);
 
     public SAdapter addType(int layoutid, ItemHolder itemholder) {
-        Holdersid.add(itemholder.setLayout(layoutid));
+        Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder.setLayout(layoutid));
         return this;
     }
     public SAdapter addType(ItemHolder itemholder) {
         if(itemholder.getLayout()==0){
             throw new NullPointerException("layoutid not defined");
         }
-        Holdersid.add(itemholder);
+        Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder);
         return this;
     }
     protected int getMutilType(T item, int position) {
+
         for (int i = 0; i < Holdersid.size(); i++) {
-            if (Holdersid.get(i).istype(item, position)) {
-                return i;
+            if (Holdersid.valueAt(i).istype(item, position)) {
+                return Holdersid.keyAt(i);
             }
         }
 
