@@ -1,5 +1,9 @@
 package com.nestrefreshlib.Adpater.Impliment;///*
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.ArrayMap;
 import android.util.SparseArray;
 import android.view.View;
@@ -34,7 +38,7 @@ import java.util.List;
  * @paam  Object 传给状态布局的泛型
  *            如果StateHandler写死就不用管E
  */
-public class SAdapter<T> extends BaseAdapter<T, Object> {
+public class SAdapter<T> extends BaseAdapter<T, Object> implements LifecycleObserver {
     public SAdapter(List<T> list) {
         super(list);
     }
@@ -47,13 +51,12 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
         super();
     }
 
-    //    @Override
-//    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-//        super.onDetachedFromRecyclerView(recyclerView);
-//        onDestory();
-//    }
+    public SAdapter addLifeOwener(LifecycleOwner owner){
+        owner.getLifecycle().addObserver(this);
+        return this;
+    }
 
-
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     @Override
     protected void onDestory() {
         super.onDestory();
