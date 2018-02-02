@@ -6,12 +6,14 @@ import android.view.ViewGroup;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /* Copyright (c) 2017. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -32,16 +34,27 @@ import java.util.ArrayList;
  *            如果StateHandler写死就不用管E
  */
 public class SAdapter<T> extends BaseAdapter<T, Object> {
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        Holdersid.clear();
+    public SAdapter(List<T> list) {
+        super(list);
     }
+
+    public SAdapter(int count) {
+        super(count);
+    }
+
+    public SAdapter() {
+        super();
+    }
+
+    //    @Override
+//    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+//        super.onDetachedFromRecyclerView(recyclerView);
+//        Holdersid.clear();
+//    }
 
     protected int getType(int position) {
         if (Holdersid.size() == 0)
-            return TYPE_ITEM;
+            return StateEnum.TYPE_ITEM.ordinal();
         else return getMutilType(list==null?null:list.get(position), position);
     }
 
@@ -103,7 +116,7 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
             }
         }
 
-        return TYPE_ITEM;
+        return StateEnum.TYPE_ITEM.ordinal();
     }
 
 

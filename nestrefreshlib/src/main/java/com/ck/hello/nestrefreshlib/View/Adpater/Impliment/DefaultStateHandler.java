@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ck.hello.nestrefreshlib.R;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
@@ -85,8 +86,8 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
      * 切换状态时调用，关闭一些动画
      */
     @Override
-    public void switchState(int state) {
-        if (sLoading != null&&state!=SAdapter.SHOW_LOADING)
+    public void switchState(StateEnum state) {
+        if (sLoading != null&&state!= StateEnum.SHOW_LOADING)
             sLoading.stopAnimator();
     }
 }

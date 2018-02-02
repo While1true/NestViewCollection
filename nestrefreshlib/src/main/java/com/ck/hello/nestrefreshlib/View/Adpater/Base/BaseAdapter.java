@@ -22,9 +22,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     protected static Recorder globalrecorder;
     //实例id记录
     protected Recorder recorder;
-    //状态码
-    public static final int SHOW_EMPTY = -100, SHOW_LOADING = -200, SHOW_ERROR = -300, SHOW_NOMORE = -400, TYPE_ITEM = 30000000;
-    protected int showstate = SHOW_LOADING;
+    protected StateEnum showstate = StateEnum.TYPE_ITEM;
     //数据集合
     protected List<T> list;
 
@@ -39,7 +37,8 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
         this.count = count;
     }
 
-    private int count=0;
+    private int count = 0;
+
     /**
      * 设置数据构造
      *
@@ -49,20 +48,22 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
         this.list = list;
         init();
     }
-    public BaseAdapter(int count){
-        this.count=count;
+
+    public BaseAdapter(int count) {
+        this.count = count;
         init();
     }
-    public BaseAdapter(){
+
+    public BaseAdapter() {
         init();
     }
 
     private void init() {
-        recorder=globalrecorder;
+        recorder = globalrecorder;
         if (recorder == null)
             recorder = new Recorder.Builder().build();
         try {
-            stateHandler =recorder.getClazz().newInstance();
+            stateHandler = recorder.getClazz().newInstance();
         } catch (InstantiationException e1) {
             e1.printStackTrace();
         } catch (IllegalAccessException e1) {
@@ -85,7 +86,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      *
      * @return
      */
-    public int getShowstate() {
+    public StateEnum getShowstate() {
         return showstate;
     }
 
@@ -96,7 +97,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      */
     public void setBeanList(List<T> t) {
         this.list = t;
-        showstate = TYPE_ITEM;
+        showstate = StateEnum.TYPE_ITEM;
     }
 
     /**
@@ -109,7 +110,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
             this.list = t;
         else
             this.list.addAll(t);
-        showstate = TYPE_ITEM;
+        showstate = StateEnum.TYPE_ITEM;
     }
 
     /**
@@ -123,11 +124,12 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
 
     /**
      * 是否全屏显示
+     *
      * @param type
      * @return
      */
     public boolean isfullspan(int type) {
-        if (type == SHOW_EMPTY || type == SHOW_ERROR || type == SHOW_LOADING || type == SHOW_NOMORE)
+        if (type < 4)
             return true;
         return false;
     }
@@ -166,19 +168,20 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
 
     /**
      * 传递数据给 StateHandler并切换显示状态
+     *
      * @param showstate
      * @param e
      */
-    public void showState(int showstate, E e) {
-        showStateNotNotify(showstate,e);
+    public void showState(StateEnum showstate, E e) {
+        showStateNotNotify(showstate, e);
         notifyDataSetChanged();
     }
 
     public void showEmpty() {
-        showState(BaseAdapter.SHOW_EMPTY, null);
+        showState(StateEnum.SHOW_EMPTY, null);
     }
 
-    public void showStateNotNotify(int showstate, E e){
+    public void showStateNotNotify(StateEnum showstate, E e) {
         if (this.showstate != showstate)
             stateHandler.switchState(showstate);
         this.showstate = showstate;
@@ -186,19 +189,19 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     }
 
     public void ShowError() {
-        showState(BaseAdapter.SHOW_ERROR, null);
+        showState(StateEnum.SHOW_ERROR, null);
     }
 
     public void showItem() {
-        showState(BaseAdapter.TYPE_ITEM, null);
+        showState(StateEnum.TYPE_ITEM, null);
     }
 
     public void showLoading() {
-        showState(BaseAdapter.SHOW_LOADING, null);
+        showState(StateEnum.SHOW_LOADING, null);
     }
 
     public void showNomore() {
-        showState(BaseAdapter.SHOW_NOMORE, null);
+        showState(StateEnum.SHOW_NOMORE, null);
     }
 
 
@@ -213,17 +216,18 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
                 @Override
                 public int getSpanSize(int position) {
                     int itemViewType = getItemViewType(position);
-                    return setIfGridLayoutManagerSpan(itemViewType,position,spanCount) ;
+                    return setIfGridLayoutManagerSpan(itemViewType, position, spanCount);
                 }
             });
         }
     }
+
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         stateHandler.destory();
         stateHandler = null;
-        if(list!=null)list.clear();
+        if (list != null) list.clear();
     }
 
     @Override
@@ -238,7 +242,6 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     }
 
 
-
     public View InflateView(int layout, ViewGroup parent) {
 
         return LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
@@ -246,6 +249,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
 
     /**
      * bindview 先拦截设置状态布局
+     *
      * @param holder
      * @param position
      */
@@ -275,44 +279,47 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
                 }
                 break;
         }
-        onBindView((SimpleViewHolder) holder, list==null?null:list.get(position), position);
+        onBindView((SimpleViewHolder) holder, list == null ? null : list.get(position), position);
     }
+
     /**
      * bindview 先拦截设置状态onCreateViewHolder
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case SHOW_EMPTY:
-                return SimpleViewHolder.createViewHolder(InflateView(recorder.getEmptyres(), parent));
-            case SHOW_LOADING:
-                return SimpleViewHolder.createViewHolder(InflateView(recorder.getLoadingres(), parent));
-            case SHOW_ERROR:
-                return SimpleViewHolder.createViewHolder(InflateView(recorder.getErrorres(), parent));
-            case SHOW_NOMORE:
-                return SimpleViewHolder.createViewHolder(InflateView(recorder.getNomore(), parent));
-        }
-        return onCreateHolder(parent, viewType);
+        if (StateEnum.SHOW_EMPTY.ordinal() == viewType)
+            return SimpleViewHolder.createViewHolder(InflateView(recorder.getEmptyres(), parent));
+        else if (StateEnum.SHOW_LOADING.ordinal() == viewType)
+            return SimpleViewHolder.createViewHolder(InflateView(recorder.getLoadingres(), parent));
+        else if (StateEnum.SHOW_ERROR.ordinal() == viewType)
+            return SimpleViewHolder.createViewHolder(InflateView(recorder.getErrorres(), parent));
+        else if (StateEnum.SHOW_NOMORE.ordinal() == viewType)
+            return SimpleViewHolder.createViewHolder(InflateView(recorder.getNomore(), parent));
+        else return onCreateHolder(parent, viewType);
     }
 
     /**
      * item数量
+     *
      * @return
      */
     @Override
     public int getItemCount() {
-        if (showstate == SHOW_EMPTY || showstate == SHOW_LOADING || showstate == SHOW_ERROR) {
+        if (showstate.ordinal()<3) {
             return 1;
         }
-        if (showstate == SHOW_NOMORE)
+        if (showstate == StateEnum.SHOW_NOMORE)
             return getCount() + 1;
         return getCount();
     }
+
     private int getCount() {
         return list == null ? count : list.size();
     }
+
     /**
      * item type
+     *
      * @param position
      * @return
      */
@@ -320,16 +327,16 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     public int getItemViewType(int position) {
         switch (showstate) {
             case SHOW_EMPTY:
-                return SHOW_EMPTY;
+                return StateEnum.SHOW_EMPTY.ordinal();
             case SHOW_LOADING:
-                return SHOW_LOADING;
+                return StateEnum.SHOW_LOADING.ordinal();
             case SHOW_ERROR:
-                return SHOW_ERROR;
+                return StateEnum.SHOW_ERROR.ordinal();
             case SHOW_NOMORE:
                 if (position < getItemCount() - 1)
                     return getType(position);
                 else
-                    return SHOW_NOMORE;
+                    return StateEnum.SHOW_NOMORE.ordinal();
 
         }
         return getType(position);
@@ -338,7 +345,10 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     protected abstract int getType(int positon);
 
     protected abstract SimpleViewHolder onCreateHolder(ViewGroup parent, int viewType);
-    protected abstract boolean  setIfStaggedLayoutManagerFullspan(int itemViewType) ;
+
+    protected abstract boolean setIfStaggedLayoutManagerFullspan(int itemViewType);
+
     protected abstract void onBindView(SimpleViewHolder holder, T t, int positon);
-    protected abstract int setIfGridLayoutManagerSpan(int viewtype,int position,int spanCount);
+
+    protected abstract int setIfGridLayoutManagerSpan(int viewtype, int position, int spanCount);
 }

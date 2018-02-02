@@ -1,6 +1,7 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Interface;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 
 /**
  * Created by ck on 2017/9/9.
@@ -36,5 +37,5 @@ public interface StateHandlerInterface<T> {
     /**
      * 切换状态时调用，可以用来关闭一些之前状态的动画
      */
-    void switchState(int state);
+    void switchState(StateEnum state);
 }
