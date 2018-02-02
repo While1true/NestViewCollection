@@ -2,7 +2,7 @@
 
 
 //精简包名，增加易用性的最新版
-[xxx]（https://github.com/While1true/NestPullView/blob/goldenVersion3/3YDT3SQ9EZKC48%25II_RVSG6.png）
+![xxx]（https://github.com/While1true/NestPullView/blob/goldenVersion3/3YDT3SQ9EZKC48%25II_RVSG6.png）
 ```
   list.add(1);
         list.add(new Rect());list.add("aa");
