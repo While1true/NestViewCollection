@@ -40,7 +40,7 @@ public abstract class ItemHolder<T> {
      * @param position
      * @return
      */
-    public boolean istype(T item, int position){
+    public boolean istype(Object item, int position){
         return true;
     }
 
