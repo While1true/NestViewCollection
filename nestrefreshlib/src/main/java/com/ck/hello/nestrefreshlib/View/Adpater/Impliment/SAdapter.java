@@ -50,8 +50,15 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
     //    @Override
 //    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
 //        super.onDetachedFromRecyclerView(recyclerView);
-//        Holdersid.clear();
+//        onDestory();
 //    }
+
+
+    @Override
+    protected void onDestory() {
+        super.onDestory();
+        Holdersid.clear();
+    }
 
     protected int getType(int position) {
         if (Holdersid.size() == 0)

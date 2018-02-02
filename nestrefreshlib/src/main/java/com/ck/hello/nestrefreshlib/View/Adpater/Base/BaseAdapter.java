@@ -222,9 +222,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
         }
     }
 
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
+    protected void onDestory() {
         stateHandler.destory();
         stateHandler = null;
         if (list != null) list.clear();
@@ -305,7 +303,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      */
     @Override
     public int getItemCount() {
-        if (showstate.ordinal()<3) {
+        if (showstate.ordinal() < 3) {
             return 1;
         }
         if (showstate == StateEnum.SHOW_NOMORE)
