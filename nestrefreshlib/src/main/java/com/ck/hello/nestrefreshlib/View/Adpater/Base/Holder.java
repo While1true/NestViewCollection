@@ -14,33 +14,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class SimpleViewHolder extends RecyclerView.ViewHolder {
+public class Holder extends RecyclerView.ViewHolder {
     private SparseArray<View> mViews;
     private View mConvertView;
     private Context mContext;
 
-    public SimpleViewHolder(View itemView) {
+    public Holder(View itemView) {
         super(itemView);
         mContext = itemView.getContext();
         mConvertView = itemView;
         mViews = new SparseArray<View>();
     }
 
-    public static SimpleViewHolder createViewHolder(View itemView) {
-        SimpleViewHolder holder = new SimpleViewHolder(itemView);
+    public static Holder createViewHolder(View itemView) {
+        Holder holder = new Holder(itemView);
         return holder;
     }
 
-    public static SimpleViewHolder createViewHolder(ViewGroup parent, int layoutId) {
+    public static Holder createViewHolder(ViewGroup parent, int layoutId) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        SimpleViewHolder holder = new SimpleViewHolder(itemView);
+        Holder holder = new Holder(itemView);
         return holder;
     }
 
@@ -58,56 +57,56 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
         return mConvertView;
     }
 
-    public SimpleViewHolder setText(int viewId, CharSequence text) {
+    public Holder setText(int viewId, CharSequence text) {
         TextView tv = getView(viewId);
         tv.setText(text);
         return this;
     }
 
-    public SimpleViewHolder setImageResource(int viewId, int resId) {
+    public Holder setImageResource(int viewId, int resId) {
         ImageView view = getView(viewId);
         view.setImageResource(resId);
         return this;
     }
 
-    public SimpleViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
+    public Holder setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView view = getView(viewId);
         view.setImageBitmap(bitmap);
         return this;
     }
 
-    public SimpleViewHolder setImageDrawable(int viewId, Drawable drawable) {
+    public Holder setImageDrawable(int viewId, Drawable drawable) {
         ImageView view = getView(viewId);
         view.setImageDrawable(drawable);
         return this;
     }
 
-    public SimpleViewHolder setBackgroundColor(int viewId, int color) {
+    public Holder setBackgroundColor(int viewId, int color) {
         View view = getView(viewId);
         view.setBackgroundColor(color);
         return this;
     }
 
-    public SimpleViewHolder setBackgroundRes(int viewId, int backgroundRes) {
+    public Holder setBackgroundRes(int viewId, int backgroundRes) {
         View view = getView(viewId);
         view.setBackgroundResource(backgroundRes);
         return this;
     }
 
-    public SimpleViewHolder setTextColor(int viewId, int textColor) {
+    public Holder setTextColor(int viewId, int textColor) {
         TextView view = getView(viewId);
         view.setTextColor(textColor);
         return this;
     }
 
-    public SimpleViewHolder setTextColorRes(int viewId, int textColorRes) {
+    public Holder setTextColorRes(int viewId, int textColorRes) {
         TextView view = getView(viewId);
         view.setTextColor(mContext.getResources().getColor(textColorRes));
         return this;
     }
 
     @SuppressLint("NewApi")
-    public SimpleViewHolder setAlpha(int viewId, float value) {
+    public Holder setAlpha(int viewId, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             getView(viewId).setAlpha(value);
         } else { // Pre-honeycomb hack to set Alpha value
@@ -119,19 +118,19 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public SimpleViewHolder setVisible(int viewId, boolean visible) {
+    public Holder setVisible(int viewId, boolean visible) {
         View view = getView(viewId);
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
 
-    public SimpleViewHolder linkify(int viewId) {
+    public Holder linkify(int viewId) {
         TextView view = getView(viewId);
         Linkify.addLinks(view, Linkify.ALL);
         return this;
     }
 
-    public SimpleViewHolder setTypeface(Typeface typeface, int... viewIds) {
+    public Holder setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
             TextView view = getView(viewId);
             view.setTypeface(typeface);
@@ -140,51 +139,51 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public SimpleViewHolder setProgress(int viewId, int progress) {
+    public Holder setProgress(int viewId, int progress) {
         ProgressBar view = getView(viewId);
         view.setProgress(progress);
         return this;
     }
 
-    public SimpleViewHolder setProgress(int viewId, int progress, int max) {
+    public Holder setProgress(int viewId, int progress, int max) {
         ProgressBar view = getView(viewId);
         view.setMax(max);
         view.setProgress(progress);
         return this;
     }
 
-    public SimpleViewHolder setMax(int viewId, int max) {
+    public Holder setMax(int viewId, int max) {
         ProgressBar view = getView(viewId);
         view.setMax(max);
         return this;
     }
 
-    public SimpleViewHolder setRating(int viewId, float rating) {
+    public Holder setRating(int viewId, float rating) {
         RatingBar view = getView(viewId);
         view.setRating(rating);
         return this;
     }
 
-    public SimpleViewHolder setRating(int viewId, float rating, int max) {
+    public Holder setRating(int viewId, float rating, int max) {
         RatingBar view = getView(viewId);
         view.setMax(max);
         view.setRating(rating);
         return this;
     }
 
-    public SimpleViewHolder setTag(int viewId, Object tag) {
+    public Holder setTag(int viewId, Object tag) {
         View view = getView(viewId);
         view.setTag(tag);
         return this;
     }
 
-    public SimpleViewHolder setTag(int viewId, int key, Object tag) {
+    public Holder setTag(int viewId, int key, Object tag) {
         View view = getView(viewId);
         view.setTag(key, tag);
         return this;
     }
 
-    public SimpleViewHolder setChecked(int viewId, boolean checked) {
+    public Holder setChecked(int viewId, boolean checked) {
         Checkable view = (Checkable) getView(viewId);
         view.setChecked(checked);
         return this;
@@ -193,19 +192,19 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
     /**
      * �����¼���
      */
-    public SimpleViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
+    public Holder setOnClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
         return this;
     }
 
-    public SimpleViewHolder setOnTouchListener(int viewId, View.OnTouchListener listener) {
+    public Holder setOnTouchListener(int viewId, View.OnTouchListener listener) {
         View view = getView(viewId);
         view.setOnTouchListener(listener);
         return this;
     }
 
-    public SimpleViewHolder setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
+    public Holder setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
         View view = getView(viewId);
         view.setOnLongClickListener(listener);
         return this;

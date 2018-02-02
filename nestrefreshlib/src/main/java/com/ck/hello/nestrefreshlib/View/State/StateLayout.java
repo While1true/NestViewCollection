@@ -4,30 +4,22 @@ import android.content.Context;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Holder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.ShowStateInterface;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
-
-import java.util.Map;
 
 
 /**
@@ -141,16 +133,16 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
             } else {
                 switch (showstate) {
                     case TYPE_ITEM:
-                        stateHandler.BindNomoreHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
+                        stateHandler.BindNomoreHolder(Holder.createViewHolder(views.get(showstate)), o);
                         break;
                     case SHOW_LOADING:
-                        stateHandler.BindLoadingHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
+                        stateHandler.BindLoadingHolder(Holder.createViewHolder(views.get(showstate)), o);
                         break;
                     case SHOW_EMPTY:
-                        stateHandler.BindEmptyHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
+                        stateHandler.BindEmptyHolder(Holder.createViewHolder(views.get(showstate)), o);
                         break;
                     case SHOW_ERROR:
-                        stateHandler.BindErrorHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
+                        stateHandler.BindErrorHolder(Holder.createViewHolder(views.get(showstate)), o);
                         break;
                 }
                 views.get(showstate).setVisibility(VISIBLE);

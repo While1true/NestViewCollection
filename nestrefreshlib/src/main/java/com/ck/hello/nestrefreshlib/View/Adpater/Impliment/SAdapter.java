@@ -1,6 +1,5 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Impliment;///*
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -9,7 +8,7 @@ import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Holder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
 
 
     @Override
-    protected void onBindView(SimpleViewHolder holder, T t, int positon) {
+    protected void onBindView(Holder holder, T t, int positon) {
         Holdersid.get(holder.getItemViewType()).onBind(holder, t, positon);
     }
 
@@ -77,11 +76,11 @@ public class SAdapter<T> extends BaseAdapter<T, Object> {
                 (Holdersid.get(itemViewType).gridSpanSize(list==null?null:list.get(position), position)) : (isfullspan(itemViewType) ? spanCount : 1);
     }
 
-    protected SimpleViewHolder onCreateHolder(ViewGroup parent, int viewType) {
+    protected Holder onCreateHolder(ViewGroup parent, int viewType) {
         if (viewType >= 0 && viewType < Holdersid.size())
-            return SimpleViewHolder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
+            return Holder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
         //add type未处理完的数据空显示
-        return SimpleViewHolder.createViewHolder(new View(parent.getContext()));
+        return Holder.createViewHolder(new View(parent.getContext()));
     }
 
     /**

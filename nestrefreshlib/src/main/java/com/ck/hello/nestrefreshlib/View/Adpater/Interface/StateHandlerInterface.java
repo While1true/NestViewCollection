@@ -1,6 +1,6 @@
 package com.ck.hello.nestrefreshlib.View.Adpater.Interface;
 
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Holder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 
 /**
@@ -24,10 +24,10 @@ public interface StateHandlerInterface<T> {
      * @param t 由Adapter showState(int showstate, E e);传递过来的数据
      *          默认定义为String，如果你有不同需求，可改为任意类型
      */
-    void BindEmptyHolder(SimpleViewHolder holder, T t);
-    void BindErrorHolder(SimpleViewHolder holder,T t);
-    void BindLoadingHolder(SimpleViewHolder holder,T t);
-    void BindNomoreHolder(SimpleViewHolder holder,T t);
+    void BindEmptyHolder(Holder holder, T t);
+    void BindErrorHolder(Holder holder, T t);
+    void BindLoadingHolder(Holder holder, T t);
+    void BindNomoreHolder(Holder holder, T t);
 
     /**
      * detachFromWindow时调用 销毁一些持有的引用

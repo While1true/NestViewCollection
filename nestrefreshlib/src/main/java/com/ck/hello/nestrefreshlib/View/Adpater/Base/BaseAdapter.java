@@ -260,26 +260,26 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
             case SHOW_EMPTY:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                stateHandler.BindEmptyHolder((SimpleViewHolder) holder, e);
+                stateHandler.BindEmptyHolder((Holder) holder, e);
                 return;
             case SHOW_LOADING:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                stateHandler.BindLoadingHolder((SimpleViewHolder) holder, e);
+                stateHandler.BindLoadingHolder((Holder) holder, e);
                 return;
             case SHOW_ERROR:
                 if (height != 0)
                     holder.itemView.getLayoutParams().height = height;
-                stateHandler.BindErrorHolder((SimpleViewHolder) holder, e);
+                stateHandler.BindErrorHolder((Holder) holder, e);
                 return;
             case SHOW_NOMORE:
                 if (position == getItemCount() - 1) {
-                    stateHandler.BindNomoreHolder((SimpleViewHolder) holder, e);
+                    stateHandler.BindNomoreHolder((Holder) holder, e);
                     return;
                 }
                 break;
         }
-        onBindView((SimpleViewHolder) holder, list == null ? null : list.get(position), position);
+        onBindView((Holder) holder, list == null ? null : list.get(position), position);
     }
 
     /**
@@ -288,13 +288,13 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (StateEnum.SHOW_EMPTY.ordinal() == viewType)
-            return SimpleViewHolder.createViewHolder(InflateView(recorder.getEmptyres(), parent));
+            return Holder.createViewHolder(InflateView(recorder.getEmptyres(), parent));
         else if (StateEnum.SHOW_LOADING.ordinal() == viewType)
-            return SimpleViewHolder.createViewHolder(InflateView(recorder.getLoadingres(), parent));
+            return Holder.createViewHolder(InflateView(recorder.getLoadingres(), parent));
         else if (StateEnum.SHOW_ERROR.ordinal() == viewType)
-            return SimpleViewHolder.createViewHolder(InflateView(recorder.getErrorres(), parent));
+            return Holder.createViewHolder(InflateView(recorder.getErrorres(), parent));
         else if (StateEnum.SHOW_NOMORE.ordinal() == viewType)
-            return SimpleViewHolder.createViewHolder(InflateView(recorder.getNomore(), parent));
+            return Holder.createViewHolder(InflateView(recorder.getNomore(), parent));
         else return onCreateHolder(parent, viewType);
     }
 
@@ -344,11 +344,11 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
 
     protected abstract int getType(int positon);
 
-    protected abstract SimpleViewHolder onCreateHolder(ViewGroup parent, int viewType);
+    protected abstract Holder onCreateHolder(ViewGroup parent, int viewType);
 
     protected abstract boolean setIfStaggedLayoutManagerFullspan(int itemViewType);
 
-    protected abstract void onBindView(SimpleViewHolder holder, T t, int positon);
+    protected abstract void onBindView(Holder holder, T t, int positon);
 
     protected abstract int setIfGridLayoutManagerSpan(int viewtype, int position, int spanCount);
 }

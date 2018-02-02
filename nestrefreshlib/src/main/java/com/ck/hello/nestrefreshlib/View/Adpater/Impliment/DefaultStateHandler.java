@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.ck.hello.nestrefreshlib.R;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.Holder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
 import com.ck.hello.nestrefreshlib.View.Adpater.SLoading;
 
@@ -29,7 +29,7 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     }
 
     @Override
-    public void BindEmptyHolder(SimpleViewHolder holder, String s) {
+    public void BindEmptyHolder(Holder holder, String s) {
 
         TextView tv =holder.getView(R.id.tv);
         if (tv != null&&s!=null)
@@ -44,7 +44,7 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     }
 
     @Override
-    public void BindErrorHolder(SimpleViewHolder holder, String s) {
+    public void BindErrorHolder(Holder holder, String s) {
         View reloadbt = holder.itemView.findViewById(R.id.reload);
         if (reloadbt != null && listener != null)
             reloadbt.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +56,7 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     }
 
     @Override
-    public void BindLoadingHolder(SimpleViewHolder holder, String s) {
+    public void BindLoadingHolder(Holder holder, String s) {
         if (sLoading == null) {
             sLoading = holder.getView(R.id.sloading);
         }
@@ -65,7 +65,7 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     }
 
     @Override
-    public void BindNomoreHolder(SimpleViewHolder holder, String s) {
+    public void BindNomoreHolder(Holder holder, String s) {
         if(s!=null)
         ((TextView) holder.getView(R.id.tv_nomore)).setText(s);
     }

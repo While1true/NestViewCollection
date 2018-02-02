@@ -31,7 +31,7 @@ public abstract class ItemHolder<T> {
      * @param item
      * @param position
      */
-    public abstract void onBind(SimpleViewHolder holder, T item, int position);
+    public abstract void onBind(Holder holder, T item, int position);
 
     /**
      * 是否是这种Type的view
