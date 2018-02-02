@@ -1,5 +1,110 @@
 ## 打造一个强大的万能RecyclerView  Adapter
 
+
+//精简包名，增加易用性的最新版
+```
+  list.add(1);
+        list.add(new Rect());list.add("aa");
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(1.6f);
+        list.add(new Rect());
+        RecyclerView recyclerView=findViewById(R.id.recyxlerview);
+        SAdapter sAdapter=new SAdapter(list)
+                .addType(new BaseHolder<String>(R.layout.nomore){
+
+                    @Override
+                    public boolean istype(Object item, int position) {
+                        return item instanceof String;
+                    }
+                    @Override
+                    public void onViewBind(Holder holder, String item, int position) {
+                        holder.itemView.setBackgroundColor(0xffff0000);
+                        holder.setText(R.id.tv_nomore,position+"");
+
+                    }
+                })
+                .addType(new BaseHolder<Rect>(R.layout.nomore){
+
+                    @Override
+                    public void onViewBind(Holder holder, Rect item, int position) {
+                        holder.itemView.setBackgroundColor(0xffffff00);
+                        holder.setText(R.id.tv_nomore,position+"");
+
+                    }
+
+                    @Override
+                    public boolean istype(Object item, int position) {
+                        return item instanceof Rect;
+                    }
+
+                })
+                .addType(new BaseHolder<Rect>(R.layout.nomore){
+
+                    @Override
+                    public void onViewBind(Holder holder, Rect item, int position) {
+                        holder.itemView.setBackgroundColor(0xf0f0f000);
+                        holder.setText(R.id.tv_nomore,position+"");
+
+                    }
+
+                    @Override
+                    public boolean istype(Object item, int position) {
+                        return item instanceof Rect;
+                    }
+
+                })
+         .addType(new BaseHolder<Object>(R.layout.nomore){
+
+            @Override
+            public void onViewBind(Holder holder, Object item, int position) {
+                holder.itemView.setBackgroundColor(0xffff00ff);holder.setText(R.id.tv_nomore,position+"");
+            }
+
+             @Override
+             public boolean isfull() {
+                 return true;
+             }
+
+        });
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL));
+        recyclerView.setAdapter(sAdapter);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 ## [github 地址](https://github.com/While1true/SuperAdapter)
 ## [简书 地址](http://www.jianshu.com/p/3e413feabdcd)
