@@ -2,7 +2,8 @@
 
 
 //精简包名，增加易用性的最新版
-![image](https://github.com/While1true/NestPullView/blob/goldenVersion3/3YDT3SQ9EZKC48%25II_RVSG6.png）
+![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/3YDT3SQ9EZKC48%25II_RVSG6.png)
+
 ```
   list.add(1);
         list.add(new Rect());list.add("aa");
