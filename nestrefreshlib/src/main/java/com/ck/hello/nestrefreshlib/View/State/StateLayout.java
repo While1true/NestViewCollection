@@ -5,6 +5,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -21,9 +22,12 @@ import android.widget.TextView;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapter;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.Recorder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.StateEnum;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.BaseStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.ShowStateInterface;
 import com.ck.hello.nestrefreshlib.View.Adpater.Interface.StateHandlerInterface;
+
+import java.util.Map;
 
 
 /**
@@ -38,9 +42,9 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
     protected StateHandlerInterface stateHandler;
     boolean errorInflated = false, emptyInflated = false;
 
-    private int showstate=StateShowInterface.LOADING;
+    private StateEnum showstate = StateEnum.SHOW_LOADING;
 
-    private SparseArray<View> views = new SparseArray<>(4);
+    private ArrayMap<StateEnum, View> views = new ArrayMap<>(4);
 
     public StateLayout(@NonNull Context context) {
         this(context, null);
@@ -72,6 +76,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         this.stateHandler = stateHandler;
         return this;
     }
+
     /**
      * 设置状态布局的监听
      *
@@ -96,78 +101,71 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
         View contentView = inflater.inflate(contentres, this, false);
-        views.put(StateShowInterface.CONTENT, contentView);
+        views.put(StateEnum.TYPE_ITEM, contentView);
         addView(contentView);
 
 
         View loadingView = inflater.inflate(recorder.getLoadingres(), this, false);
-        views.put(StateShowInterface.LOADING, loadingView);
+        views.put(StateEnum.SHOW_LOADING, loadingView);
         addView(loadingView);
 
         ViewStub emptyView = new ViewStub(getContext(), recorder.getEmptyres());
-        views.put(StateShowInterface.EMPTY, emptyView);
+        views.put(StateEnum.SHOW_EMPTY, emptyView);
         addView(emptyView);
 
 
         ViewStub errorView = new ViewStub(getContext(), recorder.getErrorres());
         addView(errorView);
-        views.put(StateShowInterface.ERROR, errorView);
+        views.put(StateEnum.SHOW_ERROR, errorView);
         showLoading();
         return this;
     }
 
-    private interface StateShowInterface{
-         int CONTENT=0;
-         int LOADING=1;
-         int EMPTY=2;
-         int ERROR=3;
-    }
-
     @Override
-    public void showState(int showstate, Object o) {
-        if(this.showstate!=showstate){
+    public void showState(StateEnum showstate, Object o) {
+        if (this.showstate != showstate) {
             stateHandler.switchState(showstate);
         }
-        this.showstate=showstate;
-        if (showstate==StateShowInterface.ERROR&&!errorInflated) {
+        this.showstate = showstate;
+        if (showstate == StateEnum.SHOW_ERROR && !errorInflated) {
             errorInflated = true;
-            views.put(showstate, ((ViewStub) views.get(showstate)).inflate());
+            views.put(showstate, ((ViewStub) views.get(showstate.ordinal())).inflate());
         }
-        if (showstate==StateShowInterface.EMPTY&&!emptyInflated) {
+        if (showstate == StateEnum.SHOW_EMPTY && !emptyInflated) {
             emptyInflated = true;
-            views.put(showstate, ((ViewStub) views.get(showstate)).inflate());
+            views.put(showstate, ((ViewStub) views.get(showstate.ordinal())).inflate());
         }
-        for (int i = 0; i < views.size(); i++) {
-            if(i!=showstate){
-                views.get(i).setVisibility(GONE);
-            }else{
-                switch (showstate){
-                    case StateShowInterface.CONTENT:
-                        stateHandler.BindNomoreHolder(SimpleViewHolder.createViewHolder(views.get(showstate)),o);
+        for (StateEnum stateEnum : views.keySet()) {
+            if (stateEnum == showstate) {
+                views.get(stateEnum).setVisibility(GONE);
+            } else {
+                switch (showstate) {
+                    case TYPE_ITEM:
+                        stateHandler.BindNomoreHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
                         break;
-                    case StateShowInterface.LOADING:
-                        stateHandler.BindLoadingHolder(SimpleViewHolder.createViewHolder(views.get(showstate)),o);
+                    case SHOW_LOADING:
+                        stateHandler.BindLoadingHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
                         break;
-                    case StateShowInterface.EMPTY:
-                        stateHandler.BindEmptyHolder(SimpleViewHolder.createViewHolder(views.get(showstate)),o);
+                    case SHOW_EMPTY:
+                        stateHandler.BindEmptyHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
                         break;
-                    case StateShowInterface.ERROR:
-                        stateHandler.BindErrorHolder(SimpleViewHolder.createViewHolder(views.get(showstate)),o);
+                    case SHOW_ERROR:
+                        stateHandler.BindErrorHolder(SimpleViewHolder.createViewHolder(views.get(showstate)), o);
                         break;
                 }
-                views.get(i).setVisibility(VISIBLE);
+                views.get(showstate).setVisibility(VISIBLE);
             }
         }
     }
 
     @Override
     public void showEmpty() {
-        showState(StateShowInterface.EMPTY,null);
+        showState(StateEnum.SHOW_EMPTY, null);
     }
 
     @Override
     public void ShowError() {
-        showState(StateShowInterface.ERROR,null);
+        showState(StateEnum.SHOW_ERROR, null);
     }
 
     @Deprecated
@@ -178,12 +176,12 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
 
     @Override
     public void showLoading() {
-        showState(StateShowInterface.LOADING,null);
+        showState(StateEnum.SHOW_LOADING, null);
     }
 
     @Override
     public void showNomore() {
-        showState(StateShowInterface.CONTENT,null);
+        showState(StateEnum.TYPE_ITEM, null);
     }
 
     public Button getButton(View view) {
