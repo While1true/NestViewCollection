@@ -8,7 +8,7 @@
 ![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/0X%7EMX4_7I%7E%24RQ%7B%7DOM1YAJYQ.png)
 ## 状态布局的封装
 >  adapter实现了该接口，用于状态切换
-![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/8)GVAEZDJ14(%25OQ%60T(%5BR(B4.png)
+![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/3.png)
 ## 更多功能
 ## itemholder 重写相应方法可达到gridlayoutManager staggled设置列宽
 ```
