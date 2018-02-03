@@ -109,7 +109,7 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
         Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder.setLayout(layoutid));
         return this;
     }
-    public SAdapter addType(ItemHolder itemholder) {
+    public SAdapter addType(ItemHolder<?> itemholder) {
         if(itemholder.getLayout()==0){
             throw new NullPointerException("layoutid not defined");
         }
