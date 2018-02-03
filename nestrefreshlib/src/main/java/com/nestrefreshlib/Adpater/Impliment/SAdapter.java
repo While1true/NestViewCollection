@@ -105,7 +105,7 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
 
     SparseArray<ItemHolder> Holdersid = new SparseArray<>(3);
 
-    public SAdapter addType(int layoutid, ItemHolder itemholder) {
+    public SAdapter addType(int layoutid, ItemHolder<?> itemholder) {
         Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder.setLayout(layoutid));
         return this;
     }
