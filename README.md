@@ -3,107 +3,65 @@
 
 //精简包名，增加易用性的最新版
 ![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/3YDT3SQ9EZKC48%25II_RVSG6.png)
-
+## 使用 
+> 默认根据itemholder的泛型确定相应position的类型
+![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/0X%7EMX4_7I%7E%24RQ%7B%7DOM1YAJYQ.png)
+## 状态布局的封装
+>  adapter实现了该接口，用于状态切换
+![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/8)GVAEZDJ14(%25OQ%60T(%5BR(B4.png)
+## 更多功能
+## itemholder 重写相应方法可达到gridlayoutManager staggled设置列宽
 ```
-  list.add(1);
-        list.add(new Rect());list.add("aa");
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(1.6f);
-        list.add(new Rect());
-        RecyclerView recyclerView=findViewById(R.id.recyxlerview);
-        SAdapter sAdapter=new SAdapter(list)
-                .addType(new BaseHolder<String>(R.layout.nomore){
+  public abstract class ItemHolder<T> {
+    private int layout;
+    /**
+     * StaggeredLayoutManager重写此方法
+     *
+     * @return 是否占据一个
+     */
+    public boolean isfull() {
+        return false;
+    }
 
-                    @Override
-                    public boolean istype(Object item, int position) {
-                        return item instanceof String;
-                    }
-                    @Override
-                    public void onViewBind(Holder holder, String item, int position) {
-                        holder.itemView.setBackgroundColor(0xffff0000);
-                        holder.setText(R.id.tv_nomore,position+"");
+    /**
+     * GrideLayoutManager重写此方法
+     *
+     * @param position
+     * @return 占的个数
+     */
+    public int gridSpanSize(T item, int position) {
+        return 1;
+    }
 
-                    }
-                })
-                .addType(new BaseHolder<Rect>(R.layout.nomore){
+    /**
+     * onBind时调用
+     *
+     * @param holder
+     * @param item
+     * @param position
+     */
+    public abstract void onBind(Holder holder, T item, int position);
 
-                    @Override
-                    public void onViewBind(Holder holder, Rect item, int position) {
-                        holder.itemView.setBackgroundColor(0xffffff00);
-                        holder.setText(R.id.tv_nomore,position+"");
+    /**
+     * 是否是这种Type的view
+     *
+     * @param item
+     * @param position
+     * @return
+     */
+    public boolean istype(Object item, int position){
+        return true;
+    }
 
-                    }
+    public int getLayout() {
+        return layout;
+    }
 
-                    @Override
-                    public boolean istype(Object item, int position) {
-                        return item instanceof Rect;
-                    }
-
-                })
-                .addType(new BaseHolder<Rect>(R.layout.nomore){
-
-                    @Override
-                    public void onViewBind(Holder holder, Rect item, int position) {
-                        holder.itemView.setBackgroundColor(0xf0f0f000);
-                        holder.setText(R.id.tv_nomore,position+"");
-
-                    }
-
-                    @Override
-                    public boolean istype(Object item, int position) {
-                        return item instanceof Rect;
-                    }
-
-                })
-         .addType(new BaseHolder<Object>(R.layout.nomore){
-
-            @Override
-            public void onViewBind(Holder holder, Object item, int position) {
-                holder.itemView.setBackgroundColor(0xffff00ff);holder.setText(R.id.tv_nomore,position+"");
-            }
-
-             @Override
-             public boolean isfull() {
-                 return true;
-             }
-
-        });
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL));
-        recyclerView.setAdapter(sAdapter);
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public ItemHolder<T> setLayout(int layout) {
+        this.layout = layout;
+        return this;
+    }
+}
 
 
 
