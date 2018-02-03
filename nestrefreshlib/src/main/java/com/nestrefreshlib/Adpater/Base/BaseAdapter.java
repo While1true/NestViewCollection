@@ -17,17 +17,17 @@ import java.util.List;
  * Created by ck on 2017/9/10.
  */
 
-public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements ShowStateInterface<E> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter implements ShowStateInterface<T> {
     //全局id记录者
     protected static Recorder globalrecorder;
     //实例id记录
     protected Recorder recorder;
     protected StateEnum showstate = StateEnum.TYPE_ITEM;
     //数据集合
-    protected List<T> list;
+    protected List list;
 
     //showstate传递的数据
-    private E e = null;
+    private T e = null;
     //状态onindBView
     protected StateHandlerInterface stateHandler;
 
@@ -44,7 +44,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      *
      * @param list
      */
-    public BaseAdapter(List<T> list) {
+    public BaseAdapter(List list) {
         this.list = list;
         init();
     }
@@ -95,7 +95,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      *
      * @param t
      */
-    public void setBeanList(List<T> t) {
+    public void setBeanList(List t) {
         this.list = t;
         showstate = StateEnum.TYPE_ITEM;
     }
@@ -105,7 +105,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      *
      * @param t
      */
-    public void addBeanList(List<T> t) {
+    public void addBeanList(List t) {
         if (this.list == null)
             this.list = t;
         else
@@ -118,7 +118,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      *
      * @return
      */
-    public List<T> getBeanlist() {
+    public List getBeanlist() {
         return list;
     }
 
@@ -172,7 +172,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
      * @param showstate
      * @param e
      */
-    public void showState(StateEnum showstate, E e) {
+    public void showState(StateEnum showstate, T e) {
         showStateNotNotify(showstate, e);
         notifyDataSetChanged();
     }
@@ -181,7 +181,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
         showState(StateEnum.SHOW_EMPTY, null);
     }
 
-    public void showStateNotNotify(StateEnum showstate, E e) {
+    public void showStateNotNotify(StateEnum showstate, T e) {
         if (this.showstate != showstate)
             stateHandler.switchState(showstate);
         this.showstate = showstate;
@@ -346,7 +346,7 @@ public abstract class BaseAdapter<T, E> extends RecyclerView.Adapter implements 
 
     protected abstract boolean setIfStaggedLayoutManagerFullspan(int itemViewType);
 
-    protected abstract void onBindView(Holder holder, T t, int positon);
+    protected abstract void onBindView(Holder holder, Object t, int positon);
 
     protected abstract int setIfGridLayoutManagerSpan(int viewtype, int position, int spanCount);
 }

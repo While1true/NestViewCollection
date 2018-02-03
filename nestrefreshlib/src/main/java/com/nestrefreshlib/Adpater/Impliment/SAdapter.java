@@ -34,12 +34,11 @@ import java.util.List;
  */
 
 /**
- * @param <T> data的泛型
  * @paam  Object 传给状态布局的泛型
  *            如果StateHandler写死就不用管E
  */
-public class SAdapter<T> extends BaseAdapter<T, Object> implements LifecycleObserver {
-    public SAdapter(List<T> list) {
+public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
+    public SAdapter(List<?> list) {
         super(list);
     }
 
@@ -71,7 +70,7 @@ public class SAdapter<T> extends BaseAdapter<T, Object> implements LifecycleObse
 
 
     @Override
-    protected void onBindView(Holder holder, T t, int positon) {
+    protected void onBindView(Holder holder, Object t, int positon) {
         Holdersid.get(holder.getItemViewType()).onBind(holder, t, positon);
     }
 
@@ -117,7 +116,7 @@ public class SAdapter<T> extends BaseAdapter<T, Object> implements LifecycleObse
         Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder);
         return this;
     }
-    protected int getMutilType(T item, int position) {
+    protected int getMutilType(Object item, int position) {
 
         for (int i = 0; i < Holdersid.size(); i++) {
             if (Holdersid.valueAt(i).istype(item, position)) {
@@ -125,23 +124,23 @@ public class SAdapter<T> extends BaseAdapter<T, Object> implements LifecycleObse
             }
         }
 
-        return StateEnum.TYPE_ITEM.ordinal();
+        return StateEnum.SHOW_EMPTY.ordinal();
     }
 
 
 
     @Override
-    public SAdapter<T> setStateHandler(StateHandlerInterface handler) {
-        return (SAdapter<T>) super.setStateHandler(handler);
+    public SAdapter setStateHandler(StateHandlerInterface handler) {
+        return (SAdapter) super.setStateHandler(handler);
     }
 
     @Override
-    public SAdapter<T> setStateListener(BaseStateListener listener) {
-        return (SAdapter<T>) super.setStateListener(listener);
+    public SAdapter setStateListener(BaseStateListener listener) {
+        return (SAdapter) super.setStateListener(listener);
     }
 
     @Override
-    public SAdapter<T> setStateLayout(Recorder.Builder builder) {
-        return (SAdapter<T>) super.setStateLayout(builder);
+    public SAdapter setStateLayout(Recorder.Builder builder) {
+        return (SAdapter) super.setStateLayout(builder);
     }
 }
