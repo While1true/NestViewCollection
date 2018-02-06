@@ -82,7 +82,7 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
      * @return
      */
     @Override
-    protected int setIfGridLayoutManagerSpan(int itemViewType, int position, int spanCount) {
+    public int setIfGridLayoutManagerSpan(int itemViewType, int position, int spanCount) {
         return (itemViewType>=StateEnum.values().length) ?
                 (Holdersid.get(itemViewType).gridSpanSize(list==null?null:list.get(position), position)) : (isfullspan(itemViewType) ? spanCount : 1);
     }
@@ -98,7 +98,7 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
      * @return
      */
     @Override
-    protected boolean setIfStaggedLayoutManagerFullspan(int itemViewType) {
+    public boolean setIfStaggedLayoutManagerFullspan(int itemViewType) {
         return (itemViewType>=StateEnum.values().length) ?
                 Holdersid.get(itemViewType).isfull() : isfullspan(itemViewType);
     }

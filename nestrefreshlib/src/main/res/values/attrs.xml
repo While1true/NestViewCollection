@@ -16,4 +16,30 @@
         <attr name="sradius" format="dimension"/>
         <attr name="scolortype" format="integer"/>
     </declare-styleable>
+    <declare-styleable name="RefreshLayout">
+        <!--是否可下拉刷新-->
+        <attr name="canHeader" format="boolean" />
+        <!--是否可上拉加载-->
+        <attr name="canFooter" format="boolean" />
+        <attr name="evaluateable" format="boolean" />
+        <attr name="overscroll" format="boolean" />
+        <attr name="elastic_overscroll" format="boolean" />
+        <attr name="headerID" format="reference" />
+        <attr name="scrollID" format="reference" />
+        <attr name="footerID" format="reference" />
+
+        <attr name="orentation" format="enum" >
+            <enum name="HORIZONTAL" value="0"/>
+            <enum name="VERTICAL" value="1"/>
+        </attr>
+        <attr name="mMaxHeadertScroll" format="dimension" />
+        <attr name="mMaxFooterScroll" format="dimension" />
+        <attr name="mHeaderRefreshPosition" format="dimension" />
+        <attr name="mFooterRefreshPosition" format="dimension" />
+        <attr name="mHeaderRefreshCompletePosition" format="dimension" />
+        <attr name="mFooterLoadingCompletePosition" format="dimension" />
+        <attr name="mFlingmax" format="dimension" />
+        <attr name="delayCompleteTime" format="integer" />
+        <attr name="pullrate" format="float" />
+    </declare-styleable>
     </resources>
