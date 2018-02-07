@@ -26,7 +26,7 @@ import static java.lang.Math.signum;
  * 若果默认配置都是true，oncreat后再代码中都生效  默认false时不加载布局是为了神曲一些不必要的加载布局
  */
 
-public class RefreshLayout extends FrameLayout implements NestedScrollingParent, ValueAnimator.AnimatorUpdateListener {
+public class RefreshLayout extends FrameLayout implements NestedScrollingParent, ValueAnimator.AnimatorUpdateListener,Runnable {
     public static final String TAG = "RefreshLayout";
     private NestedScrollingParentHelper helper;
 
@@ -48,7 +48,6 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * 属性解析 保存类
      */
     private AttrsUtils attrsUtils;
-
 
     /**
      * 方向
@@ -249,17 +248,22 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         state = scrolls < 0 ? State.REFRESHCOMPLETE : State.LOADINGCOMPLETE;
         callbackState(state);
 
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-//                state = scrolls <= 0 ? State.PULL_HEADER : State.PULL_FOOTER;
-//                callbackState(state);
-                aninatorTo(scrolls, 0);
-            }
-        }, attrsUtils.delayCompleteTime);
+        postDelayed(this, attrsUtils.delayCompleteTime);
 
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if(valueAnimator!=null){
+            valueAnimator.cancel();
+        }
+    }
+
+    @Override
+    public void run() {
+        aninatorTo(scrolls, 0);
+    }
     /**
      * 刷新停留到配置位置，再归位
      */

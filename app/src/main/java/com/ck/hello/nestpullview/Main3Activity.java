@@ -17,6 +17,9 @@ import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.DefaultStateListener;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterWrap;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.MyRefreshInnerWrap;
+import com.nestrefreshlib.RefreshViews.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,21 +30,44 @@ public class Main3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         List<Object> list = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            if(i%2==0){
+        for (int i = 0; i < 300; i++) {
+            if (i % 2 == 0) {
                 list.add(1.3f);
-            }else if(i%7==0){
+            } else if (i % 7 == 0) {
                 list.add(new Rect());
-            }else if(i%3==0){
+            } else if (i % 3 == 0) {
                 list.add(1);
-            }else{
+            } else {
                 list.add(1.5D);
             }
         }
-       RecyclerView recyclerView=findViewById(R.id.recyxlerview);
+
+       final  RefreshLayout layout = findViewById(R.id.refreshing);
+        final RecyclerView recyclerView = layout.getmScroll();
+        layout.setListener(new RefreshLayout.Callback() {
+            @Override
+            public void call(RefreshLayout.State t) {
+
+                if(t== RefreshLayout.State.REFRESHING){
+                    getWindow().getDecorView().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            layout.NotifyCompleteRefresh0();
+                        }
+                    },3000);
+
+                }else if(t== RefreshLayout.State.LOADING){
+                    getWindow().getDecorView().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            layout.NotifyCompleteRefresh0();
+                        }
+                    },3000);
+
+                }
+            }
+        });
         SAdapter sAdapter = new SAdapter(list)
                 .addType(new BaseHolder<String>(R.layout.nomore) {
 
@@ -91,15 +117,7 @@ public class Main3Activity extends AppCompatActivity {
                 })
                 .addLifeOwener(this);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL));
-        recyclerView.setAdapter(sAdapter);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        MyRefreshInnerWrap.setInnerRecyclerviewAdapter(layout,sAdapter);
     }
 
 }
