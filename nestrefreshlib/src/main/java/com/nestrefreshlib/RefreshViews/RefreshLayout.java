@@ -16,11 +16,20 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.nestrefreshlib.R;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.MyRefreshOuterHandler;
 
 import static java.lang.Math.signum;
 
 
 /**
+ * EVALUATEABLE -> overscroll 非overscroll
+ *
+ * elastic_overscroll
+ *
+ * overscroll
+ *
+ * refresh
+ *
  * Created by 不听话的好孩子 on 2017/12/14.
  * <p>
  * 如果在代码中配置了 canheader canfooter=false 那么该布局不会被加载，再次设置也不会生效
@@ -725,7 +734,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         private int HEADER_LAYOUTID_DEFAULT, SCROLL_LAYOUT_ID_DEFAULT, FOOTER_LAYOUTID_DEFAULT;
         private float PULLRATE = 2.5f;
         private boolean CANHEADER_DEFAULT = true, CANFOOTR_DEFAULT = true, OVERSCROLL_DEFAULT = false, OVERSCROLL_ELASTIC_DEFAULT = false;
-        private Class defaultRefreshWrap = BaseRefreshWrap.class;
+        private Class defaultRefreshWrap = MyRefreshOuterHandler.class;
 
         public DefaultBuilder setBaseRefreshWrap(Class defaultRefreshWrap) {
             this.defaultRefreshWrap = defaultRefreshWrap;
