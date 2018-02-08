@@ -14,7 +14,7 @@ import java.util.List;
  * Created by 不听话的好孩子 on 2018/2/6.
  */
 
-public class BaseHeaderAndFooterWrap extends RecyclerView.Adapter {
+public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter {
     RecyclerView.Adapter adapter;
 
     List<View> headers = new ArrayList<>();
@@ -22,16 +22,16 @@ public class BaseHeaderAndFooterWrap extends RecyclerView.Adapter {
     private static int HEADERBASE = 99999999;
     private static int FOOTERBASE = -99999999;
 
-    public BaseHeaderAndFooterWrap(RecyclerView.Adapter adapter) {
+    public BaseHeaderAndFooterAdapterWrap(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
     }
 
-    public BaseHeaderAndFooterWrap addHeader(View Header) {
+    public BaseHeaderAndFooterAdapterWrap addHeader(View Header) {
         headers.add(Header);
         return this;
     }
 
-    public BaseHeaderAndFooterWrap addFooter(View footer) {
+    public BaseHeaderAndFooterAdapterWrap addFooter(View footer) {
         footers.add(footer);
         return this;
     }

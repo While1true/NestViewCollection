@@ -8,7 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nestrefreshlib.R;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterWrap;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 
 import java.lang.ref.WeakReference;
@@ -127,9 +127,9 @@ public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
         View view = layout.getmScroll();
         if (view instanceof RecyclerView) {
             RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
-            if (adapter instanceof RefreshHeaderAndFooterWrap) {
-                header = ((RefreshHeaderAndFooterWrap) adapter).getHeader();
-                footer = ((RefreshHeaderAndFooterWrap) adapter).getFooter();
+            if (adapter instanceof RefreshHeaderAndFooterAdapterWrap) {
+                header = ((RefreshHeaderAndFooterAdapterWrap) adapter).getHeader();
+                footer = ((RefreshHeaderAndFooterAdapterWrap) adapter).getFooter();
             } else {
                 throw new UnsupportedOperationException("不支持非继承于RefreshHeaderAndFooterWrap 的wrap");
             }
@@ -149,7 +149,7 @@ public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
     public static void setInnerRecyclerviewAdapter(RefreshLayout refreshLayout, RecyclerView.Adapter adapter) {
         refreshLayout.setRefreshWrap(new MyRefreshInnerWrap());
         RecyclerView recyclerView = refreshLayout.getmScroll();
-        recyclerView.setAdapter(new RefreshHeaderAndFooterWrap(adapter).attachView(recyclerView));
+        recyclerView.setAdapter(new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(recyclerView));
     }
 
     private void handleview(RefreshLayout layout, View header, View footer) {

@@ -11,24 +11,24 @@ import com.nestrefreshlib.R;
  * Created by 不听话的好孩子 on 2018/2/6.
  */
 
-public class RefreshHeaderAndFooterWrap extends BaseHeaderAndFooterWrap {
-    public RefreshHeaderAndFooterWrap(RecyclerView.Adapter adapter) {
+public class RefreshHeaderAndFooterAdapterWrap extends BaseHeaderAndFooterAdapterWrap {
+    public RefreshHeaderAndFooterAdapterWrap(RecyclerView.Adapter adapter) {
         super(adapter);
     }
 
-    public RefreshHeaderAndFooterWrap addHeaderLayout(int layoutid, ViewGroup parent) {
+    public RefreshHeaderAndFooterAdapterWrap addHeaderLayout(int layoutid, ViewGroup parent) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(layoutid, parent, false);
         headers.add(inflate);
         return this;
     }
 
-    public RefreshHeaderAndFooterWrap addfooterLayout(int layoutid, ViewGroup parent) {
+    public RefreshHeaderAndFooterAdapterWrap addfooterLayout(int layoutid, ViewGroup parent) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(layoutid, parent, false);
         footers.add(inflate);
         return this;
     }
 
-    public RefreshHeaderAndFooterWrap attachView(ViewGroup parent){
+    public RefreshHeaderAndFooterAdapterWrap attachView(ViewGroup parent){
         addHeaderLayout(R.layout.header_layout,parent);
         addfooterLayout(R.layout.footer_layout,parent);
         return this;
