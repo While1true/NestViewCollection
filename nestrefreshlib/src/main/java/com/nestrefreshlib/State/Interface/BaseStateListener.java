@@ -1,4 +1,4 @@
-package com.nestrefreshlib.Adpater.Interface;
+package com.nestrefreshlib.State.Interface;
 
 
 /**

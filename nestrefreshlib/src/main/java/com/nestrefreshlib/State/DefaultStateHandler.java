@@ -4,10 +4,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nestrefreshlib.Adpater.Base.StateEnum;
-import com.nestrefreshlib.Adpater.Interface.BaseStateListener;
+import com.nestrefreshlib.State.Interface.BaseStateListener;
 import com.nestrefreshlib.Adpater.Base.Holder;
-import com.nestrefreshlib.Adpater.Interface.StateHandlerInterface;
-import com.nestrefreshlib.Adpater.SLoading;
+import com.nestrefreshlib.State.Interface.StateHandlerInterface;
+import com.nestrefreshlib.SLoading;
 import com.nestrefreshlib.R;
 
 /**

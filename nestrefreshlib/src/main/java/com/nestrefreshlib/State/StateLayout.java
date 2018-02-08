@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.ArrayMap;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,9 @@ import android.widget.FrameLayout;
 import com.nestrefreshlib.Adpater.Base.Recorder;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Base.StateEnum;
-import com.nestrefreshlib.Adpater.Interface.BaseStateListener;
-import com.nestrefreshlib.Adpater.Interface.ShowStateInterface;
-import com.nestrefreshlib.Adpater.Interface.StateHandlerInterface;
+import com.nestrefreshlib.State.Interface.BaseStateListener;
+import com.nestrefreshlib.State.Interface.ShowStateInterface;
+import com.nestrefreshlib.State.Interface.StateHandlerInterface;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.nestrefreshlib.Adpater;
+package com.nestrefreshlib;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -11,12 +11,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-
-import com.nestrefreshlib.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,19 +1,15 @@
 [
     {
+        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\state_nomore.xml",
+        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\state_nomore.xml"
+    },
+    {
         "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\footer_layout.xml",
         "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\footer_layout.xml"
     },
     {
         "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\header_layout.xml",
         "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\header_layout.xml"
-    },
-    {
-        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\nomore.xml",
-        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\nomore.xml"
-    },
-    {
-        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\network_error.xml",
-        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\network_error.xml"
     },
     {
         "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\footer_layout_horizontal.xml",
@@ -24,15 +20,19 @@
         "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\header_layout_horizontal.xml"
     },
     {
+        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\state_error.xml",
+        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\state_error.xml"
+    },
+    {
         "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\recyclerview.xml",
         "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\recyclerview.xml"
     },
     {
-        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\sbase_loading.xml",
-        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\sbase_loading.xml"
+        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\state_empty.xml",
+        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\state_empty.xml"
     },
     {
-        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\empty_textview.xml",
-        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\empty_textview.xml"
+        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\state_loading.xml",
+        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\layout\\state_loading.xml"
     }
 ]

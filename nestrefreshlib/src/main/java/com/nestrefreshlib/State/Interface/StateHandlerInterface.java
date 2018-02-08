@@ -1,4 +1,4 @@
-package com.nestrefreshlib.Adpater.Interface;
+package com.nestrefreshlib.State.Interface;
 
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Base.StateEnum;

@@ -2,7 +2,7 @@ package com.nestrefreshlib.State;
 
 import android.content.Context;
 
-import com.nestrefreshlib.Adpater.Interface.BaseStateListener;
+import com.nestrefreshlib.State.Interface.BaseStateListener;
 
 /**
  * Created by ck on 2017/9/9.
