@@ -41,9 +41,8 @@ public final class R {
     }
     public static final class drawable {
         public static int bt_bg = 0x7f090001;
-        public static int chain_unbind = 0x7f090002;
-        public static int default_ptr_rotate = 0x7f090003;
-        public static int show_order_icon = 0x7f090004;
+        public static int empty = 0x7f090002;
+        public static int error = 0x7f090003;
     }
     public static final class id {
         public static int HORIZONTAL = 0x7f0c0001;
@@ -61,15 +60,15 @@ public final class R {
         public static int tv_nomore = 0x7f0c000d;
     }
     public static final class layout {
-        public static int empty_textview = 0x7f0f0001;
-        public static int footer_layout = 0x7f0f0002;
-        public static int footer_layout_horizontal = 0x7f0f0003;
-        public static int header_layout = 0x7f0f0004;
-        public static int header_layout_horizontal = 0x7f0f0005;
-        public static int network_error = 0x7f0f0006;
-        public static int nomore = 0x7f0f0007;
-        public static int recyclerview = 0x7f0f0008;
-        public static int sbase_loading = 0x7f0f0009;
+        public static int footer_layout = 0x7f0f0001;
+        public static int footer_layout_horizontal = 0x7f0f0002;
+        public static int header_layout = 0x7f0f0003;
+        public static int header_layout_horizontal = 0x7f0f0004;
+        public static int recyclerview = 0x7f0f0005;
+        public static int state_empty = 0x7f0f0006;
+        public static int state_error = 0x7f0f0007;
+        public static int state_loading = 0x7f0f0008;
+        public static int state_nomore = 0x7f0f0009;
     }
     public static final class string {
         public static int app_name = 0x7f150001;

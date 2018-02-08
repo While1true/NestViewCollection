@@ -61,15 +61,15 @@ public final class R {
         public static final int tv_nomore = 0x7f05000a;
     }
     public static final class layout {
-        public static final int empty_textview = 0x7f030000;
+        public static final int state_empty = 0x7f030000;
         public static final int footer_layout = 0x7f030001;
         public static final int footer_layout_horizontal = 0x7f030002;
         public static final int header_layout = 0x7f030003;
         public static final int header_layout_horizontal = 0x7f030004;
-        public static final int network_error = 0x7f030005;
-        public static final int nomore = 0x7f030006;
+        public static final int state_error = 0x7f030005;
+        public static final int state_nomore = 0x7f030006;
         public static final int recyclerview = 0x7f030007;
-        public static final int sbase_loading = 0x7f030008;
+        public static final int state_loading = 0x7f030008;
     }
     public static final class string {
         public static final int app_name = 0x7f040000;

@@ -29,9 +29,8 @@ int attr startprogress 0x7f04001c
 int attr textColor 0x7f04001d
 int attr textsize 0x7f04001e
 int drawable bt_bg 0x7f090001
-int drawable chain_unbind 0x7f090002
-int drawable default_ptr_rotate 0x7f090003
-int drawable show_order_icon 0x7f090004
+int drawable empty 0x7f090002
+int drawable error 0x7f090003
 int id HORIZONTAL 0x7f0c0001
 int id VERTICAL 0x7f0c0002
 int id footer 0x7f0c0003
@@ -45,15 +44,15 @@ int id sloading 0x7f0c000a
 int id textView 0x7f0c000b
 int id tv 0x7f0c000c
 int id tv_nomore 0x7f0c000d
-int layout empty_textview 0x7f0f0001
-int layout footer_layout 0x7f0f0002
-int layout footer_layout_horizontal 0x7f0f0003
-int layout header_layout 0x7f0f0004
-int layout header_layout_horizontal 0x7f0f0005
-int layout network_error 0x7f0f0006
-int layout nomore 0x7f0f0007
-int layout recyclerview 0x7f0f0008
-int layout sbase_loading 0x7f0f0009
+int layout footer_layout 0x7f0f0001
+int layout footer_layout_horizontal 0x7f0f0002
+int layout header_layout 0x7f0f0003
+int layout header_layout_horizontal 0x7f0f0004
+int layout recyclerview 0x7f0f0005
+int layout state_empty 0x7f0f0006
+int layout state_error 0x7f0f0007
+int layout state_loading 0x7f0f0008
+int layout state_nomore 0x7f0f0009
 int string app_name 0x7f150001
 int string sprogress_string 0x7f150002
 int[] styleable RefreshLayout { 0x7f040002, 0x7f040003, 0x7f040004, 0x7f040005, 0x7f040006, 0x7f040007, 0x7f040008, 0x7f040009, 0x7f04000a, 0x7f04000b, 0x7f04000c, 0x7f04000d, 0x7f04000e, 0x7f04000f, 0x7f040011, 0x7f040012, 0x7f040015, 0x7f040018 }

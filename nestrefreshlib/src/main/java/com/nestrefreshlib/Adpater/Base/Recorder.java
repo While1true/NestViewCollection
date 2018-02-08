@@ -1,6 +1,6 @@
 package com.nestrefreshlib.Adpater.Base;
 
-import com.nestrefreshlib.Adpater.Impliment.DefaultStateHandler;
+import com.nestrefreshlib.State.DefaultStateHandler;
 import com.nestrefreshlib.Adpater.Interface.StateHandlerInterface;
 import com.nestrefreshlib.R;
 
@@ -9,10 +9,10 @@ import com.nestrefreshlib.R;
  */
 
 public class Recorder {
-    private int Loadingres = R.layout.sbase_loading;
-    private int emptyres = R.layout.empty_textview;
-    private int errorres = R.layout.network_error;
-    private int nomore = R.layout.nomore;
+    private int Loadingres = R.layout.state_loading;
+    private int emptyres = R.layout.state_empty;
+    private int errorres = R.layout.state_error;
+    private int nomore = R.layout.state_nomore;
     private Class<? extends StateHandlerInterface> clazz;
 
     private Recorder() {
@@ -69,10 +69,10 @@ public class Recorder {
                 '}';
     }
     public static class Builder {
-        private int Loadingres = R.layout.sbase_loading;
-        private int emptyres = R.layout.empty_textview;
-        private int errorres = R.layout.network_error;
-        private int nomore = R.layout.nomore;
+        private int Loadingres = R.layout.state_loading;
+        private int emptyres = R.layout.state_empty;
+        private int errorres = R.layout.state_error;
+        private int nomore = R.layout.state_nomore;
         private Class<? extends StateHandlerInterface> clazz=DefaultStateHandler.class;
 
 

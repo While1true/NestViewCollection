@@ -4,40 +4,18 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.ArrayMap;
+import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.nestrefreshlib.Adpater.Base.BaseAdapter;
 import com.nestrefreshlib.Adpater.Base.ItemHolder;
-import com.nestrefreshlib.Adpater.Base.StateEnum;
-import com.nestrefreshlib.Adpater.Interface.BaseStateListener;
-import com.nestrefreshlib.Adpater.Base.Recorder;
 import com.nestrefreshlib.Adpater.Base.Holder;
-import com.nestrefreshlib.Adpater.Interface.StateHandlerInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/* Copyright (c) 2017. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
-
-/**
- * Created by S0005 on 2017/4/17.
- * SHOW_EMPTY:为空时  SHOW_LOADING：加载  SHOW_ERROR：网络错误 SHOW_NOMORE：无更多
- */
-
-/**
- * @paam  Object 传给状态布局的泛型
- *            如果StateHandler写死就不用管E
- */
-public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
+public class SAdapter extends BaseAdapter implements LifecycleObserver {
     public SAdapter(List<?> list) {
         super(list);
     }
@@ -50,7 +28,12 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
         super();
     }
 
-    public SAdapter addLifeOwener(LifecycleOwner owner){
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return Holder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
+    }
+
+    public SAdapter addLifeOwener(LifecycleOwner owner) {
         owner.getLifecycle().addObserver(this);
         return this;
     }
@@ -63,9 +46,7 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
     }
 
     protected int getType(int position) {
-        if (Holdersid.size() == 0)
-            return StateEnum.TYPE_ITEM.ordinal();
-        else return getMutilType(list==null?null:list.get(position), position);
+        return getMutilType(list == null ? null : list.get(position), position);
     }
 
 
@@ -83,12 +64,7 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
      */
     @Override
     public int setIfGridLayoutManagerSpan(int itemViewType, int position, int spanCount) {
-        return (itemViewType>=StateEnum.values().length) ?
-                (Holdersid.get(itemViewType).gridSpanSize(list==null?null:list.get(position), position)) : (isfullspan(itemViewType) ? spanCount : 1);
-    }
-
-    protected Holder onCreateHolder(ViewGroup parent, int viewType) {
-            return Holder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
+        return Holdersid.get(itemViewType).gridSpanSize(list == null ? null : list.get(position), position);
     }
 
     /**
@@ -99,23 +75,24 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
      */
     @Override
     public boolean setIfStaggedLayoutManagerFullspan(int itemViewType) {
-        return (itemViewType>=StateEnum.values().length) ?
-                Holdersid.get(itemViewType).isfull() : isfullspan(itemViewType);
+        return Holdersid.get(itemViewType).isfull();
     }
 
     SparseArray<ItemHolder> Holdersid = new SparseArray<>(3);
 
     public SAdapter addType(int layoutid, ItemHolder<?> itemholder) {
-        Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder.setLayout(layoutid));
+        Holdersid.put(Holdersid.size(), itemholder.setLayout(layoutid));
         return this;
     }
+
     public SAdapter addType(ItemHolder<?> itemholder) {
-        if(itemholder.getLayout()==0){
+        if (itemholder.getLayout() == 0) {
             throw new NullPointerException("layoutid not defined");
         }
-        Holdersid.put(StateEnum.values().length+Holdersid.size(),itemholder);
+        Holdersid.put(Holdersid.size(), itemholder);
         return this;
     }
+
     protected int getMutilType(Object item, int position) {
 
         for (int i = 0; i < Holdersid.size(); i++) {
@@ -124,23 +101,53 @@ public class SAdapter extends BaseAdapter<Object> implements LifecycleObserver {
             }
         }
 
-        return StateEnum.SHOW_EMPTY.ordinal();
+        return -1;
     }
 
-
-
-    @Override
-    public SAdapter setStateHandler(StateHandlerInterface handler) {
-        return (SAdapter) super.setStateHandler(handler);
+    public void differUpdate(List<? extends DifferCallback.differ> newlist) {
+        DifferCallback callback = new DifferCallback(list, newlist);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(callback);
+        if (list == null) {
+            list = newlist;
+        } else {
+            list.addAll(newlist);
+        }
+        diffResult.dispatchUpdatesTo(this);
     }
 
-    @Override
-    public SAdapter setStateListener(BaseStateListener listener) {
-        return (SAdapter) super.setStateListener(listener);
-    }
+    public static class DifferCallback<T extends DifferCallback.differ> extends DiffUtil.Callback {
+        List<T> oldList;
+        List<T> newList;
 
-    @Override
-    public SAdapter setStateLayout(Recorder.Builder builder) {
-        return (SAdapter) super.setStateLayout(builder);
+        public DifferCallback(List<T> oldList, List<T> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        public interface differ {
+            String firstCondition();
+
+            String secondCondition();
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList == null ? 0 : oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList == null ? 0 : newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).firstCondition() == newList.get(newItemPosition).firstCondition();
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).secondCondition() == newList.get(newItemPosition).secondCondition();
+        }
     }
 }
