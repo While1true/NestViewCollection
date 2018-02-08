@@ -1,26 +1,19 @@
 package com.nestrefreshlib.RefreshViews.RefreshWrap;
 
-
-import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nestrefreshlib.R;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 
 import java.lang.ref.WeakReference;
 
-
 /**
- * Created by 不听话的好孩子 on 2018/2/6.
+ * Created by vange on 2017/12/15.
  */
 
-public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
-    View header;
-    View footer;
+public class MyRefreshOuterHandler extends RefreshLayout.BaseRefreshWrap<String> {
     private TextView mHeadertextView;
     private ProgressBar mHeaderPrgress;
     private TextView mfootertextView;
@@ -34,15 +27,7 @@ public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
     private RefreshLayout.State currentState;
     String[] title;
 
-    @Override
     public void onPullHeader(View view, int scrolls) {
-        if (header != null) {
-            if (scrolls == 0)
-                scrolls = 1;
-            System.out.println(scrolls);
-            header.getLayoutParams().height = scrolls;
-            header.requestLayout();
-        }
         /**
          * 完成状态时不要改变字
          */
@@ -56,18 +41,10 @@ public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
                 mHeadertextView.setText(title[0]);
             }
         }
+
     }
 
-    @Override
     public void onPullFooter(View view, int scrolls) {
-        if (footer != null) {
-            if (scrolls == 0)
-                scrolls = 1;
-            System.out.println(scrolls + " onPullFooter");
-            footer.getLayoutParams().height = scrolls;
-            footer.requestLayout();
-        }
-
         /**
          * 完成状态时不要改变字
          */
@@ -124,47 +101,13 @@ public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
     protected void initView(RefreshLayout layout) {
         super.initView(layout);
         layoutWeakReference = new WeakReference<RefreshLayout>(layout);
-        View view = layout.getmScroll();
-        if (view instanceof RecyclerView) {
-            RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
-            if (adapter instanceof RefreshHeaderAndFooterAdapterWrap) {
-                header = ((RefreshHeaderAndFooterAdapterWrap) adapter).getHeader();
-                footer = ((RefreshHeaderAndFooterAdapterWrap) adapter).getFooter();
-            } else {
-                throw new UnsupportedOperationException("不支持非继承于RefreshHeaderAndFooterWrap 的wrap");
-            }
-
-        } else {
-
-            header = layout.findViewById(R.id.header);
-            footer = layout.findViewById(R.id.footer);
-        }
-        handleview(layout, header, footer);
-    }
-
-    public static int dp2px(View view, float dp) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, view.getResources().getDisplayMetrics()) + 0.5f);
-    }
-
-    public static void setInnerRecyclerviewAdapter(RefreshLayout refreshLayout, RecyclerView.Adapter adapter) {
-        refreshLayout.setRefreshWrap(new MyRefreshInnerWrap());
-        RecyclerView recyclerView = refreshLayout.getmScroll();
-        recyclerView.setAdapter(new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(recyclerView));
-    }
-
-    private void handleview(RefreshLayout layout, View header, View footer) {
+        View header = layout.getmHeader();
+        View footer = layout.getmFooter();
         if (header != null) {
-            layout.setmHeaderRefreshPosition(dp2px(layout, 65));
-            header.getLayoutParams().height = 1;
-            header.requestLayout();
             mHeadertextView = header.findViewById(R.id.textView);
             mHeaderPrgress = header.findViewById(R.id.progressBar);
         }
-
         if (footer != null) {
-            layout.setmFooterRefreshPosition(dp2px(layout, 50));
-            footer.getLayoutParams().height = 1;
-            footer.requestLayout();
             mfootertextView = footer.findViewById(R.id.textView);
             mfootPrgress = footer.findViewById(R.id.progressBar);
         }
@@ -172,10 +115,5 @@ public class MyRefreshInnerWrap extends RefreshLayout.BaseRefreshWrap<String> {
         String[] tempHorizontal = {"右拉刷新", "释放刷新", "正在刷新中", "左拉加载", "释放加载", "正在加载中", "刷新完成", "加载完成"};
         title = (layout.getOrentation() == RefreshLayout.Orentation.VERTICAL) ?
                 tempVertical : tempHorizontal;
-    }
-
-    @Override
-    public boolean isOutHeaderAndFooter() {
-        return false;
     }
 }
