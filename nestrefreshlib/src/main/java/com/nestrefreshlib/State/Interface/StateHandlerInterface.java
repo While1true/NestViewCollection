@@ -1,7 +1,6 @@
 package com.nestrefreshlib.State.Interface;
 
 import com.nestrefreshlib.Adpater.Base.Holder;
-import com.nestrefreshlib.Adpater.Base.StateEnum;
 
 /**
  * Created by ck on 2017/9/9.

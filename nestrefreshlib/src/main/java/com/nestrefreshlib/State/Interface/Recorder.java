@@ -1,7 +1,6 @@
-package com.nestrefreshlib.Adpater.Base;
+package com.nestrefreshlib.State.Interface;
 
 import com.nestrefreshlib.State.DefaultStateHandler;
-import com.nestrefreshlib.State.Interface.StateHandlerInterface;
 import com.nestrefreshlib.R;
 
 /**

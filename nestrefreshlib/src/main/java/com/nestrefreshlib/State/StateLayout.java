@@ -13,9 +13,9 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.nestrefreshlib.Adpater.Base.Recorder;
+import com.nestrefreshlib.State.Interface.Recorder;
 import com.nestrefreshlib.Adpater.Base.Holder;
-import com.nestrefreshlib.Adpater.Base.StateEnum;
+import com.nestrefreshlib.State.Interface.StateEnum;
 import com.nestrefreshlib.State.Interface.BaseStateListener;
 import com.nestrefreshlib.State.Interface.ShowStateInterface;
 import com.nestrefreshlib.State.Interface.StateHandlerInterface;

@@ -3,7 +3,7 @@ package com.nestrefreshlib.State;
 import android.view.View;
 import android.widget.TextView;
 
-import com.nestrefreshlib.Adpater.Base.StateEnum;
+import com.nestrefreshlib.State.Interface.StateEnum;
 import com.nestrefreshlib.State.Interface.BaseStateListener;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.State.Interface.StateHandlerInterface;
