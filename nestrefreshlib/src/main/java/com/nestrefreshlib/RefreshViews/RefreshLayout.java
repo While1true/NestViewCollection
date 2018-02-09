@@ -724,7 +724,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         private int HEADER_LAYOUTID_DEFAULT, SCROLL_LAYOUT_ID_DEFAULT, FOOTER_LAYOUTID_DEFAULT;
         private float PULLRATE = 2.5f;
         private boolean CANHEADER_DEFAULT = true, CANFOOTR_DEFAULT = true, OVERSCROLL_DEFAULT = false, OVERSCROLL_ELASTIC_DEFAULT = false;
-        private Class defaultRefreshWrap = BaseRefreshWrap.class;
+        private Class defaultRefreshWrap = MyRefreshOuterHandler.class;
 
         public DefaultBuilder setBaseRefreshWrap(Class defaultRefreshWrap) {
             this.defaultRefreshWrap = defaultRefreshWrap;
