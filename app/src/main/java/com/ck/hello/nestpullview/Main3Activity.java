@@ -11,7 +11,9 @@ import android.view.View;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshInnerHandlerImpl;
 import com.nestrefreshlib.State.StateLayout;
 
 import java.util.ArrayList;
@@ -49,12 +51,14 @@ public class Main3Activity extends AppCompatActivity {
     public void v4(View v) {
         stateLayout.showItem();
     }
+
     public void v5(View v) {
         addlist();
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
         sAdapter.differUpdate(objects);
 
     }
+
     private void initRefreshLayout() {
         list = new ArrayList<>();
         addlist();
@@ -127,11 +131,11 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-        layout.setInnerAdapter(sAdapter,new LinearLayoutManager(this));
+        layout.setInnerAdapter(new RefreshHeaderAndFooterAdapterWrap(sAdapter).attachView(R.layout.header, R.layout.footer, layout), new RefreshInnerHandlerImpl(), new LinearLayoutManager(this));
     }
 
     private void addlist() {
-        for (int i = 0; i <100; i++) {
+        for (int i = 0; i < 100; i++) {
             if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {
