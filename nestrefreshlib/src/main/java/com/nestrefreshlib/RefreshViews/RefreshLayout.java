@@ -827,6 +827,12 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         setInnerAdapter(adapter,new MyRefreshInnerHandler(),new LinearLayoutManager(getContext()));
     }
 
+    public void setAdapter(RecyclerView.Adapter adapter){
+        ((RecyclerView) mScroll).setLayoutManager(new LinearLayoutManager(getContext()));
+        ((RecyclerView) mScroll).addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        ((RecyclerView) mScroll).setAdapter(adapter);
+    }
+
     /**
      * 保存全局默认配置
      */

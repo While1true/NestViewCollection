@@ -2,8 +2,6 @@ package com.ck.hello.nestpullview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -11,9 +9,8 @@ import android.view.View;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshInnerHandlerImpl;
+import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.State.StateLayout;
 
 import java.util.ArrayList;
@@ -65,27 +62,25 @@ public class Main3Activity extends AppCompatActivity {
 
         layout = findViewById(R.id.refreshing);
         final RecyclerView recyclerView = layout.getmScroll();
-        layout.setListener(new RefreshLayout.Callback() {
+        layout.setListener(new RefreshListener() {
             @Override
-            public void call(RefreshLayout.State t) {
+            public void Refreshing() {
+                getWindow().getDecorView().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.NotifyCompleteRefresh0();
+                    }
+                }, 1000);
+            }
 
-                if (t == RefreshLayout.State.REFRESHING) {
-                    getWindow().getDecorView().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            layout.NotifyCompleteRefresh0();
-                        }
-                    }, 3000);
-
-                } else if (t == RefreshLayout.State.LOADING) {
-                    getWindow().getDecorView().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            layout.NotifyCompleteRefresh0();
-                        }
-                    }, 3000);
-
-                }
+            @Override
+            public void Loading() {
+                getWindow().getDecorView().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.NotifyCompleteRefresh0();
+                    }
+                }, 1000);
             }
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
@@ -131,7 +126,8 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-        layout.setInnerAdapter(new RefreshHeaderAndFooterAdapterWrap(sAdapter).attachView(R.layout.header, R.layout.footer, layout), new RefreshInnerHandlerImpl(), new LinearLayoutManager(this));
+        layout.setAdapter(sAdapter);
+//        layout.setInnerAdapter(new RefreshHeaderAndFooterAdapterWrap(sAdapter).attachView(R.layout.header, R.layout.footer, layout), new RefreshInnerHandlerImpl(), new LinearLayoutManager(this));
     }
 
     private void addlist() {
