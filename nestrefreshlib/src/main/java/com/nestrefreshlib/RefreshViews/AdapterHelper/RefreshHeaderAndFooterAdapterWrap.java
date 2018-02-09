@@ -1,5 +1,6 @@
 package com.nestrefreshlib.RefreshViews.AdapterHelper;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,12 @@ public class RefreshHeaderAndFooterAdapterWrap extends BaseHeaderAndFooterAdapte
     }
 
     public RefreshHeaderAndFooterAdapterWrap attachView(ViewGroup parent){
-        addHeaderLayout(R.layout.header_layout,parent);
-        addfooterLayout(R.layout.footer_layout,parent);
+        attachView(R.layout.header_layout,R.layout.footer_layout,parent);
+        return this;
+    }
+    public RefreshHeaderAndFooterAdapterWrap attachView(@LayoutRes int header, @LayoutRes int footer,ViewGroup parent){
+        addHeaderLayout(header,parent);
+        addfooterLayout(footer,parent);
         return this;
     }
 

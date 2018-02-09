@@ -6,27 +6,21 @@ import android.widget.TextView;
 
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshOuterHanderImpl;
 
-import java.lang.ref.WeakReference;
 
 /**
  * Created by vange on 2017/12/15.
  */
 
-public class MyRefreshOuterHandler extends RefreshLayout.BaseRefreshWrap<String> {
+public class MyRefreshOuterHandler extends RefreshOuterHanderImpl {
     private TextView mHeadertextView;
     private ProgressBar mHeaderPrgress;
     private TextView mfootertextView;
     private ProgressBar mfootPrgress;
-    private WeakReference<RefreshLayout> layoutWeakReference;
-
-    public RefreshLayout getRefreshLayout() {
-        return layoutWeakReference.get();
-    }
-
     private RefreshLayout.State currentState;
-    String[] title;
 
+    @Override
     public void onPullHeader(View view, int scrolls) {
         /**
          * 完成状态时不要改变字
@@ -44,6 +38,7 @@ public class MyRefreshOuterHandler extends RefreshLayout.BaseRefreshWrap<String>
 
     }
 
+    @Override
     public void onPullFooter(View view, int scrolls) {
         /**
          * 完成状态时不要改变字
@@ -60,6 +55,7 @@ public class MyRefreshOuterHandler extends RefreshLayout.BaseRefreshWrap<String>
         }
     }
 
+    @Override
     public void OnStateChange(RefreshLayout.State state) {
         currentState = state;
         switch (state) {
@@ -98,22 +94,15 @@ public class MyRefreshOuterHandler extends RefreshLayout.BaseRefreshWrap<String>
     }
 
     @Override
-    protected void initView(RefreshLayout layout) {
-        super.initView(layout);
-        layoutWeakReference = new WeakReference<RefreshLayout>(layout);
-        View header = layout.getmHeader();
-        View footer = layout.getmFooter();
+    protected void handleview(RefreshLayout layout, View header, View footer) {
         if (header != null) {
-            mHeadertextView = header.findViewById(R.id.textView);
+            if (header != null)
+                mHeadertextView = header.findViewById(R.id.textView);
             mHeaderPrgress = header.findViewById(R.id.progressBar);
         }
         if (footer != null) {
             mfootertextView = footer.findViewById(R.id.textView);
             mfootPrgress = footer.findViewById(R.id.progressBar);
         }
-        String[] tempVertical = {"下拉刷新", "释放刷新", "正在刷新中", "上拉加载", "释放加载", "正在加载中", "刷新完成", "加载完成"};
-        String[] tempHorizontal = {"右拉刷新", "释放刷新", "正在刷新中", "左拉加载", "释放加载", "正在加载中", "刷新完成", "加载完成"};
-        title = (layout.getAttrsUtils().getOrentation() == RefreshLayout.Orentation.VERTICAL) ?
-                tempVertical : tempHorizontal;
     }
 }
