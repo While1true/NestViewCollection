@@ -50,7 +50,7 @@ public class MyRefreshInnerHandler extends RefreshLayout.BaseRefreshWrap<String>
             return;
         }
         if (mHeadertextView != null) {
-            if (mHeadertextView != null && scrolls > getRefreshLayout().getmHeaderRefreshPosition()) {
+            if (mHeadertextView != null && scrolls > getRefreshLayout().getAttrsUtils().getmHeaderRefreshPosition()) {
                 mHeadertextView.setText(title[1]);
             } else {
                 mHeadertextView.setText(title[0]);
@@ -75,7 +75,7 @@ public class MyRefreshInnerHandler extends RefreshLayout.BaseRefreshWrap<String>
             return;
         }
         if (mfootertextView != null) {
-            if (mfootertextView != null && scrolls > getRefreshLayout().getmFooterRefreshPosition()) {
+            if (mfootertextView != null && scrolls > getRefreshLayout().getAttrsUtils().getmFooterRefreshPosition()) {
                 mfootertextView.setText(title[4]);
             } else {
                 mfootertextView.setText(title[3]);
@@ -154,7 +154,7 @@ public class MyRefreshInnerHandler extends RefreshLayout.BaseRefreshWrap<String>
 
     private void handleview(RefreshLayout layout, View header, View footer) {
         if (header != null) {
-            layout.setmHeaderRefreshPosition(dp2px(layout, 65));
+            layout.getAttrsUtils().setmHeaderRefreshPosition(dp2px(layout, 65));
             header.getLayoutParams().height = 1;
             header.requestLayout();
             mHeadertextView = header.findViewById(R.id.textView);
@@ -162,7 +162,7 @@ public class MyRefreshInnerHandler extends RefreshLayout.BaseRefreshWrap<String>
         }
 
         if (footer != null) {
-            layout.setmFooterRefreshPosition(dp2px(layout, 50));
+            layout.getAttrsUtils().setmFooterRefreshPosition(dp2px(layout, 50));
             footer.getLayoutParams().height = 1;
             footer.requestLayout();
             mfootertextView = footer.findViewById(R.id.textView);
@@ -170,7 +170,7 @@ public class MyRefreshInnerHandler extends RefreshLayout.BaseRefreshWrap<String>
         }
         String[] tempVertical = {"下拉刷新", "释放刷新", "正在刷新中", "上拉加载", "释放加载", "正在加载中", "刷新完成", "加载完成"};
         String[] tempHorizontal = {"右拉刷新", "释放刷新", "正在刷新中", "左拉加载", "释放加载", "正在加载中", "刷新完成", "加载完成"};
-        title = (layout.getOrentation() == RefreshLayout.Orentation.VERTICAL) ?
+        title = (layout.getAttrsUtils().getOrentation() == RefreshLayout.Orentation.VERTICAL) ?
                 tempVertical : tempHorizontal;
     }
 
