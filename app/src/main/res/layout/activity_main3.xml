@@ -18,7 +18,7 @@
         android:layout_marginStart="8dp"
         app:delayCompleteTime="100"
         app:pullrate="2.2"
-        app:evaluateable="true"
+        app:overscroll="true"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +30,7 @@
             android:layout_gravity="bottom"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/bt"
                 android:text="进度"
                 android:onClick="v1"
                 android:layout_width="wrap_content"
@@ -52,6 +53,24 @@
             <Button
                 android:text="底部"
                 android:onClick="v5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="弹力球"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="overscroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="估值"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

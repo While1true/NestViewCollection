@@ -1,24 +1,20 @@
 package com.ck.hello.nestpullview;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.LinearLayout;
 
 
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.MyRefreshInnerWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.State.StateLayout;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Main3Activity extends AppCompatActivity {
@@ -26,6 +22,7 @@ public class Main3Activity extends AppCompatActivity {
     private StateLayout stateLayout;
     private List<SAdapter.DifferCallback.differ> list;
     private SAdapter sAdapter;
+    private RefreshLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class Main3Activity extends AppCompatActivity {
         list = new ArrayList<>();
         addlist();
 
-        final RefreshLayout layout = findViewById(R.id.refreshing);
+        layout = findViewById(R.id.refreshing);
         final RecyclerView recyclerView = layout.getmScroll();
         layout.setListener(new RefreshLayout.Callback() {
             @Override
@@ -130,13 +127,11 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        MyRefreshInnerWrap.setInnerRecyclerviewAdapter(layout, sAdapter);
+        layout.setInnerAdapter(sAdapter,new LinearLayoutManager(this));
     }
 
     private void addlist() {
-        for (int i = 0; i <20; i++) {
+        for (int i = 0; i <100; i++) {
             if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {

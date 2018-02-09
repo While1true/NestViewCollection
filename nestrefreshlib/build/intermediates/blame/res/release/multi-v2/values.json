@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
+            "map": [
+                {
+                    "source": "D:\\Github\\NestPullView\\nestrefreshlib\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "1,2",
+                        "startColumns": "4,4",
+                        "startOffsets": "17,70",
+                        "endColumns": "51,55",
+                        "endOffsets": "64,121"
+                    },
+                    "to": {
+                        "startLines": "8,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "1699,1751",
+                        "endColumns": "51,55",
+                        "endOffsets": "1746,1802"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "D:\\Github\\NestPullView\\nestrefreshlib\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "1,2",
+                        "startColumns": "4,4",
+                        "startOffsets": "17,70",
+                        "endColumns": "51,55",
+                        "endOffsets": "64,121"
+                    },
+                    "to": {
+                        "startLines": "8,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "1699,1751",
+                        "endColumns": "51,55",
+                        "endOffsets": "1746,1802"
+                    }
+                }
+            ]
+        }
+    ]
+}

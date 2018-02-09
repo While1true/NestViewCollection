@@ -14,6 +14,6 @@ public class dd implements SAdapter.DifferCallback.differ {
 
     @Override
     public String secondCondition() {
-        return null;
+        return "";
     }
 }

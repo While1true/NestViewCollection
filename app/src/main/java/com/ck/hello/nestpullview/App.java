@@ -15,7 +15,8 @@ public class App extends Application {
         RefreshLayout.init(new RefreshLayout.DefaultBuilder()
                 .setHeaderLayoutidDefault(R.layout.header_layout)
                 .setFooterLayoutidDefault(R.layout.footer_layout)
-                .setScrollLayoutIdDefault(R.layout.recyclerview));
+                .setScrollLayoutIdDefault(R.layout.recyclerview)
+        );
         System.out.println("xzzzzzzzzzzzzzzzzz"+R.layout.recyclerview);
     }
 }
