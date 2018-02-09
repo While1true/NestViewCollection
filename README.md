@@ -1,9 +1,23 @@
-## 打造一个强大的万能RecyclerView  Adapter
+## Refreshlayout Adapter Statelayout
 
+## Refreshlayout
+![GIF.gif](http://upload-images.jianshu.io/upload_images/6456519-27f56d146baa0afb.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![GIF2.gif](http://upload-images.jianshu.io/upload_images/6456519-9e217be853b06569.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![GIF3.gif](http://upload-images.jianshu.io/upload_images/6456519-9c010d100480914e.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+```
+ <coms.kxjsj.refreshlayout_master.RefreshLayout
+        android:id="@+id/Refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:canFooter="true"
+        app:footerID="@layout/footer_layout_horizontal"
+        app:headerID="@layout/header_layout_horizontal"
+        app:scrollID="@layout/xx" />
+```
 
 //精简包名，增加易用性的最新版
 ![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/3YDT3SQ9EZKC48%25II_RVSG6.png)
-## 使用 
+## Adapter使用 
 > 默认根据itemholder的泛型确定相应position的类型
 ![2017-09-10-15-46-16.png](https://github.com/While1true/NestPullView/blob/goldenVersion3/0X%7EMX4_7I%7E%24RQ%7B%7DOM1YAJYQ.png)
 ## 状态布局的封装
