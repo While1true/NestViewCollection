@@ -57,6 +57,9 @@ public abstract class BaseHolder<T> extends ItemHolder<T> {
 
     @Override
     public boolean istype(Object item, int position) {
+        if(item==null){
+            return true;
+        }
         String plix = getClass().getGenericSuperclass().toString().split("<")[1];
         String type = plix.
                 substring(0, plix.length() - 1);
