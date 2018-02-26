@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.ArrayMap;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,8 +132,12 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
 
         ViewStub nomoreview = new ViewStub(getContext(), recorder.getNomore());
         addView(nomoreview);
-        views.put(StateEnum.SHOW_NOMORE, nomoreview);
+        views.put(StateEnum.SHOW_INFO, nomoreview);
         showState(showstate, null);
+    }
+
+    public static int dp2px(Context context,float dp){
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,context.getResources().getDisplayMetrics())+0.5f);
     }
 
     public StateLayout setContent(int contentres) {
@@ -147,7 +152,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
 
     @Override
     public void showState(StateEnum showstate, Object o) {
-        if (this.showstate != showstate) {
+        if (this.showstate != showstate&&showstate!=StateEnum.SHOW_INFO) {
             stateHandler.switchState(showstate);
         }
 
@@ -159,28 +164,33 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
             emptyInflated = true;
             views.put(showstate, ((ViewStub) views.get(showstate)).inflate());
         }
-        if (showstate == StateEnum.SHOW_NOMORE && !nomoreInflated) {
+        if (showstate == StateEnum.SHOW_INFO && !nomoreInflated) {
             nomoreInflated = true;
             views.put(showstate, ((ViewStub) views.get(showstate)).inflate());
         }
 
-        views.get(this.showstate).setVisibility(GONE);
-        this.showstate = showstate;
-        switch (showstate) {
-            case SHOW_NOMORE:
-                stateHandler.BindNomoreHolder(Holder.createViewHolder(views.get(showstate)), o);
-                break;
-            case SHOW_LOADING:
-                stateHandler.BindLoadingHolder(Holder.createViewHolder(views.get(showstate)), o);
-                break;
-            case SHOW_EMPTY:
-                stateHandler.BindEmptyHolder(Holder.createViewHolder(views.get(showstate)), o);
-                break;
-            case SHOW_ERROR:
-                stateHandler.BindErrorHolder(Holder.createViewHolder(views.get(showstate)), o);
-                break;
+        if(showstate==StateEnum.SHOW_INFO){
+            views.get(showstate).setVisibility(VISIBLE);
+            stateHandler.BindNomoreHolder(Holder.createViewHolder(views.get(showstate)), o);
+
+        }else {
+            views.get(this.showstate).setVisibility(GONE);
+            this.showstate = showstate;
+            switch (showstate) {
+                case SHOW_INFO:
+                    break;
+                case SHOW_LOADING:
+                    stateHandler.BindLoadingHolder(Holder.createViewHolder(views.get(showstate)), o);
+                    break;
+                case SHOW_EMPTY:
+                    stateHandler.BindEmptyHolder(Holder.createViewHolder(views.get(showstate)), o);
+                    break;
+                case SHOW_ERROR:
+                    stateHandler.BindErrorHolder(Holder.createViewHolder(views.get(showstate)), o);
+                    break;
+            }
+            views.get(showstate).setVisibility(VISIBLE);
         }
-        views.get(showstate).setVisibility(VISIBLE);
     }
 
     @Override
@@ -206,7 +216,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
 
     @Override
     public void showNomore() {
-        showState(StateEnum.SHOW_NOMORE, null);
+        showState(StateEnum.SHOW_INFO, null);
     }
 
     public Button getButton(View view) {

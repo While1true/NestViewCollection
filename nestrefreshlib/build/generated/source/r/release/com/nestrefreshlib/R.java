@@ -64,11 +64,12 @@ public final class R {
         public static int footer_layout_horizontal = 0x7f0f0002;
         public static int header_layout = 0x7f0f0003;
         public static int header_layout_horizontal = 0x7f0f0004;
-        public static int recyclerview = 0x7f0f0005;
-        public static int state_empty = 0x7f0f0006;
-        public static int state_error = 0x7f0f0007;
-        public static int state_loading = 0x7f0f0008;
-        public static int state_nomore = 0x7f0f0009;
+        public static int info = 0x7f0f0005;
+        public static int recyclerview = 0x7f0f0006;
+        public static int state_empty = 0x7f0f0007;
+        public static int state_error = 0x7f0f0008;
+        public static int state_loading = 0x7f0f0009;
+        public static int state_nomore = 0x7f0f000a;
     }
     public static final class string {
         public static int app_name = 0x7f150001;

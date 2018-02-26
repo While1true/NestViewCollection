@@ -5,5 +5,5 @@ package com.nestrefreshlib.State.Interface;
  */
 
 public enum  StateEnum {
-    SHOW_EMPTY,SHOW_LOADING,SHOW_ERROR,SHOW_NOMORE,TYPE_ITEM
+    SHOW_EMPTY,SHOW_LOADING,SHOW_ERROR,SHOW_INFO,TYPE_ITEM
 }

@@ -46,6 +46,9 @@ public abstract class BaseHolder<T> extends ItemHolder<T> {
 
     public abstract void onViewBind(Holder holder, T item, int position);
 
+    public BaseHolder() {
+    }
+
     public BaseHolder(int layoutId) {
         this.setLayout(layoutId);
     }

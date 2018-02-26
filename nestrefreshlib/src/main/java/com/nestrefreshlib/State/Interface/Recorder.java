@@ -11,7 +11,7 @@ public class Recorder {
     private int Loadingres = R.layout.state_loading;
     private int emptyres = R.layout.state_empty;
     private int errorres = R.layout.state_error;
-    private int nomore = R.layout.state_nomore;
+    private int nomore = R.layout.info;
     private Class<? extends StateHandlerInterface> clazz;
 
     private Recorder() {
@@ -71,7 +71,7 @@ public class Recorder {
         private int Loadingres = R.layout.state_loading;
         private int emptyres = R.layout.state_empty;
         private int errorres = R.layout.state_error;
-        private int nomore = R.layout.state_nomore;
+        private int nomore = R.layout.info;
         private Class<? extends StateHandlerInterface> clazz=DefaultStateHandler.class;
 
 

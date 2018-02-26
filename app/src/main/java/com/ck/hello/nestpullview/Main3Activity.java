@@ -50,10 +50,7 @@ public class Main3Activity extends AppCompatActivity {
     }
 
     public void v5(View v) {
-        addlist();
-        ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
-        sAdapter.differUpdate(objects);
-
+        stateLayout.showNomore();
     }
 
     private void initRefreshLayout() {
@@ -85,31 +82,28 @@ public class Main3Activity extends AppCompatActivity {
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
         sAdapter = new SAdapter(objects)
-                .addType(new BaseHolder<aa>(R.layout.state_nomore) {
+                .addType(new BaseHolder<aa>(R.layout.footer) {
 
                     @Override
                     public void onViewBind(Holder holder, aa item, int position) {
                         holder.itemView.setBackgroundColor(0xffff0000);
-                        holder.setText(R.id.tv_nomore, position + "");
 
                     }
                 })
-                .addType(new BaseHolder<bb>(R.layout.state_nomore) {
+                .addType(new BaseHolder<bb>(R.layout.footer) {
 
                     @Override
                     public void onViewBind(Holder holder, bb item, int position) {
                         holder.itemView.setBackgroundColor(0xffffff00);
-                        holder.setText(R.id.tv_nomore, position + "");
 
                     }
 
                 })
-                .addType(new BaseHolder<cc>(R.layout.state_nomore) {
+                .addType(new BaseHolder<cc>(R.layout.footer) {
 
                     @Override
                     public void onViewBind(Holder holder, cc item, int position) {
                         holder.itemView.setBackgroundColor(0xffff00ff);
-                        holder.setText(R.id.tv_nomore, position + "");
                     }
 
                     @Override
@@ -117,12 +111,11 @@ public class Main3Activity extends AppCompatActivity {
                         return true;
                     }
                 })
-                .addType(new BaseHolder<dd>(R.layout.state_nomore) {
+                .addType(new BaseHolder<dd>(R.layout.footer) {
 
                     @Override
                     public void onViewBind(Holder holder, dd item, int position) {
                         holder.itemView.setBackgroundColor(0xff6f702f);
-                        holder.setText(R.id.tv_nomore, position + "");
                     }
                 })
                 .addLifeOwener(this);

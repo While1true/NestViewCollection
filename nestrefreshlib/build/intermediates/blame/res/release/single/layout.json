@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\layout\\info.xml",
+        "source": "D:\\Github\\NestPullView\\nestrefreshlib\\src\\main\\res\\layout\\info.xml"
+    },
+    {
         "merged": "D:\\Github\\NestPullView\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\layout\\state_nomore.xml",
         "source": "D:\\Github\\NestPullView\\nestrefreshlib\\src\\main\\res\\layout\\state_nomore.xml"
     },

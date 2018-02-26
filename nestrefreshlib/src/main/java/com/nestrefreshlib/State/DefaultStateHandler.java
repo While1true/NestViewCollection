@@ -1,6 +1,9 @@
 package com.nestrefreshlib.State;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.nestrefreshlib.State.Interface.StateEnum;
@@ -17,6 +20,7 @@ import com.nestrefreshlib.R;
 public class DefaultStateHandler implements StateHandlerInterface<String> {
     private DefaultStateListener listener;
     private SLoading sLoading;
+    private View nomore;
 
     public DefaultStateHandler setStateClickListener(BaseStateListener listener) {
         this.listener = (DefaultStateListener) listener;
@@ -31,8 +35,8 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     @Override
     public void BindEmptyHolder(Holder holder, String s) {
 
-        TextView tv =holder.getView(R.id.tv);
-        if (tv != null&&s!=null)
+        TextView tv = holder.getView(R.id.tv);
+        if (tv != null && s != null)
             tv.setText(s);
         if (tv != null && listener != null)
             tv.setOnClickListener(new View.OnClickListener() {
@@ -65,9 +69,25 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     }
 
     @Override
-    public void BindNomoreHolder(Holder holder, String s) {
-        if(s!=null)
-        ((TextView) holder.getView(R.id.tv_nomore)).setText(s);
+    public void BindNomoreHolder(final Holder holder, String s) {
+        if (s != null)
+            ((TextView) holder.getView(R.id.tv_nomore)).setText(s);
+//        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 300);
+//        translateAnimation.setDuration(2000);
+//        holder.itemView.startAnimation(translateAnimation);
+
+        startNomore(holder);
+
+
+    }
+
+    private void startNomore(final Holder holder) {
+        nomore=holder.itemView;
+        int i = StateLayout.dp2px(nomore.getContext(), 55);
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(nomore, "translationY", -i, 0, 0, 0, 0, 0, 0, 0, -5, 5, -5, 5, -i);
+        translationY
+                .setInterpolator(new DecelerateInterpolator());
+        translationY.setDuration(6000).start();
     }
 
 
@@ -75,11 +95,15 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
      * 销毁时调用
      */
     public void destory() {
-        listener=null;
+        listener = null;
         if (sLoading != null) {
             sLoading.stopAnimator();
             sLoading = null;
         }
+        if(nomore!=null){
+            nomore.clearAnimation();
+        }
+        nomore=null;
     }
 
     /**
@@ -87,7 +111,7 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
      */
     @Override
     public void switchState(StateEnum state) {
-        if (sLoading != null&&state!= StateEnum.SHOW_LOADING)
+        if (sLoading != null && state != StateEnum.SHOW_LOADING)
             sLoading.stopAnimator();
     }
 }
