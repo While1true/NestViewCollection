@@ -241,6 +241,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         }
         if (changed) {
             baseRefreshWrap.initView(this);
+            baseRefreshWrap.isinit=true;
         }
 
     }
@@ -897,10 +898,15 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (!baseRefreshWrap.isOutHeaderAndFooter()) {
             attrsUtils.EVALUATEABLE = true;
         }
+        if(!baseRefreshWrap.isinit){
+            baseRefreshWrap.initView(this);
+            baseRefreshWrap.isinit=true;
+        }
     }
 
     public static abstract class BaseRefreshHeaderAndFooterHandler<T> {
         protected T data;
+        boolean isinit=false;
 
         public abstract void onPullHeader(View view, int scrolls);
 

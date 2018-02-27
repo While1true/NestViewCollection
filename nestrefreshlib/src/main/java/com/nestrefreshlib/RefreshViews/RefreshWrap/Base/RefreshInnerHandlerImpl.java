@@ -40,12 +40,12 @@ public class RefreshInnerHandlerImpl extends RefreshOuterHanderImpl {
     }
 
     public static void setInnerRecyclerviewAdapter(RefreshLayout refreshLayout, RefreshLayout.BaseRefreshHeaderAndFooterHandler handler, RecyclerView.Adapter adapter) {
-        refreshLayout.setRefreshWrap(handler);
         RecyclerView recyclerView = refreshLayout.getmScroll();
         if (adapter instanceof RefreshHeaderAndFooterAdapterWrap)
             recyclerView.setAdapter(adapter);
         else
             recyclerView.setAdapter(new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(recyclerView));
+        refreshLayout.setRefreshWrap(handler);
     }
 
     @Override
