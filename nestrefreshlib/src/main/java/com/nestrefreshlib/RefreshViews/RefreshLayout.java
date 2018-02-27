@@ -777,6 +777,9 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
         public void setOVERSCROLL_ELASTIC(Boolean OVERSCROLL_ELASTIC) {
             this.OVERSCROLL_ELASTIC = OVERSCROLL_ELASTIC;
+            if (OVERSCROLL_ELASTIC) {
+                this.OVERSCROLL = true;
+            }
         }
 
         public boolean getEVALUATEABLE() {
