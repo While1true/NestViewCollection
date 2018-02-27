@@ -3,7 +3,9 @@ package com.nestrefreshlib.State;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.TextView;
 
 import com.nestrefreshlib.State.Interface.StateEnum;
@@ -84,13 +86,18 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
     private void startNomore(final Holder holder) {
         nomore=holder.itemView;
         int i = StateLayout.dp2px(nomore.getContext(), 55);
-        ObjectAnimator translationY = ObjectAnimator.ofFloat(nomore, "translationY", -i, 0, 0, 0, 0, 0, 0, 0, -5, 5, -5, 5, -i);
-        translationY
-                .setInterpolator(new DecelerateInterpolator());
-        translationY.setDuration(6000).start();
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(nomore, "translationY", -i, 0, 0, 0, 0, 0,0,0, 0, 0, -5, 5, -5, 5, -i);
+        translationY.setDuration(10000).setInterpolator(new DecelerateInterpolator());
+        translationY.start();
     }
 
-
+    public class DecelerateAccelerateInterpolator implements Interpolator {
+        public DecelerateAccelerateInterpolator() {}
+        public float getInterpolation(float t) {
+            float x=2.0f*t-1.0f;
+            return 0.5f*(x*x*x + 1.0f);
+        }
+    }
     /**
      * 销毁时调用
      */
