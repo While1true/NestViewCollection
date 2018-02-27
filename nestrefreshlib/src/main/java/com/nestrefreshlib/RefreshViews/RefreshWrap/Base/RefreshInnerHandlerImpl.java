@@ -77,6 +77,9 @@ public class RefreshInnerHandlerImpl extends RefreshOuterHanderImpl {
             this.footer.getLayoutParams().height = 1;
             this.footer.requestLayout();
         }
+        header=this.header;
+        footer=this.footer;
+
     }
 
     @Override

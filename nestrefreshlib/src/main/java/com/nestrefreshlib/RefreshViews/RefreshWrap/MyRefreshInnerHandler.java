@@ -98,15 +98,16 @@ public class MyRefreshInnerHandler extends RefreshInnerHandlerImpl {
     @Override
     protected void handleview(RefreshLayout layout, View header, View footer) {
         super.handleview(layout,header,footer);
-        if (header != null) {
-            mHeadertextView = header.findViewById(R.id.textView);
-            mHeaderPrgress = header.findViewById(R.id.progressBar);
+        if (this.header != null) {
+            mHeadertextView = this.header.findViewById(R.id.textView);
+            mHeaderPrgress = this.header.findViewById(R.id.progressBar);
         }
 
-        if (footer != null) {
-            mfootertextView = footer.findViewById(R.id.textView);
-            mfootPrgress = footer.findViewById(R.id.progressBar);
+        if (this.footer != null) {
+            mfootertextView = this.footer.findViewById(R.id.textView);
+            mfootPrgress = this.footer.findViewById(R.id.progressBar);
         }
     }
+
 
 }

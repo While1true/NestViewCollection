@@ -2,6 +2,7 @@ package com.ck.hello.nestpullview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -9,8 +10,11 @@ import android.view.View;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshInnerHandlerImpl;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.MyRefreshInnerHandler;
 import com.nestrefreshlib.State.StateLayout;
 
 import java.util.ArrayList;
@@ -119,8 +123,8 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-        layout.setAdapter(sAdapter);
-//        layout.setInnerAdapter(new RefreshHeaderAndFooterAdapterWrap(sAdapter).attachView(R.layout.header, R.layout.footer, layout), new RefreshInnerHandlerImpl(), new LinearLayoutManager(this));
+//        layout.setAdapter(sAdapter);
+        layout.setInnerAdapter(new RefreshHeaderAndFooterAdapterWrap(sAdapter).attachView(layout), new MyRefreshInnerHandler(), new LinearLayoutManager(this));
     }
 
     private void addlist() {
