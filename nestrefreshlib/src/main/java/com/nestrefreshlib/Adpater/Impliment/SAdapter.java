@@ -107,11 +107,7 @@ public class SAdapter extends BaseAdapter implements LifecycleObserver {
     public void differUpdate(List<? extends DifferCallback.differ> newlist) {
         DifferCallback callback = new DifferCallback(list, newlist);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(callback);
-        if (list == null) {
-            list = newlist;
-        } else {
-            list.addAll(newlist);
-        }
+        list=newlist;
         diffResult.dispatchUpdatesTo(this);
     }
 
