@@ -138,12 +138,12 @@ public class SAdapter extends BaseAdapter implements LifecycleObserver {
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).firstCondition() == newList.get(newItemPosition).firstCondition();
+            return oldList.get(oldItemPosition).firstCondition().equals(newList.get(newItemPosition).firstCondition());
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).secondCondition() == newList.get(newItemPosition).secondCondition();
+            return oldList.get(oldItemPosition).secondCondition().equals(newList.get(newItemPosition).secondCondition());
         }
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
  * Created by ck on 2017/9/10.
  */
 
-public abstract class BaseAdapter extends RecyclerView.Adapter{
+public abstract class BaseAdapter extends RecyclerView.Adapter {
     //数据集合
     protected List list;
 
@@ -45,10 +45,13 @@ public abstract class BaseAdapter extends RecyclerView.Adapter{
      *
      * @return
      */
-    public List getBeanlist() {
+    public <T> List<T> getBeanlist() {
         return list;
     }
 
+    public void setList(List list) {
+        this.list = list;
+    }
 
     @Override
     public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
