@@ -1,10 +1,14 @@
 package com.ck.hello.nestpullview;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.nestrefreshlib.Adpater.Base.Holder;
@@ -13,8 +17,7 @@ import com.nestrefreshlib.Adpater.Impliment.SAdapter;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshInnerHandlerImpl;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.MyRefreshInnerHandler;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
 import com.nestrefreshlib.State.StateLayout;
 
 import java.util.ArrayList;
@@ -66,7 +69,7 @@ public class Main3Activity extends AppCompatActivity {
         layout.setListener(new RefreshListener() {
             @Override
             public void Refreshing() {
-                getWindow().getDecorView().postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         layout.NotifyCompleteRefresh0();
@@ -74,14 +77,19 @@ public class Main3Activity extends AppCompatActivity {
                 }, 1000);
             }
 
+            @SuppressLint("WrongConstant")
             @Override
             public void Loading() {
-                getWindow().getDecorView().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        layout.NotifyCompleteRefresh0();
-                    }
-                }, 1000);
+                TextView tv=layout.findInFooterView(R.id.textView);
+                tv.setText("加载完成");
+                Toast.makeText(Main3Activity.this,"加载了",0).show();
+
+            }
+
+            @Override
+            public void call(RefreshLayout.State t, int scroll) {
+                super.call(t, scroll);
+                System.out.println(t);
             }
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
@@ -124,11 +132,11 @@ public class Main3Activity extends AppCompatActivity {
                 })
                 .addLifeOwener(this);
 //        layout.setAdapter(sAdapter);
-        layout.setInnerAdapter(new RefreshHeaderAndFooterAdapterWrap(sAdapter).attachView(layout), new MyRefreshInnerHandler(), new LinearLayoutManager(this));
+        layout.setInnerAdapter(sAdapter,new LinearLayoutManager(this),new RefreshAdapterHandler());
     }
 
     private void addlist() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 30; i++) {
             if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {
