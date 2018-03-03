@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\empty.png",
+        "source": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\empty.png"
+    },
+    {
+        "merged": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\error.png",
+        "source": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\error.png"
+    }
+]

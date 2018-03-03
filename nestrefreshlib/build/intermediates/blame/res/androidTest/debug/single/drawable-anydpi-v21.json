@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-anydpi-v21\\empty.xml",
+        "source": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\drawable-anydpi-v21\\empty.xml"
+    },
+    {
+        "merged": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-anydpi-v21\\error.xml",
+        "source": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestPullView_simple\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\drawable-anydpi-v21\\error.xml"
+    }
+]

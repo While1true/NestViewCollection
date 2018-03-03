@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.nestrefreshlib.R;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
 
 /**
  * Created by 不听话的好孩子 on 2018/2/6.
@@ -40,9 +42,9 @@ public class RefreshHeaderAndFooterAdapterWrap extends BaseHeaderAndFooterAdapte
     }
 
     public View getHeader(){
-        return headers.get(0);
+        return getHeader(0);
     }
     public View getFooter(){
-        return footers.get(0);
+        return getFooter(0);
     }
 }

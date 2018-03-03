@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -18,9 +16,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.nestrefreshlib.R;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshInnerHandlerImpl;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshOuterHanderImpl;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.MyRefreshInnerHandler;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
 
 import static java.lang.Math.signum;
 
@@ -97,10 +96,10 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         attrsUtils = new AttrsUtils();
         attrsUtils.ParseAttrs(context, attrs);
         try {
-            if (baseRefreshWrap == null) {
-                baseRefreshWrap = (BaseRefreshHeaderAndFooterHandler) AttrsUtils.builder.defaultRefreshWrap.newInstance();
+            if (baseRefreshHandler == null) {
+                baseRefreshHandler = (BaseRefreshHeaderAndFooterHandler) AttrsUtils.builder.defaultRefreshHandler.newInstance();
             }
-            if (!baseRefreshWrap.isOutHeaderAndFooter()) {
+            if (baseRefreshHandler instanceof RefreshAdapterHandler) {
                 attrsUtils.EVALUATEABLE = true;
             }
         } catch (InstantiationException e) {
@@ -240,8 +239,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
         }
         if (changed) {
-            baseRefreshWrap.initView(this);
-            baseRefreshWrap.isinit=true;
+            baseRefreshHandler.initView(this);
+            baseRefreshHandler.isinit = true;
         }
 
     }
@@ -287,7 +286,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (scrolls == 0) {
             return;
         }
-        baseRefreshWrap.setData(obj);
+        baseRefreshHandler.setData(obj);
         if (state == State.REFRESHING || state == State.LOADING) {
             state = state == State.REFRESHING ? State.REFRESHCOMPLETE : State.LOADINGCOMPLETE;
             int position = state == State.REFRESHING ? -attrsUtils.mHeaderRefreshCompletePosition : attrsUtils.mFooterRefreshPosition;
@@ -310,7 +309,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (scrolls == 0) {
             return;
         }
-        baseRefreshWrap.setData(obj);
+        baseRefreshHandler.setData(obj);
         if (state == State.REFRESHING || state == State.LOADING) {
             state = state == State.REFRESHING ? State.REFRESHCOMPLETE : State.LOADINGCOMPLETE;
             if (position == 0) {
@@ -374,9 +373,9 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         }
 
         if (state == State.PULL_HEADER) {
-            baseRefreshWrap.onPullHeader(mHeader, -value);
+            baseRefreshHandler.onPullHeader(mHeader, -value);
         } else {
-            baseRefreshWrap.onPullFooter(mFooter, value);
+            baseRefreshHandler.onPullFooter(mFooter, value);
         }
     }
 
@@ -384,7 +383,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (callback != null) {
             callback.call(state);
         }
-        baseRefreshWrap.OnStateChange(state);
+        baseRefreshHandler.OnStateChange(state);
     }
 
     @Override
@@ -395,7 +394,13 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
             changeState(scrolls, 0);
             int mRefreshPosition = scrolls > 0 ? attrsUtils.mFooterRefreshPosition : attrsUtils.mHeaderRefreshPosition;
             if (Math.abs(scrolls) >= mRefreshPosition && !attrsUtils.OVERSCROLL) {
-                aninatorTo(scrolls, (int) signum(scrolls) * mRefreshPosition);
+                if (scrolls > 0 && baseRefreshHandler instanceof RefreshAdapterHandler) {
+                    aninatorTo(scrolls, 0);
+//                    state = State.LOADING;
+//                    callbackState(state);
+                } else {
+                    aninatorTo(scrolls, (int) signum(scrolls) * mRefreshPosition);
+                }
             } else {
                 aninatorTo(scrolls, 0);
             }
@@ -485,9 +490,9 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     private void doScroll(boolean isvertical) {
         if (isvertical) {
-            scrollTo(0, scrolls);
+            MyScrollTo(0, scrolls);
         } else {
-            scrollTo(scrolls, 0);
+            MyScrollTo(scrolls, 0);
         }
     }
 
@@ -526,12 +531,15 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     }
 
 
-    Callback callback;
+    private Callback callback;
 
     public void setListener(Callback callback) {
         this.callback = callback;
     }
 
+    public Callback getCallback() {
+        return callback;
+    }
 
     public abstract static class Callback {
         public abstract void call(State t);
@@ -816,25 +824,18 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         }
     }
 
-    public void setInnerAdapter(RecyclerView.Adapter adapter,RefreshInnerHandlerImpl handler, RecyclerView.LayoutManager manager) {
+    public void setInnerAdapter(RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager, RefreshAdapterHandler handler) {
         if (mScroll instanceof RecyclerView) {
+            removeView(mHeader);
+            removeView(mFooter);
+            mHeader = null;
+            mFooter = null;
+            ((RecyclerView) mScroll).addOnScrollListener(new AdapterScrollListener(this));
             ((RecyclerView) mScroll).setLayoutManager(manager);
-            if (manager.getClass().getSimpleName().equals("LinearLayoutManager") ) {
-                ((RecyclerView) mScroll).addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-            }
-            MyRefreshInnerHandler.setInnerRecyclerviewAdapter(this,handler, adapter);
+            handler.setInnerAdapter(this, adapter, handler);
         } else {
             throw new UnsupportedOperationException("子view必须是recyclerview才能支持");
         }
-    }
-    public void setInnerAdapter(RecyclerView.Adapter adapter) {
-        setInnerAdapter(adapter,new MyRefreshInnerHandler(),new LinearLayoutManager(getContext()));
-    }
-
-    public void setAdapter(RecyclerView.Adapter adapter){
-        ((RecyclerView) mScroll).setLayoutManager(new LinearLayoutManager(getContext()));
-        ((RecyclerView) mScroll).addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        ((RecyclerView) mScroll).setAdapter(adapter);
     }
 
     /**
@@ -844,10 +845,10 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         private int HEADER_LAYOUTID_DEFAULT, SCROLL_LAYOUT_ID_DEFAULT, FOOTER_LAYOUTID_DEFAULT;
         private float PULLRATE = 2.5f;
         private boolean CANHEADER_DEFAULT = true, CANFOOTR_DEFAULT = true, OVERSCROLL_DEFAULT = false, OVERSCROLL_ELASTIC_DEFAULT = false;
-        private Class defaultRefreshWrap = RefreshOuterHanderImpl.class;
+        private Class defaultRefreshHandler = RefreshHanderBase.class;
 
-        public DefaultBuilder setBaseRefreshWrap(Class defaultRefreshWrap) {
-            this.defaultRefreshWrap = defaultRefreshWrap;
+        public DefaultBuilder setBaseRefreshHandler(Class defaultRefreshWrap) {
+            this.defaultRefreshHandler = defaultRefreshWrap;
             return this;
         }
 
@@ -891,22 +892,22 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     }
 
 
-    private BaseRefreshHeaderAndFooterHandler baseRefreshWrap;
+    private BaseRefreshHeaderAndFooterHandler baseRefreshHandler;
 
-    public void setRefreshWrap(BaseRefreshHeaderAndFooterHandler baseRefreshWrap) {
-        this.baseRefreshWrap = baseRefreshWrap;
-        if (!baseRefreshWrap.isOutHeaderAndFooter()) {
+    public void setRefreshHandler(BaseRefreshHeaderAndFooterHandler baseRefreshHandler) {
+        this.baseRefreshHandler = baseRefreshHandler;
+        if (baseRefreshHandler instanceof RefreshAdapterHandler) {
             attrsUtils.EVALUATEABLE = true;
         }
-        if(!baseRefreshWrap.isinit){
-            baseRefreshWrap.initView(this);
-            baseRefreshWrap.isinit=true;
+        if (!baseRefreshHandler.isinit) {
+            baseRefreshHandler.initView(this);
+            baseRefreshHandler.isinit = true;
         }
     }
 
     public static abstract class BaseRefreshHeaderAndFooterHandler<T> {
         protected T data;
-        boolean isinit=false;
+        boolean isinit = false;
 
         public abstract void onPullHeader(View view, int scrolls);
 
@@ -918,11 +919,6 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
         }
 
-        public boolean isOutHeaderAndFooter() {
-
-            return true;
-        }
-
         protected void setData(Object data) {
             this.data = (T) data;
         }
@@ -930,10 +926,26 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
 
     public <T extends View> T getmHeader() {
+        if (mHeader == null) {
+            if (mScroll instanceof RecyclerView) {
+                RecyclerView.Adapter adapter = ((RecyclerView) mScroll).getAdapter();
+                if (adapter instanceof BaseHeaderAndFooterAdapterWrap) {
+                    mHeader = ((BaseHeaderAndFooterAdapterWrap) adapter).getHeader(0);
+                }
+            }
+        }
         return (T) mHeader;
     }
 
     public <T extends View> T getmFooter() {
+        if (mFooter == null) {
+            if (mScroll instanceof RecyclerView) {
+                RecyclerView.Adapter adapter = ((RecyclerView) mScroll).getAdapter();
+                if (adapter instanceof BaseHeaderAndFooterAdapterWrap) {
+                    mFooter = ((BaseHeaderAndFooterAdapterWrap) adapter).getFooter(0);
+                }
+            }
+        }
         return (T) mFooter;
     }
 
@@ -943,21 +955,21 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     public <T extends View> T findInHeaderView(int id) {
 
-        return (T) mHeader.findViewById(id);
+        return (T) getmHeader().findViewById(id);
     }
 
     public <T extends View> T findInScrollView(int id) {
 
-        return (T) mScroll.findViewById(id);
+        return (T) getmScroll().findViewById(id);
     }
 
     public <T extends View> T findInFooterView(int id) {
 
-        return (T) mScroll.findViewById(id);
+        return (T) getmFooter().findViewById(id);
     }
 
-    public <T extends BaseRefreshHeaderAndFooterHandler> T getBaseRefreshWrap() {
-        return (T) baseRefreshWrap;
+    public <T extends BaseRefreshHeaderAndFooterHandler> T getBaseRefreshHandler() {
+        return (T) baseRefreshHandler;
     }
 
     /**
@@ -989,8 +1001,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         return attrsUtils;
     }
 
-    @Override
-    public void scrollTo(int x, int y) {
+    public void MyScrollTo(int x, int y) {
         int temp = attrsUtils.orentation == Orentation.VERTICAL ? y : x;
         if (attrsUtils.OVERSCROLL && attrsUtils.OVERSCROLL_ELASTIC) {
             temp = caculateZhangli(temp, attrsUtils.mMaxHeaderScroll / 3);
