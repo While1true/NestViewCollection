@@ -29,9 +29,10 @@ int attr sradius 0x7f04001b
 int attr startprogress 0x7f04001c
 int attr textColor 0x7f04001d
 int attr textsize 0x7f04001e
-int drawable bt_bg 0x7f090001
-int drawable empty 0x7f090002
-int drawable error 0x7f090003
+int drawable bg 0x7f090001
+int drawable bt_bg 0x7f090002
+int drawable empty 0x7f090003
+int drawable error 0x7f090004
 int id HORIZONTAL 0x7f0c0001
 int id VERTICAL 0x7f0c0002
 int id footer 0x7f0c0003

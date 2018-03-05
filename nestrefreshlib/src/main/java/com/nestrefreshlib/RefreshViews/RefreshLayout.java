@@ -16,10 +16,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.nestrefreshlib.R;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
-import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
 
 import static java.lang.Math.signum;
 
@@ -99,7 +97,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
             if (baseRefreshHandler == null) {
                 baseRefreshHandler = (BaseRefreshHeaderAndFooterHandler) AttrsUtils.builder.defaultRefreshHandler.newInstance();
             }
-            if (baseRefreshHandler instanceof RefreshAdapterHandler) {
+            if (baseRefreshHandler.handleAdapter()) {
                 attrsUtils.EVALUATEABLE = true;
             }
         } catch (InstantiationException e) {
@@ -394,7 +392,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
             changeState(scrolls, 0);
             int mRefreshPosition = scrolls > 0 ? attrsUtils.mFooterRefreshPosition : attrsUtils.mHeaderRefreshPosition;
             if (Math.abs(scrolls) >= mRefreshPosition && !attrsUtils.OVERSCROLL) {
-                if (scrolls > 0 && baseRefreshHandler instanceof RefreshAdapterHandler) {
+                if (scrolls > 0 && baseRefreshHandler.handleAdapter()) {
                     aninatorTo(scrolls, 0);
 //                    state = State.LOADING;
 //                    callbackState(state);
@@ -824,20 +822,6 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         }
     }
 
-    public void setInnerAdapter(RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager, RefreshAdapterHandler handler) {
-        if (mScroll instanceof RecyclerView) {
-            removeView(mHeader);
-            removeView(mFooter);
-            mHeader = null;
-            mFooter = null;
-            ((RecyclerView) mScroll).addOnScrollListener(new AdapterScrollListener(this));
-            ((RecyclerView) mScroll).setLayoutManager(manager);
-            handler.setInnerAdapter(this, adapter, handler);
-        } else {
-            throw new UnsupportedOperationException("子view必须是recyclerview才能支持");
-        }
-    }
-
     /**
      * 保存全局默认配置
      */
@@ -896,7 +880,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     public void setRefreshHandler(BaseRefreshHeaderAndFooterHandler baseRefreshHandler) {
         this.baseRefreshHandler = baseRefreshHandler;
-        if (baseRefreshHandler instanceof RefreshAdapterHandler) {
+        if (baseRefreshHandler.handleAdapter()) {
             attrsUtils.EVALUATEABLE = true;
         }
         if (!baseRefreshHandler.isinit) {
@@ -918,7 +902,11 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         protected void initView(RefreshLayout layout) {
 
         }
-
+        
+        protected boolean handleAdapter(){
+            return true;
+        }
+        
         protected void setData(Object data) {
             this.data = (T) data;
         }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
 
@@ -46,5 +47,12 @@ public class RefreshHeaderAndFooterAdapterWrap extends BaseHeaderAndFooterAdapte
     }
     public View getFooter(){
         return getFooter(0);
+    }
+
+    public Holder getHeaderHolder(){
+        return new Holder(getHeader());
+    }
+    public Holder getfooterHolder(){
+        return new Holder(getFooter());
     }
 }

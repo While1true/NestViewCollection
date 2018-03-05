@@ -40,9 +40,10 @@ public final class R {
         public static int textsize = 0x7f04001e;
     }
     public static final class drawable {
-        public static int bt_bg = 0x7f090001;
-        public static int empty = 0x7f090002;
-        public static int error = 0x7f090003;
+        public static int bg = 0x7f090001;
+        public static int bt_bg = 0x7f090002;
+        public static int empty = 0x7f090003;
+        public static int error = 0x7f090004;
     }
     public static final class id {
         public static int HORIZONTAL = 0x7f0c0001;

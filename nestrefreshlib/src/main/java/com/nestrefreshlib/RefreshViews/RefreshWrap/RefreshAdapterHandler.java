@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nestrefreshlib.R;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
@@ -28,9 +29,9 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
     @Override
     public void onPullHeader(View view, int scrolls) {
-       super.onPullHeader(view,scrolls);
-        if(header!=null&&scrolls!=0){
-            header.getLayoutParams().height=scrolls;
+        super.onPullHeader(view, scrolls);
+        if (header != null && scrolls != 0) {
+            header.getLayoutParams().height = scrolls;
             header.requestLayout();
         }
         /**
@@ -51,12 +52,12 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
     @Override
     public void onPullFooter(View view, int scrolls) {
-     super.onPullFooter(view,scrolls);
-     if(layout.getAttrsUtils().getOrentation()== RefreshLayout.Orentation.VERTICAL) {
-         layout.scrollTo(0,scrolls);
-     }else {
-         layout.scrollTo(scrolls,0);
-     }
+        super.onPullFooter(view, scrolls);
+        if (layout.getAttrsUtils().getOrentation() == RefreshLayout.Orentation.VERTICAL) {
+            layout.scrollTo(0, scrolls);
+        } else {
+            layout.scrollTo(scrolls, 0);
+        }
     }
 
     @Override
@@ -88,19 +89,20 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
         }
 
     }
+
     public static int dp2px(View view, float dp) {
         return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, view.getResources().getDisplayMetrics()) + 0.5f);
     }
 
     @Override
     protected void handleview(RefreshLayout layout, View header, View footer) {
-        this.layout=layout;
+        this.layout = layout;
         View view = layout.getmScroll();
         if (view instanceof RecyclerView) {
             RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
             if (adapter instanceof RefreshHeaderAndFooterAdapterWrap) {
                 header = ((RefreshHeaderAndFooterAdapterWrap) adapter).getHeader();
-                footer=((RefreshHeaderAndFooterAdapterWrap) adapter).getFooter();
+                footer = ((RefreshHeaderAndFooterAdapterWrap) adapter).getFooter();
             } else {
                 throw new UnsupportedOperationException("不支持非继承于RefreshHeaderAndFooterWrap 的wrap");
             }
@@ -120,16 +122,31 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             mHeadertextView = header.findViewById(R.id.textView);
             mHeaderPrgress = header.findViewById(R.id.progressBar);
         }
-        this.header=header;
+        this.header = header;
 
     }
 
 
-    public void setInnerAdapter(RefreshLayout layout, RecyclerView.Adapter adapter, RefreshAdapterHandler handler) {
-        if(!(adapter instanceof BaseHeaderAndFooterAdapterWrap)){
-            adapter=new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(layout);
+    public <T extends BaseHeaderAndFooterAdapterWrap>T attachRefreshLayout(RefreshLayout layout, RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager) {
+        if (layout.getmScroll() instanceof RecyclerView) {
+            View mFooter = layout.getmFooter();
+            View mHeader = layout.getmHeader();
+            layout.removeView(mHeader);
+            layout.removeView(mFooter);
+            mHeader = null;
+            mFooter = null;
+
+            ((RecyclerView) layout.getmScroll()).addOnScrollListener(new AdapterScrollListener(layout));
+            ((RecyclerView) layout.getmScroll()).setLayoutManager(manager);
+            if (!(adapter instanceof BaseHeaderAndFooterAdapterWrap)) {
+                adapter = new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(layout);
+            }
+            ((RecyclerView) layout.getmScroll()).setAdapter(adapter);
+            layout.setRefreshHandler(this);
+        } else {
+            throw new UnsupportedOperationException("子view必须是recyclerview才能支持");
         }
-        ((RecyclerView) layout.getmScroll()).setAdapter(adapter);
-        layout.setRefreshHandler(handler);
+
+        return (T) adapter;
     }
 }
