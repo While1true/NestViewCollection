@@ -147,4 +147,22 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             throw new UnsupportedOperationException("子view必须是recyclerview才能支持");
         }
     }
+
+    public void startLoading(CharSequence charSequence){
+        TextView inFooterView = layout.findInFooterView(R.id.textView);
+        ProgressBar progressBar = layout.findInFooterView(R.id.progressBar);
+        if(inFooterView!=null){
+            inFooterView.setText(charSequence);
+        }
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void stopLoading(CharSequence charSequence){
+        TextView inFooterView = layout.findInFooterView(R.id.textView);
+        ProgressBar progressBar = layout.findInFooterView(R.id.progressBar);
+        if(inFooterView!=null){
+            inFooterView.setText(charSequence);
+        }
+        progressBar.setVisibility(View.GONE);
+    }
 }
