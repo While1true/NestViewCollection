@@ -127,7 +127,7 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     }
 
 
-    public <T extends BaseHeaderAndFooterAdapterWrap>T attachRefreshLayout(RefreshLayout layout, RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager) {
+    public void attachRefreshLayout(RefreshLayout layout, RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager) {
         if (layout.getmScroll() instanceof RecyclerView) {
             View mFooter = layout.getmFooter();
             View mHeader = layout.getmHeader();
@@ -146,7 +146,5 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
         } else {
             throw new UnsupportedOperationException("子view必须是recyclerview才能支持");
         }
-
-        return (T) adapter;
     }
 }
