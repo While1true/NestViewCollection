@@ -5,9 +5,7 @@
       <module fileurl="file://D:\Github\NestPullView2\NestPullView.iml" filepath="D:\Github\NestPullView2\NestPullView.iml" />
       <module fileurl="file://$PROJECT_DIR$/NestPullView2.iml" filepath="$PROJECT_DIR$/NestPullView2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Github\NestPullView2\app\app.iml" filepath="D:\Github\NestPullView2\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" filepath="$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" />
-      <module fileurl="file://D:\Github\NestPullView2\nestrefreshlib\nestrefreshlib.iml" filepath="D:\Github\NestPullView2\nestrefreshlib\nestrefreshlib.iml" />
     </modules>
   </component>
 </project>

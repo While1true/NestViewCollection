@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter {
-    RecyclerView.Adapter adapter;
+    protected RecyclerView.Adapter adapter;
 
     protected List<View> headers = new ArrayList<>();
     protected List<View> footers = new ArrayList<>();
@@ -24,8 +24,46 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter {
 
     public BaseHeaderAndFooterAdapterWrap(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
+        adapter.registerAdapterDataObserver(observer);
     }
+    RecyclerView.AdapterDataObserver observer=new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            notifyDataSetChanged();
+        }
 
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            notifyItemRangeChanged(positionStart+headers.size(),itemCount);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            notifyItemRangeChanged(positionStart+headers.size(),itemCount,payload);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            notifyItemRangeInserted(positionStart+headers.size(),itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            onItemRangeRemoved(positionStart+headers.size(),itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            notifyItemMoved(fromPosition+headers.size(),toPosition);
+        }
+
+    };
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        adapter.unregisterAdapterDataObserver(observer);
+    }
     public BaseHeaderAndFooterAdapterWrap addHeader(View Header) {
         headers.add(Header);
         return this;

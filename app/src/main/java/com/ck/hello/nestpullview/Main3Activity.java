@@ -132,7 +132,7 @@ public class Main3Activity extends AppCompatActivity {
                 })
                 .addLifeOwener(this);
 //        layout.setAdapter(sAdapter);
-        layout.setInnerAdapter(sAdapter,new LinearLayoutManager(this),new RefreshAdapterHandler());
+        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
     }
 
     private void addlist() {

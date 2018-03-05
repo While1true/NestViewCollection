@@ -16,6 +16,7 @@ import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAda
  */
 
 public class RefreshHeaderAndFooterAdapterWrap extends BaseHeaderAndFooterAdapterWrap {
+
     public RefreshHeaderAndFooterAdapterWrap(RecyclerView.Adapter adapter) {
         super(adapter);
     }
