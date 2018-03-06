@@ -34,27 +34,22 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter {
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            notifyItemRangeChanged(positionStart+headers.size(),itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            notifyItemRangeChanged(positionStart+headers.size(),itemCount,payload);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            notifyItemRangeInserted(positionStart+headers.size(),itemCount);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            onItemRangeRemoved(positionStart+headers.size(),itemCount);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            notifyItemMoved(fromPosition+headers.size(),toPosition);
         }
 
     };
