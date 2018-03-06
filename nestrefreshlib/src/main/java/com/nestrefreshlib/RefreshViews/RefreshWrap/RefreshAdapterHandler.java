@@ -139,7 +139,7 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             ((RecyclerView) layout.getmScroll()).addOnScrollListener(new AdapterScrollListener(layout));
             ((RecyclerView) layout.getmScroll()).setLayoutManager(manager);
             if (!(adapter instanceof AdapterRefreshInterface)) {
-                adapter=new RefreshHeaderAndFooterAdapterWrap(adapter);
+                adapter=new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(layout);
             }
             ((RecyclerView) layout.getmScroll()).setAdapter(adapter);
             layout.setRefreshHandler(this);

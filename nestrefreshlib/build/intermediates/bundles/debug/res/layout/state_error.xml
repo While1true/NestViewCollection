@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/error"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    <Button
+        android:layout_below="@+id/iv"
+        android:id="@+id/reload"
+        android:textColor="#353535"
+        android:background="@drawable/bt_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:text="点击重试" />
+</RelativeLayout>
