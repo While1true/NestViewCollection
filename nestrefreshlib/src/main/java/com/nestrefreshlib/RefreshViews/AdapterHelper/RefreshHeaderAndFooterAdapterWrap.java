@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.R;
@@ -41,13 +40,6 @@ public class RefreshHeaderAndFooterAdapterWrap extends BaseHeaderAndFooterAdapte
         addHeaderLayout(header,parent);
         addfooterLayout(footer,parent);
         return this;
-    }
-
-    public View getHeader(){
-        return getHeader(0);
-    }
-    public View getFooter(){
-        return getFooter(0);
     }
 
     public Holder getHeaderHolder(){

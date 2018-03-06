@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
 
 
@@ -100,11 +100,11 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
         View view = layout.getmScroll();
         if (view instanceof RecyclerView) {
             RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
-            if (adapter instanceof RefreshHeaderAndFooterAdapterWrap) {
-                header = ((RefreshHeaderAndFooterAdapterWrap) adapter).getHeader();
-                footer = ((RefreshHeaderAndFooterAdapterWrap) adapter).getFooter();
+            if (adapter instanceof AdapterRefreshInterface) {
+                header = ((AdapterRefreshInterface) adapter).getHeader();
+                footer = ((AdapterRefreshInterface) adapter).getFooter();
             } else {
-                throw new UnsupportedOperationException("不支持非继承于RefreshHeaderAndFooterWrap 的wrap");
+                throw new UnsupportedOperationException("不支持非继承于AdapterRefreshInterface 的wrap");
             }
 
         } else {
@@ -138,8 +138,8 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
             ((RecyclerView) layout.getmScroll()).addOnScrollListener(new AdapterScrollListener(layout));
             ((RecyclerView) layout.getmScroll()).setLayoutManager(manager);
-            if (!(adapter instanceof BaseHeaderAndFooterAdapterWrap)) {
-                adapter = new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(layout);
+            if (!(adapter instanceof AdapterRefreshInterface)) {
+                adapter=new RefreshHeaderAndFooterAdapterWrap(adapter);
             }
             ((RecyclerView) layout.getmScroll()).setAdapter(adapter);
             layout.setRefreshHandler(this);

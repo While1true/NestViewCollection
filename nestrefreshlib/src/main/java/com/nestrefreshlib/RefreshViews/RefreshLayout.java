@@ -16,7 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.nestrefreshlib.R;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.BaseHeaderAndFooterAdapterWrap;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
 
 import static java.lang.Math.signum;
@@ -917,8 +917,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (mHeader == null) {
             if (mScroll instanceof RecyclerView) {
                 RecyclerView.Adapter adapter = ((RecyclerView) mScroll).getAdapter();
-                if (adapter instanceof BaseHeaderAndFooterAdapterWrap) {
-                    mHeader = ((BaseHeaderAndFooterAdapterWrap) adapter).getHeader(0);
+                if (adapter instanceof AdapterRefreshInterface) {
+                    mHeader = ((AdapterRefreshInterface) adapter).getHeader();
                 }
             }
         }
@@ -929,8 +929,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (mFooter == null) {
             if (mScroll instanceof RecyclerView) {
                 RecyclerView.Adapter adapter = ((RecyclerView) mScroll).getAdapter();
-                if (adapter instanceof BaseHeaderAndFooterAdapterWrap) {
-                    mFooter = ((BaseHeaderAndFooterAdapterWrap) adapter).getFooter(0);
+                if (adapter instanceof AdapterRefreshInterface) {
+                    mFooter = ((AdapterRefreshInterface) adapter).getFooter();
                 }
             }
         }

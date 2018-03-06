@@ -14,7 +14,7 @@ import java.util.List;
  * Created by 不听话的好孩子 on 2018/2/6.
  */
 
-public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter {
+public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter implements AdapterRefreshInterface {
     protected RecyclerView.Adapter adapter;
 
     protected List<View> headers = new ArrayList<>();
@@ -148,14 +148,14 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter {
     public void onBindFooter(View view, int position) {
     }
 
-    public View getHeader(int index){
+    public View getHeader(){
 
-        return headers.get(index);
+        return headers.get(0);
     }
 
-    public View getFooter(int index){
+    public View getFooter(){
 
-        return footers.get(index);
+        return footers.get(0);
     }
 
     @Override
