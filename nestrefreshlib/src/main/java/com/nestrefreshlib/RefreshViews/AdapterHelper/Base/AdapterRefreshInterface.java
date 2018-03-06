@@ -1,5 +1,6 @@
 package com.nestrefreshlib.RefreshViews.AdapterHelper.Base;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -9,4 +10,5 @@ import android.view.View;
 public interface AdapterRefreshInterface {
     View getHeader();
     View getFooter();
+    RecyclerView.Adapter getWrapAdapter();
 }

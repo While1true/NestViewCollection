@@ -159,6 +159,11 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter impleme
     }
 
     @Override
+    public RecyclerView.Adapter getWrapAdapter() {
+        return adapter;
+    }
+
+    @Override
     public int getItemCount() {
         return headers.size() + adapter.getItemCount() + footers.size();
     }
