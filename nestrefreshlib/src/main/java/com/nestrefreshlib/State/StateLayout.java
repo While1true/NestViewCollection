@@ -174,7 +174,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
             stateHandler.BindNomoreHolder(Holder.createViewHolder(views.get(showstate)), o);
 
         }else {
-            views.get(this.showstate).setVisibility(GONE);
+            views.get(this.showstate).setVisibility(INVISIBLE);
             this.showstate = showstate;
             switch (showstate) {
                 case SHOW_INFO:
