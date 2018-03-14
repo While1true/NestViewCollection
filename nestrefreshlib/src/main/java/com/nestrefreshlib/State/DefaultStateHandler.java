@@ -22,7 +22,6 @@ import com.nestrefreshlib.R;
 public class DefaultStateHandler implements StateHandlerInterface<String> {
     private DefaultStateListener listener;
     private SLoading sLoading;
-    private View nomore;
 
     public DefaultStateHandler setStateClickListener(BaseStateListener listener) {
         this.listener = (DefaultStateListener) listener;
@@ -72,24 +71,13 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
 
     @Override
     public void BindNomoreHolder(final Holder holder, String s) {
-        if (s != null)
-            ((TextView) holder.getView(R.id.tv_nomore)).setText(s);
-//        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 300);
-//        translateAnimation.setDuration(2000);
-//        holder.itemView.startAnimation(translateAnimation);
-
-        startNomore(holder);
+        if(s != null) {
+            ((TextView)holder.getView(R.id.tv_nomore)).setText(s);
+        }
 
 
     }
 
-    private void startNomore(final Holder holder) {
-        nomore=holder.itemView;
-        int i = StateLayout.dp2px(nomore.getContext(), 55);
-        ObjectAnimator translationY = ObjectAnimator.ofFloat(nomore, "translationY", -i, 0, 0, 0, 0, 0,0,0, 0, 0, -5, 5, -5, 5, -i);
-        translationY.setDuration(10000).setInterpolator(new DecelerateInterpolator());
-        translationY.start();
-    }
 
     public class DecelerateAccelerateInterpolator implements Interpolator {
         public DecelerateAccelerateInterpolator() {}
@@ -107,10 +95,6 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
             sLoading.stopAnimator();
             sLoading = null;
         }
-        if(nomore!=null){
-            nomore.clearAnimation();
-        }
-        nomore=null;
     }
 
     /**
