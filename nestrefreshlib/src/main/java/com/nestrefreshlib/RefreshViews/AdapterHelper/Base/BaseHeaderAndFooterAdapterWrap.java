@@ -26,7 +26,8 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter impleme
         this.adapter = adapter;
         adapter.registerAdapterDataObserver(observer);
     }
-    RecyclerView.AdapterDataObserver observer=new RecyclerView.AdapterDataObserver() {
+
+    RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
         @Override
         public void onChanged() {
             notifyDataSetChanged();
@@ -59,6 +60,7 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter impleme
         super.onDetachedFromRecyclerView(recyclerView);
         adapter.unregisterAdapterDataObserver(observer);
     }
+
     public BaseHeaderAndFooterAdapterWrap addHeader(View Header) {
         headers.add(Header);
         return this;
@@ -116,17 +118,17 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter impleme
 
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        if(adapter instanceof SAdapter){
+        if (adapter instanceof SAdapter) {
             ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
-            if(params instanceof android.support.v7.widget.StaggeredGridLayoutManager.LayoutParams) {
+            if (params instanceof android.support.v7.widget.StaggeredGridLayoutManager.LayoutParams) {
                 int itemViewType = holder.getItemViewType();
                 if (itemViewType <= FOOTERBASE || itemViewType >= HEADERBASE) {
-                    ((android.support.v7.widget.StaggeredGridLayoutManager.LayoutParams)params).setFullSpan(true);
-                }else {
+                    ((android.support.v7.widget.StaggeredGridLayoutManager.LayoutParams) params).setFullSpan(true);
+                } else {
                     ((android.support.v7.widget.StaggeredGridLayoutManager.LayoutParams) params).setFullSpan(((SAdapter) adapter).setIfStaggedLayoutManagerFullspan(itemViewType));
                 }
             }
-        }else{
+        } else {
             adapter.onViewAttachedToWindow(holder);
         }
     }
@@ -134,26 +136,36 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter impleme
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position < headers.size()) {
-            onBindHeader(headers.get(position), position);
+            if(handler!=null) {
+                handler.onBindHeader(headers.get(position), position);
+            }
         } else if (position < headers.size() + adapter.getItemCount()) {
             adapter.onBindViewHolder(holder, position - headers.size());
         } else {
-            onBindHeader(footers.get(position - headers.size() - adapter.getItemCount()), position);
+            if(handler!=null) {
+                handler.onBindHeader(footers.get(position - headers.size() - adapter.getItemCount()), position);
+            }
         }
     }
 
-    public void onBindHeader(View view, int position) {
+    HeaderAndFooterBindHandler handler;
+
+    public void setHeaderAndFooterBindHandler(HeaderAndFooterBindHandler handler) {
+        this.handler = handler;
     }
 
-    public void onBindFooter(View view, int position) {
+    public interface HeaderAndFooterBindHandler {
+        void onBindHeader(View view, int position);
+
+        void onBindFooter(View view, int position);
     }
 
-    public View getHeader(){
+    public View getHeader() {
 
         return headers.get(0);
     }
 
-    public View getFooter(){
+    public View getFooter() {
 
         return footers.get(0);
     }
@@ -175,7 +187,10 @@ public class BaseHeaderAndFooterAdapterWrap extends RecyclerView.Adapter impleme
         } else if (position < headers.size() + adapter.getItemCount()) {
             return adapter.getItemViewType(position - headers.size());
         } else {
-            return FOOTERBASE - position+headers.size()+adapter.getItemCount();
+            return FOOTERBASE - position + headers.size() + adapter.getItemCount();
         }
     }
+
+
 }
+

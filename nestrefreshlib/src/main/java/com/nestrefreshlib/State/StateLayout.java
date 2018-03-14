@@ -23,13 +23,14 @@ import com.nestrefreshlib.State.Interface.StateHandlerInterface;
  * Created by ck on 2017/7/29.
  */
 
-public class StateLayout extends FrameLayout implements ShowStateInterface {
+public class StateLayout extends FrameLayout implements ShowStateInterface,Runnable {
     //全局id记录者
     protected static Recorder globalrecorder;
     //状态onindBView
     protected StateHandlerInterface stateHandler;
 
     private StateEnum showstate = StateEnum.TYPE_ITEM;
+    private int showtime = 6000;
 
     private ArrayMap<StateEnum, View> views = new ArrayMap<>(4);
     private ArrayMap<StateEnum, Integer> viewids = new ArrayMap<>(4);
@@ -53,9 +54,12 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         if (getChildCount() != 0) {
             if (views.get(StateEnum.TYPE_ITEM) == null) {
                 views.put(StateEnum.TYPE_ITEM, getChildAt(0));
-//                initState();
             }
         }
+    }
+
+    public void setShowtime(int time) {
+        showtime = time;
     }
 
     private void init() {
@@ -104,7 +108,6 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
     public StateLayout setContent(View view) {
         views.put(StateEnum.TYPE_ITEM, view);
         addView(view);
-//        initState();
         return this;
     }
 
@@ -126,8 +129,6 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
         View contentView = inflater.inflate(contentres, this, false);
         views.put(StateEnum.TYPE_ITEM, contentView);
         addView(contentView);
-
-//        initState();
         return this;
     }
 
@@ -135,6 +136,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
     public void showState(StateEnum showstate, Object o) {
         if (this.showstate != showstate) {
             removeView(views.get(this.showstate));
+            views.remove(this.showstate);
             this.showstate = showstate;
             LayoutInflater inflater = LayoutInflater.from(getContext());
             View showView = inflater.inflate(viewids.get(showstate), this, false);
@@ -152,7 +154,9 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
                     }
                 }
             }
+            autoHideNomore(showstate);
         }
+
         switch (showstate) {
             case SHOW_NOMORE:
                 stateHandler.BindNomoreHolder(Holder.createViewHolder(views.get(showstate)), o);
@@ -165,6 +169,12 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
             case SHOW_ERROR:
                 stateHandler.BindErrorHolder(Holder.createViewHolder(views.get(showstate)), o);
                 break;
+        }
+    }
+
+    private void autoHideNomore(StateEnum showstate) {
+        if (showstate == StateEnum.SHOW_NOMORE) {
+            views.get(showstate).postDelayed(this, showtime);
         }
     }
 
@@ -200,5 +210,20 @@ public class StateLayout extends FrameLayout implements ShowStateInterface {
     }
 
 
+    @Override
+    public void run() {
+        final View nomoreview = views.get(StateEnum.SHOW_NOMORE);
+        if (nomoreview != null)
+            nomoreview.animate().translationYBy(-nomoreview.getHeight())
+                    .withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (nomoreview != null)
+                                removeView(nomoreview);
+                            views.remove(StateEnum.SHOW_NOMORE);
+                        }
+                    });
+
+    }
 }
 
