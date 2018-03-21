@@ -113,7 +113,7 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (showstate.ordinal() < 4) {
+        if (viewType>=BASE_INDEX) {
             return Holder.createViewHolder(InflateView(viewids.get(showstate), parent));
         }
         return super.onCreateViewHolder(parent, viewType);
@@ -124,6 +124,11 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
         switch (showstate) {
             case TYPE_ITEM:
                 return super.getType(position);
+            case SHOW_NOMORE:
+                if (position == getItemCount() - 1)
+                    return BASE_INDEX + showstate.ordinal();
+                else
+                    return super.getType(position);
             default:
                 return BASE_INDEX + showstate.ordinal();
         }
@@ -162,7 +167,7 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
 
     @Override
     public void showState(StateEnum showstate, Object o) {
-        object=o;
+        object = o;
         this.showstate = showstate;
         notifyDataSetChanged();
     }

@@ -36,8 +36,9 @@ public final class R {
         public static int snum = 0x7f04001a;
         public static int sradius = 0x7f04001b;
         public static int startprogress = 0x7f04001c;
-        public static int textColor = 0x7f04001d;
-        public static int textsize = 0x7f04001e;
+        public static int stateHandler = 0x7f04001d;
+        public static int textColor = 0x7f04001e;
+        public static int textsize = 0x7f04001f;
     }
     public static final class drawable {
         public static int bg = 0x7f090001;
@@ -77,7 +78,7 @@ public final class R {
         public static int sprogress_string = 0x7f150002;
     }
     public static final class styleable {
-        public static int[] RefreshLayout = { 0x7f040002, 0x7f040003, 0x7f040004, 0x7f040005, 0x7f040006, 0x7f040007, 0x7f040008, 0x7f040009, 0x7f04000a, 0x7f04000b, 0x7f04000c, 0x7f04000d, 0x7f04000e, 0x7f04000f, 0x7f040011, 0x7f040012, 0x7f040015, 0x7f040018 };
+        public static int[] RefreshLayout = { 0x7f040002, 0x7f040003, 0x7f040004, 0x7f040005, 0x7f040006, 0x7f040007, 0x7f040008, 0x7f040009, 0x7f04000a, 0x7f04000b, 0x7f04000c, 0x7f04000d, 0x7f04000e, 0x7f04000f, 0x7f040011, 0x7f040012, 0x7f040015, 0x7f040018, 0x7f04001d };
         public static int RefreshLayout_canFooter = 0;
         public static int RefreshLayout_canHeader = 1;
         public static int RefreshLayout_delayCompleteTime = 2;
@@ -96,13 +97,14 @@ public final class R {
         public static int RefreshLayout_overscroll = 15;
         public static int RefreshLayout_pullrate = 16;
         public static int RefreshLayout_scrollID = 17;
+        public static int RefreshLayout_stateHandler = 18;
         public static int[] SLoading = { 0x7f040016, 0x7f040017, 0x7f040019, 0x7f04001a, 0x7f04001b };
         public static int SLoading_scolorarray = 0;
         public static int SLoading_scolortype = 1;
         public static int SLoading_sgap = 2;
         public static int SLoading_snum = 3;
         public static int SLoading_sradius = 4;
-        public static int[] SProgress = { 0x7f040001, 0x7f040010, 0x7f040013, 0x7f040014, 0x7f04001c, 0x7f04001d, 0x7f04001e };
+        public static int[] SProgress = { 0x7f040001, 0x7f040010, 0x7f040013, 0x7f040014, 0x7f04001c, 0x7f04001e, 0x7f04001f };
         public static int SProgress_backColor = 0;
         public static int SProgress_minProgress = 1;
         public static int SProgress_progressColor = 2;
