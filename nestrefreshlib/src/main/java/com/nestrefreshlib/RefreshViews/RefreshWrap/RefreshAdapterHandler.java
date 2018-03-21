@@ -126,6 +126,10 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
     }
 
+    @Override
+    protected boolean handleAdapter() {
+        return true;
+    }
 
     public void attachRefreshLayout(RefreshLayout layout, RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager) {
         if (layout.getmScroll() instanceof RecyclerView) {

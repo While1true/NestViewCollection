@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
@@ -131,8 +132,11 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-//        layout.setAdapter(sAdapter);
-        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
+      RecyclerView recyclerView1=layout.getmScroll();
+        recyclerView1.setAdapter(sAdapter);
+        recyclerView1.addOnScrollListener(new AdapterScrollListener(layout));
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+//        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
     }
 
     private void addlist() {

@@ -904,7 +904,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         }
         
         protected boolean handleAdapter(){
-            return true;
+            return false;
         }
         
         protected void setData(Object data) {
