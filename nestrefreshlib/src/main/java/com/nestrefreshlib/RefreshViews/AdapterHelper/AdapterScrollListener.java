@@ -12,14 +12,14 @@ import com.nestrefreshlib.RefreshViews.RefreshLayout;
 
 public class AdapterScrollListener extends RecyclerView.OnScrollListener {
     private RefreshLayout layout;
-    private RefreshLayout.Callback callbackx;
+    private Callback callbackx;
     private AdapterScrollListener(){
 
     }
     public AdapterScrollListener(RefreshLayout layout){
         this.layout=layout;
     }
-    public AdapterScrollListener(RefreshLayout.Callback callback){
+    public AdapterScrollListener(Callback callback){
         this.callbackx=callback;
     }
     @Override
@@ -50,10 +50,13 @@ public class AdapterScrollListener extends RecyclerView.OnScrollListener {
                     }
                 }
                 if(callbackx!=null){
-                    callbackx.call(RefreshLayout.State.LOADING);
+                    callbackx.call();
                 }
             }
 
         }
+    }
+    public interface Callback{
+        void call();
     }
 }
