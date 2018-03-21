@@ -23,7 +23,7 @@ import com.nestrefreshlib.State.Interface.StateHandlerInterface;
  * Created by ck on 2017/7/29.
  */
 
-public class StateLayout extends FrameLayout implements ShowStateInterface,Runnable {
+public class StateLayout extends FrameLayout implements ShowStateInterface {
     //全局id记录者
     protected static Recorder globalrecorder;
     //状态onindBView
@@ -135,13 +135,17 @@ public class StateLayout extends FrameLayout implements ShowStateInterface,Runna
     @Override
     public void showState(StateEnum showstate, Object o) {
         if (this.showstate != showstate) {
-            removeView(views.get(this.showstate));
-            views.remove(this.showstate);
+            if(this.showstate!=StateEnum.TYPE_ITEM) {
+                removeView(views.get(this.showstate));
+                views.remove(this.showstate);
+            }
+            if(showstate!=StateEnum.TYPE_ITEM) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View showView = inflater.inflate(viewids.get(showstate), this, false);
+                views.put(showstate, showView);
+                addView(showView);
+            }
             this.showstate = showstate;
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View showView = inflater.inflate(viewids.get(showstate), this, false);
-            views.put(showstate, showView);
-            addView(showView);
             View view = views.get(StateEnum.TYPE_ITEM);
             if (showstate == StateEnum.TYPE_ITEM) {
                 if (view != null) {
@@ -154,7 +158,7 @@ public class StateLayout extends FrameLayout implements ShowStateInterface,Runna
                     }
                 }
             }
-            autoHideNomore(showstate);
+            stateHandler.switchState(showstate);
         }
 
         switch (showstate) {
@@ -169,12 +173,6 @@ public class StateLayout extends FrameLayout implements ShowStateInterface,Runna
             case SHOW_ERROR:
                 stateHandler.BindErrorHolder(Holder.createViewHolder(views.get(showstate)), o);
                 break;
-        }
-    }
-
-    private void autoHideNomore(StateEnum showstate) {
-        if (showstate == StateEnum.SHOW_NOMORE) {
-            views.get(showstate).postDelayed(this, showtime);
         }
     }
 
@@ -202,28 +200,12 @@ public class StateLayout extends FrameLayout implements ShowStateInterface,Runna
     @Deprecated
     @Override
     public void showNomore() {
-        showState(StateEnum.SHOW_NOMORE, null);
+        throw new UnsupportedOperationException("不支持");
     }
 
     public void setLayoutId(StateEnum showstate, int layoutid) {
         viewids.put(showstate, layoutid);
     }
 
-
-    @Override
-    public void run() {
-        final View nomoreview = views.get(StateEnum.SHOW_NOMORE);
-        if (nomoreview != null)
-            nomoreview.animate().translationYBy(-nomoreview.getHeight())
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (nomoreview != null)
-                                removeView(nomoreview);
-                            views.remove(StateEnum.SHOW_NOMORE);
-                        }
-                    });
-
-    }
 }
 

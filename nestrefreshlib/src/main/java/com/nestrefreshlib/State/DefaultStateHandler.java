@@ -62,17 +62,15 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
 
     @Override
     public void BindLoadingHolder(Holder holder, String s) {
-        if (sLoading == null) {
-            sLoading = holder.getView(R.id.sloading);
-        }
+        sLoading = holder.getView(R.id.sloading);
         if (sLoading != null)
             sLoading.startAnimator();
     }
 
     @Override
     public void BindNomoreHolder(final Holder holder, String s) {
-        if(s != null) {
-            ((TextView)holder.getView(R.id.tv_nomore)).setText(s);
+        if (s != null) {
+            ((TextView) holder.getView(R.id.tv_nomore)).setText(s);
         }
 
 
@@ -80,12 +78,15 @@ public class DefaultStateHandler implements StateHandlerInterface<String> {
 
 
     public class DecelerateAccelerateInterpolator implements Interpolator {
-        public DecelerateAccelerateInterpolator() {}
+        public DecelerateAccelerateInterpolator() {
+        }
+
         public float getInterpolation(float t) {
-            float x=2.0f*t-1.0f;
-            return 0.5f*(x*x*x + 1.0f);
+            float x = 2.0f * t - 1.0f;
+            return 0.5f * (x * x * x + 1.0f);
         }
     }
+
     /**
      * 销毁时调用
      */
