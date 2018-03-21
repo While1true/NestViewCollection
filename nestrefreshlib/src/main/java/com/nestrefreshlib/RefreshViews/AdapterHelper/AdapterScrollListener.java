@@ -13,11 +13,13 @@ import com.nestrefreshlib.RefreshViews.RefreshLayout;
 public class AdapterScrollListener extends RecyclerView.OnScrollListener {
     private RefreshLayout layout;
     private RefreshLayout.Callback callbackx;
+    private AdapterScrollListener(){
+
+    }
     public AdapterScrollListener(RefreshLayout layout){
         this.layout=layout;
     }
-    public AdapterScrollListener(RefreshLayout layout,RefreshLayout.Callback callback){
-        this.layout=layout;
+    public AdapterScrollListener(RefreshLayout.Callback callback){
         this.callbackx=callback;
     }
     @Override
@@ -41,9 +43,11 @@ public class AdapterScrollListener extends RecyclerView.OnScrollListener {
             }
 
             if(itemCount-1==currentlast){
-                RefreshLayout.Callback callback = layout.getCallback();
-                if(callback!=null){
-                    callback.call(RefreshLayout.State.LOADING);
+                if(layout!=null) {
+                    RefreshLayout.Callback callback = layout.getCallback();
+                    if (callback != null) {
+                        callback.call(RefreshLayout.State.LOADING);
+                    }
                 }
                 if(callbackx!=null){
                     callbackx.call(RefreshLayout.State.LOADING);
