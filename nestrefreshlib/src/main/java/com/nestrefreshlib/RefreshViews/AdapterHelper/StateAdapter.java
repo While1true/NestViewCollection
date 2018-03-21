@@ -140,7 +140,9 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
                 case SHOW_LOADING:
                     stateHandler.BindLoadingHolder((Holder) holder, object);
                 case SHOW_NOMORE:
-                    stateHandler.BindNomoreHolder((Holder) holder, object);
+                    if (position == getItemCount() - 1)
+                        stateHandler.BindNomoreHolder((Holder) holder, object);
+                    else super.onBindViewHolder(holder, position);
             }
         } else {
             super.onBindViewHolder(holder, position);
@@ -150,39 +152,42 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
 
     @Override
     public int getItemCount() {
-        if (showstate.ordinal() < 4) {
+        if (showstate.ordinal() < 3) {
             return 1;
+        } else if (showstate.ordinal() == 3) {
+            return super.getItemCount() + 1;
         }
         return super.getItemCount();
     }
 
     @Override
     public void showState(StateEnum showstate, Object o) {
-       this.showstate=showstate;
+        this.showstate = showstate;
+        notifyDataSetChanged();
     }
 
     @Override
     public void showEmpty() {
-        showState(StateEnum.SHOW_EMPTY,null);
+        showState(StateEnum.SHOW_EMPTY, null);
     }
 
     @Override
     public void ShowError() {
-        showState(StateEnum.SHOW_ERROR,null);
+        showState(StateEnum.SHOW_ERROR, null);
     }
 
     @Override
     public void showItem() {
-        showState(StateEnum.TYPE_ITEM,null);
+        showState(StateEnum.TYPE_ITEM, null);
     }
 
     @Override
     public void showLoading() {
-        showState(StateEnum.SHOW_LOADING,null);
+        showState(StateEnum.SHOW_LOADING, null);
     }
 
     @Override
     public void showNomore() {
-        showState(StateEnum.SHOW_NOMORE,null);
+        showState(StateEnum.SHOW_NOMORE, null);
     }
 }
