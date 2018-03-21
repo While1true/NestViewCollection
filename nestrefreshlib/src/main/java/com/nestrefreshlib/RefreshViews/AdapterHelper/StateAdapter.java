@@ -162,6 +162,7 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
 
     @Override
     public void showState(StateEnum showstate, Object o) {
+        object=o;
         this.showstate = showstate;
         notifyDataSetChanged();
     }

@@ -6,18 +6,16 @@
                 {
                     "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\src\\main\\res\\values\\strings.xml",
                     "from": {
-                        "startLines": "1,2",
-                        "startColumns": "4,4",
-                        "startOffsets": "17,70",
-                        "endColumns": "51,55",
-                        "endOffsets": "64,121"
+                        "startLines": "-1,-1",
+                        "startColumns": "-1,-1",
+                        "startOffsets": "-1,-1"
                     },
                     "to": {
                         "startLines": "8,9",
                         "startColumns": "4,4",
-                        "startOffsets": "1699,1751",
+                        "startOffsets": "1742,1794",
                         "endColumns": "51,55",
-                        "endOffsets": "1746,1802"
+                        "endOffsets": "1789,1845"
                     }
                 }
             ]
@@ -28,18 +26,16 @@
                 {
                     "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\src\\main\\res\\values\\strings.xml",
                     "from": {
-                        "startLines": "1,2",
-                        "startColumns": "4,4",
-                        "startOffsets": "17,70",
-                        "endColumns": "51,55",
-                        "endOffsets": "64,121"
+                        "startLines": "-1,-1",
+                        "startColumns": "-1,-1",
+                        "startOffsets": "-1,-1"
                     },
                     "to": {
                         "startLines": "8,9",
                         "startColumns": "4,4",
-                        "startOffsets": "1699,1751",
+                        "startOffsets": "1742,1794",
                         "endColumns": "51,55",
-                        "endOffsets": "1746,1802"
+                        "endOffsets": "1789,1845"
                     }
                 }
             ]

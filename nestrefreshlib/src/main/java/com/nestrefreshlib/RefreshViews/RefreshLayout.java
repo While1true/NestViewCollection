@@ -9,6 +9,7 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -678,6 +679,16 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
             if (PULLRATE == -1)
                 PULLRATE = typedArray.getFloat(R.styleable.RefreshLayout_pullrate, builder.PULLRATE);
+
+            String handler = typedArray.getString(R.styleable.RefreshLayout_stateHandler);
+
+            if(!TextUtils.isEmpty(handler)){
+                try {
+                    builder.defaultRefreshHandler=Class.forName(handler);
+                } catch (Exception e) {
+                    throw new UnsupportedOperationException(e.getCause());
+                }
+            }
 
             typedArray.recycle();
         }

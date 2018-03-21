@@ -41,5 +41,6 @@
         <attr name="mFlingmax" format="dimension" />
         <attr name="delayCompleteTime" format="integer" />
         <attr name="pullrate" format="float" />
+        <attr name="stateHandler" format="string"/>
     </declare-styleable>
     </resources>
