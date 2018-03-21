@@ -188,9 +188,9 @@ public class SLoading extends View {
 
     private ObjectAnimator getAnimator(final Progress progress, final int i) {
         ObjectAnimator animator = ObjectAnimator.ofObject(progress, "percentage", new FloatEvaluator(), 0.2, 1, 0.2);
-        animator.setDuration(1200);
+        animator.setDuration(800);
         animator.setRepeatCount(-1);
-        animator.setStartDelay((long) (i * 700 / num));
+        animator.setStartDelay((long) (i * 400 / num));
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.setRepeatMode(ValueAnimator.REVERSE);
         if (i == 0) {
