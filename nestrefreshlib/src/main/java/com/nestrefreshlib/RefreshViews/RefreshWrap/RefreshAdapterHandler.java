@@ -137,8 +137,6 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             View mHeader = layout.getmHeader();
             layout.removeView(mHeader);
             layout.removeView(mFooter);
-            mHeader = null;
-            mFooter = null;
 
             ((RecyclerView) layout.getmScroll()).addOnScrollListener(new AdapterScrollListener(layout));
             ((RecyclerView) layout.getmScroll()).setLayoutManager(manager);

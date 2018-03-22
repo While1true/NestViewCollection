@@ -893,6 +893,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         this.baseRefreshHandler = baseRefreshHandler;
         if (baseRefreshHandler.handleAdapter()) {
             attrsUtils.EVALUATEABLE = true;
+            mHeader=null;
+            mFooter=null;
         }
         if (!baseRefreshHandler.isinit) {
             baseRefreshHandler.initView(this);
