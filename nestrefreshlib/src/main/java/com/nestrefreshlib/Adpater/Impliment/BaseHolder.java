@@ -64,8 +64,10 @@ public abstract class BaseHolder<T> extends ItemHolder<T> {
             return true;
         }
         String plix = getClass().getGenericSuperclass().toString().split("<")[1];
-        String type = plix.
-                substring(0, plix.length() - 1);
+        String type=plix;
+        if(plix.endsWith(">")) {
+            type= plix.substring(0, plix.length() - 1);
+        }
         return item.getClass().getName().equals(type) || Object.class.getName().equals(type);
     }
 }
