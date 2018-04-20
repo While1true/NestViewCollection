@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
+import com.nestrefreshlib.swipe.SwipeAdapterWrapper;
+import com.nestrefreshlib.swipe.SwipeMenuRecyclerView;
 
 
 /**
@@ -140,8 +141,8 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
             ((RecyclerView) layout.getmScroll()).addOnScrollListener(new AdapterScrollListener(layout));
             ((RecyclerView) layout.getmScroll()).setLayoutManager(manager);
-            if (!(adapter instanceof AdapterRefreshInterface)) {
-                adapter=new RefreshHeaderAndFooterAdapterWrap(adapter).attachView(layout);
+            if (!(adapter instanceof AdapterRefreshInterface)&&!(layout.getmScroll() instanceof SwipeMenuRecyclerView) ) {
+                adapter=new SwipeAdapterWrapper(layout.getContext(),adapter).attachDefaultHeaderFooterView(layout);
             }
             ((RecyclerView) layout.getmScroll()).setAdapter(adapter);
             layout.setRefreshHandler(this);
