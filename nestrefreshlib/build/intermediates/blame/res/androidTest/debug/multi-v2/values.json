@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "9,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "1960,2012",
+                        "endColumns": "51,55",
+                        "endOffsets": "2007,2063"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+            "map": [
+                {
+                    "source": "D:\\Users\\ck\\AndroidStudioProjects\\test2\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "9,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "1960,2012",
+                        "endColumns": "51,55",
+                        "endOffsets": "2007,2063"
+                    }
+                }
+            ]
+        }
+    ]
+}

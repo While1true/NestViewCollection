@@ -43,28 +43,61 @@ public class SwipeAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
     private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
     private RecyclerView.Adapter mAdapter;
-    private LayoutInflater mInflater;
+    protected LayoutInflater mInflater;
 
     private SwipeMenuCreator mSwipeMenuCreator;
     private SwipeMenuItemClickListener mSwipeMenuItemClickListener;
     private SwipeItemClickListener mSwipeItemClickListener;
     private SwipeItemLongClickListener mSwipeItemLongClickListener;
 
-    public SwipeAdapterWrapper(Context context, RecyclerView.Adapter adapter) {
+     public SwipeAdapterWrapper(Context context, RecyclerView.Adapter adapter) {
         this.mInflater = LayoutInflater.from(context);
         this.mAdapter = adapter;
     }
+    private RecyclerView.AdapterDataObserver mAdapterDataObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            notifyDataSetChanged();
+        }
 
-    public RecyclerView.Adapter getOriginAdapter() {
-        return mAdapter;
-    }
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            positionStart += getHeaderItemCount();
+            notifyItemRangeChanged(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            positionStart += getHeaderItemCount();
+            notifyItemRangeChanged(positionStart, itemCount, payload);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            positionStart += getHeaderItemCount();
+            notifyItemRangeInserted(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            positionStart += getHeaderItemCount();
+            notifyItemRangeRemoved(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            fromPosition += getHeaderItemCount();
+            toPosition += getHeaderItemCount();
+            notifyItemMoved(fromPosition, toPosition);
+        }
+    };
 
     /**
      * Set to create menu listener.
      *
      * @param swipeMenuCreator listener.
      */
-    void setSwipeMenuCreator(SwipeMenuCreator swipeMenuCreator) {
+     void setSwipeMenuCreator(SwipeMenuCreator swipeMenuCreator) {
         this.mSwipeMenuCreator = swipeMenuCreator;
     }
 
@@ -73,15 +106,15 @@ public class SwipeAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param swipeMenuItemClickListener listener.
      */
-    void setSwipeMenuItemClickListener(SwipeMenuItemClickListener swipeMenuItemClickListener) {
+     void setSwipeMenuItemClickListener(SwipeMenuItemClickListener swipeMenuItemClickListener) {
         this.mSwipeMenuItemClickListener = swipeMenuItemClickListener;
     }
 
-    void setSwipeItemClickListener(SwipeItemClickListener swipeItemClickListener) {
+     void setSwipeItemClickListener(SwipeItemClickListener swipeItemClickListener) {
         this.mSwipeItemClickListener = swipeItemClickListener;
     }
 
-    void setSwipeItemLongClickListener(SwipeItemLongClickListener swipeItemLongClickListener) {
+     void setSwipeItemLongClickListener(SwipeItemLongClickListener swipeItemLongClickListener) {
         this.mSwipeItemLongClickListener = swipeItemLongClickListener;
     }
 
@@ -296,26 +329,10 @@ public class SwipeAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.Adapter getWrapAdapter() {
-        return getOriginAdapter();
+        return mAdapter;
     }
 
-    public SwipeAdapterWrapper addHeaderView(int layoutid, ViewGroup parent) {
-        View inflate =mInflater.inflate(layoutid, parent, false);
-        addHeaderView(inflate);
-        return this;
-    }
 
-    public SwipeAdapterWrapper addFooterView(int layoutid, ViewGroup parent) {
-        View footers = mInflater.inflate(layoutid, parent, false);
-        addFooterView(footers);
-        return this;
-    }
-
-    public SwipeAdapterWrapper attachDefaultHeaderFooterView(ViewGroup parent) {
-        addHeaderView(R.layout.header_layout, parent);
-        addFooterView(R.layout.footer_layout, parent);
-        return this;
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
@@ -364,11 +381,13 @@ public class SwipeAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
         super.registerAdapterDataObserver(observer);
+        mAdapter.registerAdapterDataObserver(mAdapterDataObserver);
     }
 
     @Override
     public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
         super.unregisterAdapterDataObserver(observer);
+        mAdapter.unregisterAdapterDataObserver(mAdapterDataObserver);
     }
 
     @Override

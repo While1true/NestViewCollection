@@ -188,7 +188,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
                     LayoutParams footerParams = (LayoutParams) mScroll.getLayoutParams();
 
                     if (attrsUtils.mMaxFooterScroll == -1) {
-                        attrsUtils.mMaxFooterScroll = (int) (mFooter.getMeasuredHeight() * 1.5f);
+                        attrsUtils.mMaxFooterScroll = (int) (mFooter.getMeasuredHeight() * 2f);
                     }
                     if (attrsUtils.mFooterRefreshPosition == -1) {
                         attrsUtils.mFooterRefreshPosition = mFooter.getMeasuredHeight() + footerParams.bottomMargin;
@@ -227,7 +227,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
                     LayoutParams footerParams = (LayoutParams) mScroll.getLayoutParams();
 
                     if (attrsUtils.mMaxFooterScroll == -1) {
-                        attrsUtils.mMaxFooterScroll = (int) (mFooter.getMeasuredWidth() * 1.5f);
+                        attrsUtils.mMaxFooterScroll = (int) (mFooter.getMeasuredWidth() * 2f);
                     }
                     if (attrsUtils.mFooterRefreshPosition == -1) {
                         attrsUtils.mFooterRefreshPosition = mFooter.getMeasuredWidth() + footerParams.leftMargin;
@@ -440,7 +440,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     @Override
     public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        if (state.ordinal() < 4) {
+        if (state.ordinal() < 2) {
             return;
         } else if (valueAnimator.isRunning()) {
             valueAnimator.cancel();
@@ -462,7 +462,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @Nullable int[] consumed) {
-        if (state.ordinal() < 4) {
+        if (state.ordinal() < 2) {
             return;
         } else if (valueAnimator.isRunning()) {
             valueAnimator.cancel();

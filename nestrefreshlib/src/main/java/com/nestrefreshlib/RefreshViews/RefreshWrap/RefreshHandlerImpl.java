@@ -11,6 +11,7 @@ import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
 
 /**
  * Created by vange on 2017/12/15.
+ * 平移布局
  */
 
 public class RefreshHandlerImpl extends RefreshHanderBase {

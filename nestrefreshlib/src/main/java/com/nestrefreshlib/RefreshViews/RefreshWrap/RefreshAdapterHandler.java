@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.DefaultRefreshWrapAdapter;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
@@ -18,6 +19,7 @@ import com.nestrefreshlib.swipe.SwipeMenuRecyclerView;
 
 /**
  * Created by 不听话的好孩子 on 2018/2/6.
+ * 调整recyclerview第一个，和最后一个Item的高度
  */
 
 public class RefreshAdapterHandler extends RefreshHanderBase {
@@ -139,31 +141,32 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             layout.removeView(mHeader);
             layout.removeView(mFooter);
 
-            ((RecyclerView) layout.getmScroll()).addOnScrollListener(new AdapterScrollListener(layout));
-            ((RecyclerView) layout.getmScroll()).setLayoutManager(manager);
-            if (!(adapter instanceof AdapterRefreshInterface)&&!(layout.getmScroll() instanceof SwipeMenuRecyclerView) ) {
-                adapter=new SwipeAdapterWrapper(layout.getContext(),adapter).attachDefaultHeaderFooterView(layout);
+            RecyclerView recyclerView = (RecyclerView) layout.getmScroll();
+            recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
+            recyclerView.setLayoutManager(manager);
+            if (!(adapter instanceof AdapterRefreshInterface)) {
+                adapter = new DefaultRefreshWrapAdapter(layout.getContext(), adapter).attachDefaultHeaderFooterView(layout);
             }
-            ((RecyclerView) layout.getmScroll()).setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
             layout.setRefreshHandler(this);
         } else {
             throw new UnsupportedOperationException("子view必须是recyclerview才能支持");
         }
     }
 
-    public void startLoading(CharSequence charSequence){
+    public void startLoading(CharSequence charSequence) {
         TextView inFooterView = layout.findInFooterView(R.id.textView);
         ProgressBar progressBar = layout.findInFooterView(R.id.progressBar);
-        if(inFooterView!=null){
+        if (inFooterView != null) {
             inFooterView.setText(charSequence);
         }
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    public void stopLoading(CharSequence charSequence){
+    public void stopLoading(CharSequence charSequence) {
         TextView inFooterView = layout.findInFooterView(R.id.textView);
         ProgressBar progressBar = layout.findInFooterView(R.id.progressBar);
-        if(inFooterView!=null){
+        if (inFooterView != null) {
             inFooterView.setText(charSequence);
         }
         progressBar.setVisibility(View.GONE);

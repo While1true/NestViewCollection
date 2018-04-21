@@ -317,21 +317,19 @@ public class SwipeMenuRecyclerView extends RecyclerView {
      */
     public Adapter getOriginAdapter() {
         if (mAdapterWrapper == null) return null;
-        return mAdapterWrapper.getOriginAdapter();
+        return mAdapterWrapper.getWrapAdapter();
     }
 
     @Override
     public void setAdapter(Adapter adapter) {
-        if (mAdapterWrapper != null) {
-            mAdapterWrapper.getOriginAdapter().unregisterAdapterDataObserver(mAdapterDataObserver);
-        }
 
         if (adapter == null) {
             mAdapterWrapper = null;
         } else {
-            adapter.registerAdapterDataObserver(mAdapterDataObserver);
-
-            mAdapterWrapper = new SwipeAdapterWrapper(getContext(), adapter);
+            if (adapter instanceof SwipeAdapterWrapper)
+                mAdapterWrapper = (SwipeAdapterWrapper) adapter;
+            else
+                mAdapterWrapper = new SwipeAdapterWrapper(getContext(), adapter);
             mAdapterWrapper.setSwipeItemClickListener(mSwipeItemClickListener);
             mAdapterWrapper.setSwipeItemLongClickListener(mSwipeItemLongClickListener);
             mAdapterWrapper.setSwipeMenuCreator(mSwipeMenuCreator);
@@ -351,43 +349,6 @@ public class SwipeMenuRecyclerView extends RecyclerView {
         super.setAdapter(mAdapterWrapper);
     }
 
-    private AdapterDataObserver mAdapterDataObserver = new AdapterDataObserver() {
-        @Override
-        public void onChanged() {
-            mAdapterWrapper.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount) {
-            positionStart += getHeaderItemCount();
-            mAdapterWrapper.notifyItemRangeChanged(positionStart, itemCount);
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            positionStart += getHeaderItemCount();
-            mAdapterWrapper.notifyItemRangeChanged(positionStart, itemCount, payload);
-        }
-
-        @Override
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            positionStart += getHeaderItemCount();
-            mAdapterWrapper.notifyItemRangeInserted(positionStart, itemCount);
-        }
-
-        @Override
-        public void onItemRangeRemoved(int positionStart, int itemCount) {
-            positionStart += getHeaderItemCount();
-            mAdapterWrapper.notifyItemRangeRemoved(positionStart, itemCount);
-        }
-
-        @Override
-        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            fromPosition += getHeaderItemCount();
-            toPosition += getHeaderItemCount();
-            mAdapterWrapper.notifyItemMoved(fromPosition, toPosition);
-        }
-    };
 
     private List<View> mHeaderViewList = new ArrayList<>();
     private List<View> mFooterViewList = new ArrayList<>();

@@ -1,11 +1,10 @@
-package com.nestrefreshlib.RefreshViews.AdapterHelper;
+package com.nestrefreshlib.Adpater.Impliment;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
 import android.view.ViewGroup;
 
 import com.nestrefreshlib.Adpater.Base.Holder;
-import com.nestrefreshlib.Adpater.Impliment.SAdapter;
 import com.nestrefreshlib.State.Interface.BaseStateListener;
 import com.nestrefreshlib.State.Interface.Recorder;
 import com.nestrefreshlib.State.Interface.ShowStateInterface;

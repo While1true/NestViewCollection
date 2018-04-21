@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,12 +15,15 @@ import android.widget.Toast;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.DefaultRefreshWrapAdapter;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
 import com.nestrefreshlib.State.StateLayout;
+import com.nestrefreshlib.swipe.SwipeMenu;
+import com.nestrefreshlib.swipe.SwipeMenuCreator;
+import com.nestrefreshlib.swipe.SwipeMenuItem;
+import com.nestrefreshlib.swipe.SwipeMenuRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,19 +82,30 @@ public class Main3Activity extends AppCompatActivity {
                 }, 1000);
             }
 
+            @Override
+            public void call(RefreshLayout.State t) {
+                super.call(t);
+                System.out.println(t);
+            }
+
             @SuppressLint("WrongConstant")
             @Override
             public void Loading() {
-                TextView tv=layout.findInFooterView(R.id.textView);
-                tv.setText("加载完成");
-                Toast.makeText(Main3Activity.this,"加载了",0).show();
-
+//                TextView tv = layout.findInFooterView(R.id.textView);
+//                tv.setText("加载完成");
+                Toast.makeText(Main3Activity.this, "加载了", 0).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.NotifyCompleteRefresh0();
+                    }
+                }, 1000);
             }
 
             @Override
             public void call(RefreshLayout.State t, int scroll) {
                 super.call(t, scroll);
-                System.out.println(t);
+                System.out.println(t + "---------------------------------------");
             }
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
@@ -132,11 +147,22 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-      RecyclerView recyclerView1=layout.getmScroll();
-        recyclerView1.setAdapter(sAdapter);
-        recyclerView1.addOnScrollListener(new AdapterScrollListener(layout));
-        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
-//        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
+        SwipeMenuRecyclerView recyclerView1 = layout.getmScroll();
+//        recyclerView1.setAdapter(sAdapter);
+//        recyclerView1.addOnScrollListener(new AdapterScrollListener(layout));
+//        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView1.setSwipeMenuCreator(new SwipeMenuCreator() {
+            @Override
+            public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
+                swipeRightMenu.addMenuItem(new SwipeMenuItem(Main3Activity.this).setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+                        .setWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                        .setTextColor(0xffffffff)
+                        .setBackgroundColor(0xff666666).setImage(R.mipmap.ic_launcher)
+                        .setTextSize(20)
+                        .setText("菜单"));
+            }
+        });
+        new RefreshAdapterHandler().attachRefreshLayout(layout, sAdapter, new LinearLayoutManager(this));
     }
 
     private void addlist() {
