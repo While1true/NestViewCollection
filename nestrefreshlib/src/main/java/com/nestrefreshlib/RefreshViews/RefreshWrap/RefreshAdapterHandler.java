@@ -13,9 +13,6 @@ import com.nestrefreshlib.RefreshViews.AdapterHelper.DefaultRefreshWrapAdapter;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
-import com.nestrefreshlib.swipe.SwipeAdapterWrapper;
-import com.nestrefreshlib.swipe.SwipeMenuRecyclerView;
-
 
 /**
  * Created by 不听话的好孩子 on 2018/2/6.
@@ -28,13 +25,19 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     private RefreshLayout.State currentState;
     RefreshLayout layout;
     private View header;
+    private View footer;
+    private int footerHeight;
 
 
     @Override
     public void onPullHeader(View view, int scrolls) {
         super.onPullHeader(view, scrolls);
         if (header != null && scrolls != 0) {
-            header.getLayoutParams().height = scrolls;
+            if(layout.getAttrsUtils().getOrentation()== RefreshLayout.Orentation.VERTICAL) {
+                header.getLayoutParams().height = scrolls;
+            }else {
+                header.getLayoutParams().width = scrolls;
+            }
             header.requestLayout();
         }
         /**
@@ -56,11 +59,29 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     @Override
     public void onPullFooter(View view, int scrolls) {
         super.onPullFooter(view, scrolls);
-        if (layout.getAttrsUtils().getOrentation() == RefreshLayout.Orentation.VERTICAL) {
-            layout.scrollTo(0, scrolls);
-        } else {
-            layout.scrollTo(scrolls, 0);
+        if(!calculatIsFull(layout)) {
+            if (layout.getAttrsUtils().getOrentation() == RefreshLayout.Orentation.VERTICAL) {
+                layout.scrollTo(0, scrolls);
+            } else {
+                layout.scrollTo(scrolls, 0);
+            }
+        }else{
+            if(footerHeight==0){
+               footerHeight= footer.getLayoutParams().height;
+            }
+            if(layout.getAttrsUtils().getOrentation()== RefreshLayout.Orentation.VERTICAL) {
+                footer.getLayoutParams().height = footerHeight+scrolls;
+            }else {
+                footer.getLayoutParams().width = footerHeight+scrolls;
+            }
+            footer.requestLayout();
         }
+    }
+    public boolean calculatIsFull(RefreshLayout layout){
+        if(footer!=null){
+            return footer.getBottom()>=layout.getHeight();
+        }
+        return true;
     }
 
     @Override
@@ -112,12 +133,17 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
         } else {
 
-            header = layout.findViewById(com.nestrefreshlib.R.id.header);
+            header = layout.findViewById(R.id.header);
+            footer = layout.findViewById(R.id.footer);
         }
 
         if (header != null) {
             layout.getAttrsUtils().setmHeaderRefreshPosition(dp2px(layout, 65));
-            header.getLayoutParams().height = 1;
+            if(layout.getAttrsUtils().getOrentation()== RefreshLayout.Orentation.VERTICAL) {
+                header.getLayoutParams().height = 1;
+            }else{
+                header.getLayoutParams().width = 1;
+            }
             header.requestLayout();
         }
 
@@ -126,7 +152,7 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             mHeaderPrgress = header.findViewById(R.id.progressBar);
         }
         this.header = header;
-
+        this.footer = footer;
     }
 
     @Override

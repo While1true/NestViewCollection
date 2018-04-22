@@ -6,9 +6,7 @@
       <module fileurl="file://D:\Users\ck\AndroidStudioProjects\test2\NestViewCollection\NestPullView2.iml" filepath="D:\Users\ck\AndroidStudioProjects\test2\NestViewCollection\NestPullView2.iml" />
       <module fileurl="file://$PROJECT_DIR$/NestViewCollection.iml" filepath="$PROJECT_DIR$/NestViewCollection.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Users\ck\AndroidStudioProjects\test2\NestViewCollection\app\app.iml" filepath="D:\Users\ck\AndroidStudioProjects\test2\NestViewCollection\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" filepath="$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" />
-      <module fileurl="file://D:\Users\ck\AndroidStudioProjects\test2\NestViewCollection\nestrefreshlib\nestrefreshlib.iml" filepath="D:\Users\ck\AndroidStudioProjects\test2\NestViewCollection\nestrefreshlib\nestrefreshlib.iml" />
     </modules>
   </component>
 </project>

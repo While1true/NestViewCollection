@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
+import com.nestrefreshlib.State.Interface.StateEnum;
 
 import static java.lang.Math.signum;
 
@@ -255,7 +256,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     }
 
     public void NotifyCompleteRefresh0() {
-        if (scrolls == 0) {
+        if (scrolls == 0||state.ordinal()>1) {
             return;
         }
         state = scrolls < 0 ? State.REFRESHCOMPLETE : State.LOADINGCOMPLETE;
@@ -282,7 +283,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * 刷新停留到配置位置，再归位
      */
     public void NotifyCompleteRefresh1(Object obj) {
-        if (scrolls == 0) {
+        if (scrolls == 0||state.ordinal()>1) {
             return;
         }
         baseRefreshHandler.setData(obj);
@@ -305,7 +306,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * @param position
      */
     public void NotifyCompleteRefresh1(int position, Object obj) {
-        if (scrolls == 0) {
+        if (scrolls == 0||state.ordinal()>1) {
             return;
         }
         baseRefreshHandler.setData(obj);
