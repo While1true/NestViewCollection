@@ -54,7 +54,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      */
     State state = State.IDEL;
 
-    private ValueAnimator valueAnimator;
+    private ValueAnimator valueAnimatorHeader;
+    private ValueAnimator valueAnimatorfooter;
 
     /**
      * 属性解析 保存类
@@ -140,9 +141,10 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     }
 
     private void initAnimator() {
-        valueAnimator = ValueAnimator.ofInt();
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.addUpdateListener(this);
+        valueAnimatorHeader = ValueAnimator.ofInt();
+        valueAnimatorHeader.setInterpolator(new DecelerateInterpolator());
+        valueAnimatorHeader.addUpdateListener(this);
+        valueAnimatorfooter = valueAnimatorHeader.clone();
     }
 
 
@@ -248,14 +250,26 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (from == to) {
             return;
         }
+        ValueAnimator valueAnimator = getValueAnimator();
         valueAnimator.cancel();
         valueAnimator.setIntValues(from, to);
-        valueAnimator.setDuration(250 + 150 * Math.abs(from - to) / attrsUtils.mMaxHeaderScroll);
+        valueAnimator.setDuration(180 + 150 * Math.abs(from - to) / attrsUtils.mMaxHeaderScroll);
         valueAnimator.start();
     }
 
+    private ValueAnimator getValueAnimator() {
+        ValueAnimator valueAnimator;
+        if (scrolls < 0) {
+            valueAnimator = valueAnimatorHeader;
+        } else {
+            valueAnimator = valueAnimatorfooter;
+        }
+        return valueAnimator;
+    }
+
+
     public void NotifyCompleteRefresh0() {
-        if (scrolls == 0) {
+        if (scrolls == 0 || state.ordinal() > 1) {
             return;
         }
         state = scrolls < 0 ? State.REFRESHCOMPLETE : State.LOADINGCOMPLETE;
@@ -268,8 +282,11 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
+        if (valueAnimatorHeader != null) {
+            valueAnimatorHeader.cancel();
+        }
+        if (valueAnimatorfooter != null) {
+            valueAnimatorfooter.cancel();
         }
     }
 
@@ -282,7 +299,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * 刷新停留到配置位置，再归位
      */
     public void NotifyCompleteRefresh1(Object obj) {
-        if (scrolls == 0) {
+        if (scrolls == 0 || state.ordinal() > 1) {
             return;
         }
         baseRefreshHandler.setData(obj);
@@ -305,7 +322,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * @param position
      */
     public void NotifyCompleteRefresh1(int position, Object obj) {
-        if (scrolls == 0) {
+        if (scrolls == 0 || state.ordinal() > 1) {
             return;
         }
         baseRefreshHandler.setData(obj);
@@ -325,7 +342,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * 设置动画到正在刷新
      */
     public void setRefreshing() {
-        if (state != State.REFRESHING || state != State.LOADING) {
+        if (state != State.REFRESHING && state != State.LOADING) {
             state = State.REFRESHING;
             aninatorTo(scrolls, -attrsUtils.mHeaderRefreshPosition);
         }
@@ -388,15 +405,12 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     @Override
     public void onStopNestedScroll(@NonNull View target) {
         helper.onStopNestedScroll(target);
-
         if (scrolls != 0 && (state.ordinal() > 3)) {
             changeState(scrolls, 0);
             int mRefreshPosition = scrolls > 0 ? attrsUtils.mFooterRefreshPosition : attrsUtils.mHeaderRefreshPosition;
             if (Math.abs(scrolls) >= mRefreshPosition && !attrsUtils.OVERSCROLL) {
                 if (scrolls > 0 && baseRefreshHandler.handleAdapter()) {
                     aninatorTo(scrolls, 0);
-//                    state = State.LOADING;
-//                    callbackState(state);
                 } else {
                     aninatorTo(scrolls, (int) signum(scrolls) * mRefreshPosition);
                 }
@@ -440,10 +454,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     @Override
     public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        if (state.ordinal() < 4) {
+        if (state.ordinal() < 2) {
             return;
-        } else if (valueAnimator.isRunning()) {
-            valueAnimator.cancel();
         }
 
         boolean isvertical = attrsUtils.orentation == Orentation.VERTICAL;
@@ -452,7 +464,6 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if ((dscroll < 0 && !canScroll(isvertical, -1)) || (dscroll > 0 && !canScroll(isvertical, 1))) {
             int tempscrolls = scrolls;
             scrolls += dscroll / attrsUtils.PULLRATE;
-//            System.out.println("onNestedScroll" + scrolls);
             checkBounds(tempscrolls);
             doScroll(isvertical);
             changeState(tempscrolls, dscroll);
@@ -462,24 +473,19 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @Nullable int[] consumed) {
-        if (state.ordinal() < 4) {
+        if (state.ordinal() < 2) {
             return;
-        } else if (valueAnimator.isRunning()) {
-            valueAnimator.cancel();
         }
         boolean isvertical = attrsUtils.orentation == Orentation.VERTICAL;
         int dscroll = isvertical ? dy - consumed[1] : dx - consumed[0];
         if ((dscroll > 0 && scrolls < 0) || (dscroll < 0 && scrolls > 0)) {
-//            System.out.println("onNestedPreScroll" + scrolls);
             int scrolltemp = scrolls;
             scrolls += dscroll / attrsUtils.PULLRATE;
             checkBounds(scrolltemp);
             if (isvertical) {
                 consumed[1] = dscroll;
-//                consumed[1] = scrolls - scrolltemp;
             } else {
                 consumed[0] = dscroll;
-//                consumed[0] = scrolls - scrolltemp;
             }
             doScroll(isvertical);
             changeState(scrolltemp, dscroll);
@@ -505,6 +511,12 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
     @Override
     public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes) {
+        if (scrolls != 0) {
+            ValueAnimator valueAnimator = getValueAnimator();
+            if (valueAnimator.isRunning()) {
+                valueAnimator.cancel();
+            }
+        }
         int ore = attrsUtils.orentation == Orentation.VERTICAL ? ViewCompat.SCROLL_AXIS_VERTICAL : ViewCompat.SCROLL_AXIS_HORIZONTAL;
         return (axes & ore) != 0;
     }
@@ -682,9 +694,9 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 
             String handler = typedArray.getString(R.styleable.RefreshLayout_stateHandler);
 
-            if(!TextUtils.isEmpty(handler)){
+            if (!TextUtils.isEmpty(handler)) {
                 try {
-                    builder.defaultRefreshHandler=Class.forName(handler);
+                    builder.defaultRefreshHandler = Class.forName(handler);
                 } catch (Exception e) {
                     throw new UnsupportedOperationException(e.getCause());
                 }
@@ -893,8 +905,8 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         this.baseRefreshHandler = baseRefreshHandler;
         if (baseRefreshHandler.handleAdapter()) {
             attrsUtils.EVALUATEABLE = true;
-            mHeader=null;
-            mFooter=null;
+            mHeader = null;
+            mFooter = null;
         }
         if (!baseRefreshHandler.isinit) {
             baseRefreshHandler.initView(this);
@@ -915,11 +927,11 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         protected void initView(RefreshLayout layout) {
 
         }
-        
-        protected boolean handleAdapter(){
+
+        protected boolean handleAdapter() {
             return false;
         }
-        
+
         protected void setData(Object data) {
             this.data = (T) data;
         }

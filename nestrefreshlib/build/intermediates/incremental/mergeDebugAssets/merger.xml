@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\Github\NestPullView2\nestrefreshlib\src\main\assets"/><source path="D:\Github\NestPullView2\nestrefreshlib\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Github\NestPullView2\nestrefreshlib\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Github\NestViewCollection\nestrefreshlib\src\main\assets"/><source path="D:\Github\NestViewCollection\nestrefreshlib\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\Github\NestViewCollection\nestrefreshlib\src\debug\assets"/></dataSet></merger>

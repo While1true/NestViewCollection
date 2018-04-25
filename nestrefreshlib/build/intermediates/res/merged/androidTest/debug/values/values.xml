@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RefreshLayout"><attr format="boolean" name="canHeader"/><attr format="boolean" name="canFooter"/><attr format="boolean" name="evaluateable"/><attr format="boolean" name="overscroll"/><attr format="boolean" name="elastic_overscroll"/><attr format="reference" name="headerID"/><attr format="reference" name="scrollID"/><attr format="reference" name="footerID"/><attr format="enum" name="orentation">
+            <enum name="HORIZONTAL" value="0"/>
+            <enum name="VERTICAL" value="1"/>
+        </attr><attr format="dimension" name="mMaxHeadertScroll"/><attr format="dimension" name="mMaxFooterScroll"/><attr format="dimension" name="mHeaderRefreshPosition"/><attr format="dimension" name="mFooterRefreshPosition"/><attr format="dimension" name="mHeaderRefreshCompletePosition"/><attr format="dimension" name="mFooterLoadingCompletePosition"/><attr format="dimension" name="mFlingmax"/><attr format="integer" name="delayCompleteTime"/><attr format="float" name="pullrate"/><attr format="string" name="stateHandler"/></declare-styleable>
+    <declare-styleable name="SLoading"><attr format="integer" name="snum"/><attr format="dimension" name="sgap"/><attr format="reference" name="scolorarray"/><attr format="dimension" name="sradius"/><attr format="integer" name="scolortype"/></declare-styleable>
+    <declare-styleable name="SProgress"><attr format="color" name="progressColor"/><attr format="color" name="backColor"/><attr format="color" name="progressendcolor"/><attr format="color" name="textColor"/><attr format="dimension" name="textsize"/><attr format="float" name="minProgress"/><attr format="float" name="startprogress"/></declare-styleable>
+    <string name="app_name">NestRefreshLib</string>
+    <string name="sprogress_string">当前进度%.1f%%</string>
+</resources>
