@@ -15,7 +15,6 @@ import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.RefreshHeaderAndFooterAdapterWrap;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
@@ -84,13 +83,17 @@ public class Main3Activity extends AppCompatActivity {
                 TextView tv=layout.findInFooterView(R.id.textView);
                 tv.setText("加载完成");
                 Toast.makeText(Main3Activity.this,"加载了",0).show();
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        layout.NotifyCompleteRefresh0();
+                    }
+                }, 1000);
             }
 
             @Override
             public void call(RefreshLayout.State t, int scroll) {
                 super.call(t, scroll);
-                System.out.println(t);
             }
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
@@ -132,15 +135,15 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-      RecyclerView recyclerView1=layout.getmScroll();
-        recyclerView1.setAdapter(sAdapter);
-        recyclerView1.addOnScrollListener(new AdapterScrollListener(layout));
-        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
-//        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
+//      RecyclerView recyclerView1=layout.getmScroll();
+//        recyclerView1.setAdapter(sAdapter);
+//        recyclerView1.addOnScrollListener(new AdapterScrollListener(layout));
+//        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
     }
 
     private void addlist() {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i <5; i++) {
             if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {
