@@ -97,7 +97,7 @@ public class Main3Activity extends AppCompatActivity {
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
         sAdapter = new SAdapter(objects)
-                .addType(new BaseHolder<xx>(R.layout.footer) {
+                .addType(new BaseHolder<xx>(R.layout.xxx) {
                     @Override
                     public void onViewBind(Holder holder, xx item, int position) {
                         holder.setText(R.id.tv,"xxx"+position);
@@ -156,11 +156,12 @@ public class Main3Activity extends AppCompatActivity {
 //        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
 //        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
-        RecyclerviewFloatHelper.FloatInterface floatInterface = new RecyclerviewFloatHelper.PositionFloatView(fm, 10+1,20+1,35+1);
+        RecyclerviewFloatHelper.FloatInterface floatInterface = new RecyclerviewFloatHelper.ViewTypeFloatView(fm, 0);
         floatInterface.attachRecyclerview(recyclerView);
         floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
             @Override
             public void onClick(View v, int position) {
+                recyclerView.smoothScrollToPosition(position-1);
                 Toast.makeText(v.getContext(),"xxxx: "+position,Toast.LENGTH_SHORT).show();
             }
         });
@@ -168,7 +169,7 @@ public class Main3Activity extends AppCompatActivity {
 
     private void addlist() {
         for (int i = 0; i <100000; i++) {
-            if(i==10){
+            if(i==10||i==20||i==35){
                 list.add(new xx());
             }
             else if (i % 2 == 0) {

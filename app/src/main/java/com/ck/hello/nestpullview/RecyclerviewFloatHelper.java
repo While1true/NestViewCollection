@@ -99,10 +99,10 @@ public class RecyclerviewFloatHelper {
             if (currentnearestposition == currentfloatposition) {
                 return;
             }
-            if (currentnearestposition == -1 && viewHolder != null) {
-                viewHolder.itemView.setVisibility(View.GONE);
-                currentfloatposition = -1;
-                return;
+            if (currentnearestposition == -1&&viewHolder != null) {
+                    viewHolder.itemView.setVisibility(View.GONE);
+                    currentfloatposition = -1;
+                    return;
             }
 
             if (currentfloatposition == -1 && viewHolder == null) {
@@ -119,6 +119,15 @@ public class RecyclerviewFloatHelper {
                 container.addView(viewHolder.itemView);
                 adapter.onBindViewHolder(viewHolder, currentfloatposition);
             } else {
+                currentfloatposition = currentnearestposition;
+                if (listener != null) {
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.onClick(v, currentfloatposition);
+                        }
+                    });
+                }
                 viewHolder.itemView.setVisibility(View.VISIBLE);
                 adapter.onBindViewHolder(viewHolder, currentfloatposition);
             }
@@ -186,9 +195,9 @@ public class RecyclerviewFloatHelper {
             }
             if (viewHolder != null) {
                 container.removeView(viewHolder.itemView);
-                currentfloatposition=-1;
+                currentfloatposition = -1;
             }
-            if(currentnearestposition==-1){
+            if (currentnearestposition == -1) {
                 return;
             }
             currentfloatposition = currentnearestposition;
