@@ -96,7 +96,18 @@ public class RecyclerviewFloatHelper {
                     break;
                 }
             }
+
             if (currentnearestposition == currentfloatposition) {
+                if(viewHolder!=null) {
+                    if (firstcompletevisable != -1 && adapter.getItemViewType(firstcompletevisable) == viewtype) {
+                        View childAt = recyclerView.getChildAt(1);
+                        int top = viewHolder.itemView.getHeight()-childAt.getTop();
+                        if (top > 0 && top < viewHolder.itemView.getHeight())
+                            viewHolder.itemView.setTranslationY(-top);
+                    } else {
+                        viewHolder.itemView.setTranslationY(0);
+                    }
+                }
                 return;
             }
             if (currentnearestposition == -1&&viewHolder != null) {
@@ -131,6 +142,7 @@ public class RecyclerviewFloatHelper {
                 viewHolder.itemView.setVisibility(View.VISIBLE);
                 adapter.onBindViewHolder(viewHolder, currentfloatposition);
             }
+
         }
     }
 

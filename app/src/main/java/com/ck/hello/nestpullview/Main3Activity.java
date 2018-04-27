@@ -161,7 +161,7 @@ public class Main3Activity extends AppCompatActivity {
         floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
             @Override
             public void onClick(View v, int position) {
-                recyclerView.smoothScrollToPosition(position-1);
+                recyclerView.smoothScrollToPosition(position);
                 Toast.makeText(v.getContext(),"xxxx: "+position,Toast.LENGTH_SHORT).show();
             }
         });
