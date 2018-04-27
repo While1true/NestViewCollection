@@ -74,15 +74,14 @@ public class Main3Activity extends AppCompatActivity {
                     public void run() {
                         layout.NotifyCompleteRefresh0();
                     }
-                }, 1000);
+                }, 3000);
             }
 
-            @SuppressLint("WrongConstant")
             @Override
             public void Loading() {
                 TextView tv=layout.findInFooterView(R.id.textView);
                 tv.setText("加载完成");
-                Toast.makeText(Main3Activity.this,"加载了",0).show();
+                Toast.makeText(Main3Activity.this,"加载了",Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -123,6 +122,11 @@ public class Main3Activity extends AppCompatActivity {
                     }
 
                     @Override
+                    public boolean istype(cc item, int position) {
+                        return super.istype(item, position);
+                    }
+
+                    @Override
                     public boolean isfull() {
                         return true;
                     }
@@ -137,13 +141,13 @@ public class Main3Activity extends AppCompatActivity {
                 .addLifeOwener(this);
 //      RecyclerView recyclerView1=layout.getmScroll();
 //        recyclerView1.setAdapter(sAdapter);
-//        recyclerView1.addOnScrollListener(new AdapterScrollListener(layout));
+        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
 //        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
     }
 
     private void addlist() {
-        for (int i = 0; i <5; i++) {
+        for (int i = 0; i <100; i++) {
             if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {
