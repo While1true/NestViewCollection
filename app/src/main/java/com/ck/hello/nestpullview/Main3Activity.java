@@ -1,12 +1,12 @@
 package com.ck.hello.nestpullview;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
-import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
@@ -29,12 +28,13 @@ public class Main3Activity extends AppCompatActivity {
     private List<SAdapter.DifferCallback.differ> list;
     private SAdapter sAdapter;
     private RefreshLayout layout;
+    private FrameLayout fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-
+        fm = findViewById(R.id.fm);
         stateLayout = findViewById(R.id.statelayout);
 
         initRefreshLayout();
@@ -97,11 +97,23 @@ public class Main3Activity extends AppCompatActivity {
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
         sAdapter = new SAdapter(objects)
+                .addType(new BaseHolder<xx>(R.layout.footer) {
+                    @Override
+                    public void onViewBind(Holder holder, xx item, int position) {
+                        holder.setText(R.id.tv,"xxx"+position);
+                        holder.itemView.setBackgroundColor(0xffff4070);
+                    }
+                })
                 .addType(new BaseHolder<aa>(R.layout.footer) {
 
                     @Override
                     public void onViewBind(Holder holder, aa item, int position) {
-                        holder.itemView.setBackgroundColor(0xffff0000);
+                        if(position==2){
+                            holder.itemView.setBackgroundColor(0xff666666);
+                        }else {
+                            holder.itemView.setBackgroundColor(0xffffffff);
+                        }
+
 
                     }
                 })
@@ -122,7 +134,7 @@ public class Main3Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public boolean istype(cc item, int position) {
+                    public boolean istype(Object item, int position) {
                         return super.istype(item, position);
                     }
 
@@ -139,16 +151,27 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-//      RecyclerView recyclerView1=layout.getmScroll();
+      RecyclerView recyclerView1=layout.getmScroll();
 //        recyclerView1.setAdapter(sAdapter);
-        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
+//        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
 //        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
+        RecyclerviewFloatHelper.FloatInterface floatInterface = new RecyclerviewFloatHelper.PositionFloatView(fm, 10+1,20+1,35+1);
+        floatInterface.attachRecyclerview(recyclerView);
+        floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Toast.makeText(v.getContext(),"xxxx: "+position,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addlist() {
-        for (int i = 0; i <100; i++) {
-            if (i % 2 == 0) {
+        for (int i = 0; i <100000; i++) {
+            if(i==10){
+                list.add(new xx());
+            }
+            else if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {
                 list.add(new bb());
