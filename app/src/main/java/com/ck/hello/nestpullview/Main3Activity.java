@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
+import com.nestrefreshlib.RecyclerviewFloatHelper.*;
+import com.nestrefreshlib.RecyclerviewFloatHelper.RecyclerviewFloatHelper;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
@@ -156,7 +158,7 @@ public class Main3Activity extends AppCompatActivity {
 //        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
 //        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
-        RecyclerviewFloatHelper.FloatInterface floatInterface = new RecyclerviewFloatHelper.ViewTypeFloatView(fm, 0);
+        com.nestrefreshlib.RecyclerviewFloatHelper.RecyclerviewFloatHelper.FloatInterface floatInterface = new ViewTypeFloatView(fm, 0);
         floatInterface.attachRecyclerview(recyclerView);
         floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
             @Override
