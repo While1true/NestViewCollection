@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.BaseHolder;
+import com.nestrefreshlib.Adpater.Impliment.PositionHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
 import com.nestrefreshlib.RecyclerviewFloatHelper.*;
 import com.nestrefreshlib.RecyclerviewFloatHelper.RecyclerviewFloatHelper;
@@ -77,60 +78,61 @@ public class Main3Activity extends AppCompatActivity {
             }
         });
         ArrayList<SAdapter.DifferCallback.differ> objects = new ArrayList<>(list);
-        sAdapter = new SAdapter(objects)
-                .addType(new BaseHolder<xx>(R.layout.xxx) {
+        sAdapter = new SAdapter(Integer.MAX_VALUE-5)
+                .addType(R.layout.xxx, new PositionHolder() {
                     @Override
-                    public void onViewBind(Holder holder, xx item, int position) {
+                    public void onBind(Holder holder, int position) {
                         holder.setText(R.id.tv, "xxx" + position);
                         holder.itemView.setBackgroundColor(0xffff4070);
                     }
-                })
-                .addType(new BaseHolder<aa>(R.layout.footer) {
 
                     @Override
-                    public void onViewBind(Holder holder, aa item, int position) {
+                    public boolean istype(int position) {
+                        return position % 3 == 0;
+                    }
+                })
+                .addType(R.layout.footer, new PositionHolder() {
+
+                    @Override
+                    public void onBind(Holder holder, int position) {
                         if (position == 2) {
                             holder.itemView.setBackgroundColor(0xff666666);
                         } else {
                             holder.itemView.setBackgroundColor(0xffffffff);
                         }
 
+                    }
 
+                    @Override
+                    public boolean istype(int position) {
+                        return position % 7 == 0;
                     }
                 })
-                .addType(new BaseHolder<bb>(R.layout.footer) {
+                .addType(R.layout.footer, new PositionHolder() {
 
                     @Override
-                    public void onViewBind(Holder holder, bb item, int position) {
-                        holder.itemView.setBackgroundColor(0xffffff00);
-
-                    }
-
-                })
-                .addType(new BaseHolder<cc>(R.layout.footer) {
-
-                    @Override
-                    public void onViewBind(Holder holder, cc item, int position) {
-                        holder.itemView.setBackgroundColor(0xffff00ff);
+                    public void onBind(Holder holder, int position) {
+                        holder.itemView.setBackgroundColor(0xff88320);
                     }
 
                     @Override
-                    public boolean istype(Object item, int position) {
-                        return super.istype(item, position);
+                    public boolean istype(int position) {
+                        return position % 11 == 0;
                     }
 
-                    @Override
-                    public boolean isfull() {
-                        return true;
-                    }
-                })
-                .addType(new BaseHolder<dd>(R.layout.footer) {
+                }).addType(R.layout.footer, new PositionHolder() {
 
-                    @Override
-                    public void onViewBind(Holder holder, dd item, int position) {
-                        holder.itemView.setBackgroundColor(0xff6f702f);
-                    }
-                })
+            @Override
+            public void onBind(Holder holder, int position) {
+                holder.itemView.setBackgroundColor(0xffff00ff);
+            }
+
+            @Override
+            public boolean istype(int position) {
+                return true;
+            }
+
+        })
                 .addLifeOwener(this);
         recyclerView1 = layout.getmScroll();
 //        recyclerView1.setAdapter(sAdapter);
@@ -141,7 +143,7 @@ public class Main3Activity extends AppCompatActivity {
     }
 
     private void addlist() {
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 100; i++) {
             if (i == 10 || i == 20 || i == 35) {
                 list.add(new xx());
             } else if (i % 2 == 0) {
@@ -160,7 +162,7 @@ public class Main3Activity extends AppCompatActivity {
         if (floatInterface != null) {
             floatInterface.detachRecyclerview();
         }
-        floatInterface = new PositionFloatView(fm, 11, 21, 36,38);
+        floatInterface = new PositionFloatView(fm, 4,7,10,13);
         floatInterface.attachRecyclerview(recyclerView1);
         floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
             @Override
@@ -184,5 +186,9 @@ public class Main3Activity extends AppCompatActivity {
                 Toast.makeText(v.getContext(), "xxxx: " + position, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+int xx=100000;
+    public void v3(View view) {
+        recyclerView1.scrollToPosition(xx+=200000);
     }
 }

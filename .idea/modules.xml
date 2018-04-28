@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://D:\Github\NestPullView2\NestPullView.iml" filepath="D:\Github\NestPullView2\NestPullView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/NestPullView2.iml" filepath="$PROJECT_DIR$/NestPullView2.iml" />
+      <module fileurl="file://D:\Github\NestViewCollection\NestPullView2.iml" filepath="D:\Github\NestViewCollection\NestPullView2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NestViewCollection.iml" filepath="$PROJECT_DIR$/NestViewCollection.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" filepath="$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" />
     </modules>

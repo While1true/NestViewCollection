@@ -9,22 +9,28 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 适用于多item
  * Created by 不听话的好孩子 on 2018/4/27.
  */
 
 public class PositionFloatView extends RecyclerView.OnScrollListener implements RecyclerviewFloatHelper.FloatInterface {
-    private final List<Integer> list=new ArrayList<>();
+    private final List<Integer> list = new ArrayList<>();
     RecyclerView.Adapter adapter;
     RecyclerviewFloatHelper.OnFloatClickListener listener;
     RecyclerView recyclerView;
     ViewGroup container;
     int currentfloatposition = -1;
     int[] floatposition;
-    int translationx=0;
+    int translationx = 0;
+    boolean crashmove = true;
     private RecyclerView.ViewHolder viewHolder;
 
     public void setOnFloatClickListener(RecyclerviewFloatHelper.OnFloatClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setCrashmove(boolean crashmove) {
+        this.crashmove = crashmove;
     }
 
     public PositionFloatView(ViewGroup container, int... floatposition) {
@@ -48,7 +54,7 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
         if (recyclerView != null) {
             recyclerView.removeOnScrollListener(this);
         }
-        if(viewHolder!=null){
+        if (viewHolder != null) {
             container.removeView(viewHolder.itemView);
         }
     }
@@ -73,34 +79,35 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
                 break;
             }
         }
-        if (viewHolder != null) {
-            if (firstcompletevisable != -1 && list.contains(firstcompletevisable)) {
-                View childAt = recyclerView.getChildAt(firstcompletevisable==getFirstvisable(recyclerView)?0:1);
+        if (crashmove && viewHolder != null) {
+            View childAt = recyclerView.getChildAt(firstcompletevisable == getFirstvisable(recyclerView) ? 0 : 1);
+            if (firstcompletevisable != -1 && list.contains(firstcompletevisable) && childAt.getTop() <= viewHolder.itemView.getHeight()) {
+
                 int height = viewHolder.itemView.getHeight();
-                    int top = height - childAt.getTop();
-                    if (top >= 0 && top <= height) {
-                        translationx=-top;
-                        viewHolder.itemView.setTranslationY(-top);
-                    }
+                int top = height - childAt.getTop();
+                if (top >= 0 && top <= height) {
+                    translationx = -top;
+                    viewHolder.itemView.setTranslationY(-top);
+                }
             } else {
-                translationx=0;
+                translationx = 0;
                 viewHolder.itemView.setTranslationY(0);
             }
         }
         if (currentnearestposition == -1) {
             if (viewHolder != null) {
                 container.removeView(viewHolder.itemView);
-                viewHolder=null;
+                viewHolder = null;
                 currentfloatposition = -1;
             }
             return;
         } else {
-            if (currentnearestposition == currentfloatposition||(currentfloatposition==firstcompletevisable&&firstcompletevisable==getFirstvisable(recyclerView))) {
+            if (currentnearestposition == currentfloatposition || (currentfloatposition == firstcompletevisable && firstcompletevisable == getFirstvisable(recyclerView))) {
                 return;
             } else {
                 if (viewHolder != null) {
                     container.removeView(viewHolder.itemView);
-                    viewHolder=null;
+                    viewHolder = null;
                     currentfloatposition = -1;
                 }
             }
@@ -123,6 +130,7 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
     public int getFirstcompletevisable(RecyclerView recyclerView) {
         return RecyclerviewFloatHelper.getFirstcompletevisable(recyclerView);
     }
+
     public int getFirstvisable(RecyclerView recyclerView) {
         return RecyclerviewFloatHelper.getFirstvisable(recyclerView);
     }

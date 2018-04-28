@@ -27,7 +27,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <Button
-        android:text="位置悬浮"
+        android:text="滑到10+20万"
+        android:onClick="v3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="位置悬浮 3,6,9,12"
         android:onClick="v1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
