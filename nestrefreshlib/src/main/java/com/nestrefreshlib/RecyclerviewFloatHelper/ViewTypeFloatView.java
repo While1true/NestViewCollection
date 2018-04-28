@@ -11,6 +11,7 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
     RecyclerView.Adapter adapter;
     RecyclerviewFloatHelper.OnFloatClickListener listener;
     ViewGroup container;
+    RecyclerView recyclerView;
     int viewtype = -1;
     int currentfloatposition = -1;
     int rollbackSzie = 4;
@@ -26,17 +27,32 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
         this.container = container;
     }
 
-    public ViewTypeFloatView(ViewGroup container, int viewtype, int rollbackSzie) {
-        this.viewtype = viewtype;
-        this.container = container;
-        this.rollbackSzie = rollbackSzie;
+    @Override
+    public void detachRecyclerview() {
+        if (recyclerView != null) {
+            recyclerView.removeOnScrollListener(this);
+        }
+        if (viewHolder != null) {
+            container.removeView(viewHolder.itemView);
+        }
     }
 
     @Override
     public void attachRecyclerview(RecyclerView recyclerView) {
-        recyclerView.removeOnScrollListener(this);
+        this.recyclerView = recyclerView;
         recyclerView.addOnScrollListener(this);
         adapter = recyclerView.getAdapter();
+        findFirstTypePosition(adapter);
+    }
+
+    private void findFirstTypePosition(RecyclerView.Adapter adapter) {
+        int itemCount = adapter.getItemCount();
+        for (int i = 0; i < itemCount; i++) {
+            if (adapter.getItemViewType(i) == viewtype) {
+                firstfloatitemposition = i;
+                break;
+            }
+        }
     }
 
     @Override
@@ -52,54 +68,56 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
          * 找到里的最近的viewtype的position
          */
         int currentnearestposition = -1;
-        for (int i = firstcompletevisable - 1; i >= 0 && i > firstcompletevisable - rollbackSzie; i--) {
+        for (int i = firstcompletevisable - 1; i >= 0; i--) {
             if (adapter.getItemViewType(i) == viewtype) {
                 currentnearestposition = i;
-                if (firstfloatitemposition == -1) {
-                    firstfloatitemposition = i;
-                }
                 break;
             }
         }
-        if (currentnearestposition == currentfloatposition) {
-            if (viewHolder != null) {
-                if (firstcompletevisable != -1 && adapter.getItemViewType(firstcompletevisable) == viewtype) {
-                    View childAt = recyclerView.getChildAt(1);
-                    int top = viewHolder.itemView.getHeight() - childAt.getTop();
-                    if (top > 0 && top < viewHolder.itemView.getHeight())
-                        viewHolder.itemView.setTranslationY(-top);
-                } else {
-                    viewHolder.itemView.setTranslationY(0);
-                }
+
+        if (viewHolder != null) {
+            if (firstcompletevisable != -1 && adapter.getItemViewType(firstcompletevisable) == viewtype) {
+                View childAt = recyclerView.getChildAt(1);
+                int top = viewHolder.itemView.getHeight() - childAt.getTop();
+                if (top > 0 && top < viewHolder.itemView.getHeight())
+                    viewHolder.itemView.setTranslationY(-top);
+            } else {
+                viewHolder.itemView.setTranslationY(0);
             }
-            return;
         }
+
         if (currentnearestposition == -1) {
             if (firstcompletevisable <= firstfloatitemposition && viewHolder != null) {
                 viewHolder.itemView.setVisibility(View.GONE);
                 currentfloatposition = -1;
             }
-        } else {
-            if (viewHolder == null) {
-                viewHolder = adapter.createViewHolder(recyclerView, viewtype);
-                container.addView(viewHolder.itemView);
-            } else {
-                viewHolder.itemView.setVisibility(View.VISIBLE);
-            }
-            currentfloatposition = currentnearestposition;
-            if (listener != null) {
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onClick(v, currentfloatposition);
-                    }
-                });
-            }
-            adapter.onBindViewHolder(viewHolder, currentfloatposition);
+            return;
         }
+        if (currentnearestposition == currentfloatposition||(currentfloatposition==firstcompletevisable&&firstcompletevisable==getFirstvisable(recyclerView))) {
+            return;
+        }
+        if (viewHolder == null) {
+            viewHolder = adapter.createViewHolder(recyclerView, viewtype);
+            container.addView(viewHolder.itemView);
+        } else {
+            viewHolder.itemView.setVisibility(View.VISIBLE);
+        }
+        currentfloatposition = currentnearestposition;
+        if (listener != null) {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(v, currentfloatposition);
+                }
+            });
+        }
+        adapter.onBindViewHolder(viewHolder, currentfloatposition);
     }
 
     public int getFirstcompletevisable(RecyclerView recyclerView) {
         return RecyclerviewFloatHelper.getFirstcompletevisable(recyclerView);
+    }
+    public int getFirstvisable(RecyclerView recyclerView) {
+        return RecyclerviewFloatHelper.getFirstvisable(recyclerView);
     }
 }

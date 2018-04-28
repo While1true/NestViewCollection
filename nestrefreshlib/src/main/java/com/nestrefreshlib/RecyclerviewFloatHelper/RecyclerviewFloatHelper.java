@@ -21,12 +21,16 @@ public class RecyclerviewFloatHelper {
         floatInterface.setOnFloatClickListener(listener);
     }
 
+    public FloatInterface getFloatInterface() {
+        return floatInterface;
+    }
+
     public void attachRecyclerview(RecyclerView recyclerView) {
         floatInterface.attachRecyclerview(recyclerView);
     }
 
     public interface FloatInterface {
-
+        void detachRecyclerview();
         void attachRecyclerview(RecyclerView recyclerView);
 
         void setOnFloatClickListener(OnFloatClickListener listener);
@@ -52,6 +56,22 @@ public class RecyclerviewFloatHelper {
             firstcompletevisable = completevisables[0];
         }
         return firstcompletevisable;
+    }
+    public static int getFirstvisable(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        int firstvisable = -1;
+        if (layoutManager instanceof LinearLayoutManager) {
+            firstvisable = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+        } else if (layoutManager instanceof GridLayoutManager) {
+            ((GridLayoutManager) layoutManager).findFirstVisibleItemPosition();
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            if (completevisables == null) {
+                completevisables = new int[((StaggeredGridLayoutManager) layoutManager).getSpanCount()];
+            }
+            ((StaggeredGridLayoutManager) layoutManager).findFirstVisibleItemPositions(completevisables);
+            firstvisable = completevisables[0];
+        }
+        return firstvisable;
     }
 
     }

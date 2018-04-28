@@ -22,6 +22,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nestrefreshlib.Adpater.Base.Holder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
 
 import java.util.List;
@@ -70,9 +71,9 @@ public class BaseAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderViews.get(viewType) != null) {
-            return new ViewHolder(mHeaderViews.get(viewType));
+            return new Holder(mHeaderViews.get(viewType));
         } else if (mFootViews.get(viewType) != null) {
-            return new ViewHolder(mFootViews.get(viewType));
+            return new Holder(mFootViews.get(viewType));
         }
         return mAdapter.onCreateViewHolder(parent, viewType);
 
@@ -188,13 +189,6 @@ public class BaseAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.Adapter getWrapAdapter() {
         return getOriginAdapter();
-    }
-
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
     }
 
     @Override

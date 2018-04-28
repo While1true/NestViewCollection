@@ -10,59 +10,31 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     tools:context="com.ck.hello.nestpullview.Main3Activity">
-    <com.nestrefreshlib.State.StateLayout
-        android:id="@+id/statelayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <com.nestrefreshlib.RefreshViews.RefreshLayout
         android:id="@+id/refreshing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         app:delayCompleteTime="100"
         app:pullrate="2.8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/bt"
-                android:text="进度"
-                android:onClick="v1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:text="错误"
-                android:onClick="v2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:text="空"
-                android:onClick="v3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:text="内容"
-                android:onClick="v4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
-                android:text="底部"
-                android:onClick="v5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-    </com.nestrefreshlib.State.StateLayout>
-
+<LinearLayout
+    android:layout_gravity="bottom"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Button
+        android:text="位置悬浮"
+        android:onClick="v1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="类型悬浮"
+        android:onClick="v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
 </FrameLayout>

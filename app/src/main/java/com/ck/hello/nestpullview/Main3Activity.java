@@ -19,47 +19,26 @@ import com.nestrefreshlib.RecyclerviewFloatHelper.RecyclerviewFloatHelper;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
-import com.nestrefreshlib.State.StateLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main3Activity extends AppCompatActivity {
 
-    private StateLayout stateLayout;
     private List<SAdapter.DifferCallback.differ> list;
     private SAdapter sAdapter;
     private RefreshLayout layout;
     private FrameLayout fm;
+    private RecyclerView recyclerView1;
+    private RecyclerviewFloatHelper.FloatInterface floatInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         fm = findViewById(R.id.fm);
-        stateLayout = findViewById(R.id.statelayout);
 
         initRefreshLayout();
-    }
-
-    public void v1(View v) {
-        stateLayout.showLoading();
-    }
-
-    public void v2(View v) {
-        stateLayout.ShowError();
-    }
-
-    public void v3(View v) {
-        stateLayout.showEmpty();
-    }
-
-    public void v4(View v) {
-        stateLayout.showItem();
-    }
-
-    public void v5(View v) {
-        stateLayout.showNomore();
     }
 
     private void initRefreshLayout() {
@@ -81,9 +60,9 @@ public class Main3Activity extends AppCompatActivity {
 
             @Override
             public void Loading() {
-                TextView tv=layout.findInFooterView(R.id.textView);
+                TextView tv = layout.findInFooterView(R.id.textView);
                 tv.setText("加载完成");
-                Toast.makeText(Main3Activity.this,"加载了",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main3Activity.this, "加载了", Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -102,7 +81,7 @@ public class Main3Activity extends AppCompatActivity {
                 .addType(new BaseHolder<xx>(R.layout.xxx) {
                     @Override
                     public void onViewBind(Holder holder, xx item, int position) {
-                        holder.setText(R.id.tv,"xxx"+position);
+                        holder.setText(R.id.tv, "xxx" + position);
                         holder.itemView.setBackgroundColor(0xffff4070);
                     }
                 })
@@ -110,9 +89,9 @@ public class Main3Activity extends AppCompatActivity {
 
                     @Override
                     public void onViewBind(Holder holder, aa item, int position) {
-                        if(position==2){
+                        if (position == 2) {
                             holder.itemView.setBackgroundColor(0xff666666);
-                        }else {
+                        } else {
                             holder.itemView.setBackgroundColor(0xffffffff);
                         }
 
@@ -153,28 +132,19 @@ public class Main3Activity extends AppCompatActivity {
                     }
                 })
                 .addLifeOwener(this);
-      RecyclerView recyclerView1=layout.getmScroll();
+        recyclerView1 = layout.getmScroll();
 //        recyclerView1.setAdapter(sAdapter);
 //        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
 //        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
-        new RefreshAdapterHandler().attachRefreshLayout(layout,sAdapter,new LinearLayoutManager(this));
-        com.nestrefreshlib.RecyclerviewFloatHelper.RecyclerviewFloatHelper.FloatInterface floatInterface = new ViewTypeFloatView(fm, 0);
-        floatInterface.attachRecyclerview(recyclerView);
-        floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
-            @Override
-            public void onClick(View v, int position) {
-                recyclerView.smoothScrollToPosition(position);
-                Toast.makeText(v.getContext(),"xxxx: "+position,Toast.LENGTH_SHORT).show();
-            }
-        });
+        new RefreshAdapterHandler().attachRefreshLayout(layout, sAdapter, new LinearLayoutManager(this));
+        v1(null);
     }
 
     private void addlist() {
-        for (int i = 0; i <100000; i++) {
-            if(i==10||i==20||i==35){
+        for (int i = 0; i < 100000; i++) {
+            if (i == 10 || i == 20 || i == 35) {
                 list.add(new xx());
-            }
-            else if (i % 2 == 0) {
+            } else if (i % 2 == 0) {
                 list.add(new aa());
             } else if (i % 7 == 0) {
                 list.add(new bb());
@@ -186,4 +156,33 @@ public class Main3Activity extends AppCompatActivity {
         }
     }
 
+    public void v1(View view) {
+        if (floatInterface != null) {
+            floatInterface.detachRecyclerview();
+        }
+        floatInterface = new PositionFloatView(fm, 11, 21, 36,38);
+        floatInterface.attachRecyclerview(recyclerView1);
+        floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                recyclerView1.smoothScrollToPosition(position);
+                Toast.makeText(v.getContext(), "xxxx: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void v2(View view) {
+        if (floatInterface != null) {
+            floatInterface.detachRecyclerview();
+        }
+        floatInterface = new ViewTypeFloatView(fm, 0);
+        floatInterface.attachRecyclerview(recyclerView1);
+        floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                recyclerView1.smoothScrollToPosition(position);
+                Toast.makeText(v.getContext(), "xxxx: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

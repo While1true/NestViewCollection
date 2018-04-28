@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,12 +13,14 @@ import java.util.List;
  */
 
 public class PositionFloatView extends RecyclerView.OnScrollListener implements RecyclerviewFloatHelper.FloatInterface {
-    private final List<int[]> list;
+    private final List<Integer> list=new ArrayList<>();
     RecyclerView.Adapter adapter;
     RecyclerviewFloatHelper.OnFloatClickListener listener;
+    RecyclerView recyclerView;
     ViewGroup container;
     int currentfloatposition = -1;
     int[] floatposition;
+    int translationx=0;
     private RecyclerView.ViewHolder viewHolder;
 
     public void setOnFloatClickListener(RecyclerviewFloatHelper.OnFloatClickListener listener) {
@@ -28,14 +31,26 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
         Arrays.sort(floatposition);
         this.floatposition = floatposition;
         this.container = container;
-        list = Arrays.asList(floatposition);
+        for (int i : this.floatposition) {
+            list.add(i);
+        }
     }
 
     @Override
     public void attachRecyclerview(RecyclerView recyclerView) {
-        recyclerView.removeOnScrollListener(this);
+        this.recyclerView = recyclerView;
         recyclerView.addOnScrollListener(this);
         adapter = recyclerView.getAdapter();
+    }
+
+    @Override
+    public void detachRecyclerview() {
+        if (recyclerView != null) {
+            recyclerView.removeOnScrollListener(this);
+        }
+        if(viewHolder!=null){
+            container.removeView(viewHolder.itemView);
+        }
     }
 
     @Override
@@ -58,25 +73,37 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
                 break;
             }
         }
-        if (currentnearestposition == currentfloatposition) {
-            if (viewHolder != null) {
-                if (firstcompletevisable != -1 && list.contains(firstcompletevisable)) {
-                    View childAt = recyclerView.getChildAt(1);
-                    int top = viewHolder.itemView.getHeight() - childAt.getTop();
-                    if (top > 0 && top < viewHolder.itemView.getHeight())
-                        viewHolder.itemView.setTranslationY(-top);
-                } else {
-                    viewHolder.itemView.setTranslationY(0);
-                }
-            }
-            return;
-        }
         if (viewHolder != null) {
-            container.removeView(viewHolder.itemView);
-            currentfloatposition = -1;
+            if (firstcompletevisable != -1 && list.contains(firstcompletevisable)) {
+                View childAt = recyclerView.getChildAt(firstcompletevisable==getFirstvisable(recyclerView)?0:1);
+                int height = viewHolder.itemView.getHeight();
+                    int top = height - childAt.getTop();
+                    if (top >= 0 && top <= height) {
+                        translationx=-top;
+                        viewHolder.itemView.setTranslationY(-top);
+                    }
+            } else {
+                translationx=0;
+                viewHolder.itemView.setTranslationY(0);
+            }
         }
         if (currentnearestposition == -1) {
+            if (viewHolder != null) {
+                container.removeView(viewHolder.itemView);
+                viewHolder=null;
+                currentfloatposition = -1;
+            }
             return;
+        } else {
+            if (currentnearestposition == currentfloatposition||(currentfloatposition==firstcompletevisable&&firstcompletevisable==getFirstvisable(recyclerView))) {
+                return;
+            } else {
+                if (viewHolder != null) {
+                    container.removeView(viewHolder.itemView);
+                    viewHolder=null;
+                    currentfloatposition = -1;
+                }
+            }
         }
         currentfloatposition = currentnearestposition;
         viewHolder = adapter.createViewHolder(recyclerView, adapter.getItemViewType(currentfloatposition));
@@ -88,10 +115,15 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
                 }
             });
         }
+        viewHolder.itemView.setTranslationY(translationx);
         container.addView(viewHolder.itemView);
         adapter.onBindViewHolder(viewHolder, currentfloatposition);
     }
+
     public int getFirstcompletevisable(RecyclerView recyclerView) {
         return RecyclerviewFloatHelper.getFirstcompletevisable(recyclerView);
+    }
+    public int getFirstvisable(RecyclerView recyclerView) {
+        return RecyclerviewFloatHelper.getFirstvisable(recyclerView);
     }
 }
