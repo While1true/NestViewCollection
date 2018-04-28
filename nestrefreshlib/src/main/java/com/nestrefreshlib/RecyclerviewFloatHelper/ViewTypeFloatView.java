@@ -21,7 +21,6 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
     RecyclerView recyclerView;
     int viewtype = -1;
     int currentfloatposition = -1;
-    int rollbackSize = 5;
     boolean crashmove = true;
     List<Integer> arrays = new ArrayList<Integer>();
     private RecyclerView.ViewHolder viewHolder;
@@ -49,13 +48,8 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
         for (int i : floatposition) {
             arrays.add(i);
         }
-        type = 1;
-    }
-
-    public ViewTypeFloatView(ViewGroup container, int viewtype, int rollbackSize) {
-        this.viewtype = viewtype;
-        this.container = container;
-        this.rollbackSize = rollbackSize;
+        if (arrays.size() > 0)
+            type = 1;
     }
 
     @Override
