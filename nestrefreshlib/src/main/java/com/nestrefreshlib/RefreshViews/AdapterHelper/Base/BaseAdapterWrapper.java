@@ -81,6 +81,7 @@ public class BaseAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        mAdapter.onBindViewHolder(holder, position - getHeaderItemCount(),null);
     }
 
     @Override
