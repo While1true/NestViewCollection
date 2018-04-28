@@ -28,6 +28,7 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
     //0:正在获取position 1:可以暂时使用
     private int type;
     private int itemCount;
+    private Thread thread = new Thread(this);;
 
     public void setOnFloatClickListener(RecyclerviewFloatHelper.OnFloatClickListener listener) {
         this.listener = listener;
@@ -54,6 +55,11 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
 
     @Override
     public void detachRecyclerview() {
+        try {
+            thread.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (recyclerView != null) {
             recyclerView.removeOnScrollListener(this);
         }
@@ -73,7 +79,7 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
             /**
              * 启动线程计算位置
              */
-            new Thread(this).start();
+            thread.start();
         } else {
             firstvisable = arrays.get(0);
             viewtype = adapter.getItemViewType(firstvisable);
@@ -104,7 +110,7 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
                 /**
                  * 继续计算
                  */
-                new Thread(this).start();
+                thread.start();
                 type = 0;
                 return;
             }
