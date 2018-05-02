@@ -12,9 +12,11 @@
 
 ![GIF3.gif](http://upload-images.jianshu.io/upload_images/6456519-9c010d100480914e.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+![GIF5.gif](https://github.com/While1true/NestViewCollection/blob/goldenVersion_Simple2/GIF.gif)
+
 ![GIF4.gif](https://upload-images.jianshu.io/upload_images/6456519-8166c67d8a762c32.gif?imageMogr2/auto-orient/strip)
 
-![GIF5.gif](https://github.com/While1true/NestViewCollection/blob/goldenVersion_Simple2/GIF.gif)
+
 
 ```
  <coms.kxjsj.refreshlayout_master.RefreshLayout
