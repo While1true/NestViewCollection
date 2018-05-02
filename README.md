@@ -6,12 +6,11 @@
 2.类似小米系统的橡皮泥模式
 3.估值模式，直提供上下拉过程中的数值，可监听设置listener做你想要的事情
 4.估值模式下的内刷新，与普通刷新相比，它是控制adapter最前面一个和最后面一个的高度来显示刷新头尾
+![GIF.gif](http://upload-images.jianshu.io/upload_images/6456519-27f56d146baa0afb.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-![GIF.gif](http://upload-images.jianshu.io/upload_images/6456519-27f56d146baa0afb.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/480)
+![GIF2.gif](http://upload-images.jianshu.io/upload_images/6456519-9e217be853b06569.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-![GIF2.gif](http://upload-images.jianshu.io/upload_images/6456519-9e217be853b06569.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/480)
-
-![GIF3.gif](http://upload-images.jianshu.io/upload_images/6456519-9c010d100480914e.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/480)
+![GIF3.gif](http://upload-images.jianshu.io/upload_images/6456519-9c010d100480914e.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![GIF4.gif](https://upload-images.jianshu.io/upload_images/6456519-8166c67d8a762c32.gif?imageMogr2/auto-orient/strip)
 
