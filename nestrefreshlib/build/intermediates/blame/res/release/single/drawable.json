@@ -6,5 +6,13 @@
     {
         "merged": "D:\\Github\\NestPullView2\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable\\bg.jpg",
         "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\src\\main\\res\\drawable\\bg.jpg"
+    },
+    {
+        "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable\\bt_bg.xml",
+        "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\src\\main\\res\\drawable\\bt_bg.xml"
+    },
+    {
+        "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable\\bg.jpg",
+        "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\src\\main\\res\\drawable\\bg.jpg"
     }
 ]

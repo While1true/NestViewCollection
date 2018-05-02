@@ -33,9 +33,9 @@ public class SAdapter extends BaseAdapter implements LifecycleObserver {
         return Holder.createViewHolder(InflateView(Holdersid.get(viewType).getLayout(), parent));
     }
 
-    public SAdapter addLifeOwener(LifecycleOwner owner) {
+    public <T extends SAdapter>T addLifeOwener(LifecycleOwner owner) {
         owner.getLifecycle().addObserver(this);
-        return this;
+        return (T) this;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -80,17 +80,17 @@ public class SAdapter extends BaseAdapter implements LifecycleObserver {
 
     SparseArray<ItemHolder> Holdersid = new SparseArray<>(3);
 
-    public SAdapter addType(int layoutid, ItemHolder<?> itemholder) {
+    public <T extends SAdapter>T addType(int layoutid, ItemHolder<?> itemholder) {
         Holdersid.put(Holdersid.size(), itemholder.setLayout(layoutid));
-        return this;
+        return (T) this;
     }
 
-    public SAdapter addType(ItemHolder<?> itemholder) {
+    public <T extends SAdapter>T addType(ItemHolder<?> itemholder) {
         if (itemholder.getLayout() == 0) {
             throw new NullPointerException("layoutid not defined");
         }
         Holdersid.put(Holdersid.size(), itemholder);
-        return this;
+        return (T) this;
     }
 
     protected int getMutilType(Object item, int position) {

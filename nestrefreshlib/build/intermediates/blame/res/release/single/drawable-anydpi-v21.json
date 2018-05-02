@@ -4,6 +4,14 @@
         "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-anydpi-v21\\empty.xml"
     },
     {
+        "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable-anydpi-v21\\empty.xml",
+        "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-anydpi-v21\\empty.xml"
+    },
+    {
+        "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable-anydpi-v21\\error.xml",
+        "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-anydpi-v21\\error.xml"
+    },
+    {
         "merged": "D:\\Github\\NestPullView2\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable-anydpi-v21\\error.xml",
         "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-anydpi-v21\\error.xml"
     }
