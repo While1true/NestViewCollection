@@ -24,11 +24,10 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
     boolean crashmove = true;
     List<Integer> arrays = new ArrayList<Integer>();
     private RecyclerView.ViewHolder viewHolder;
-    private int firstvisable;
-    //0:正在获取position 1:可以暂时使用
+    //0:正在计算 position 1:可以暂时使用 2 不用计算
     private int type;
-    private int itemCount;
-    private Thread thread = new Thread(this);;
+    private Thread thread = new Thread(this);
+    ;
 
     public void setOnFloatClickListener(RecyclerviewFloatHelper.OnFloatClickListener listener) {
         this.listener = listener;
@@ -50,7 +49,7 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
             arrays.add(i);
         }
         if (arrays.size() > 0)
-            type = 1;
+            type = 2;
     }
 
     @Override
@@ -73,18 +72,19 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
         this.recyclerView = recyclerView;
         recyclerView.addOnScrollListener(this);
         adapter = recyclerView.getAdapter();
-        itemCount = adapter.getItemCount();
-
-        if (type == 0) {
-            /**
-             * 启动线程计算位置
-             */
-            thread.start();
+        if (type == 2) {
+            int one = arrays.get(0);
+            viewtype = adapter.getItemViewType(one);
         } else {
-            firstvisable = arrays.get(0);
-            viewtype = adapter.getItemViewType(firstvisable);
+            if (adapter.getItemCount() < MAX_PERIOD / 10) {
+                thread.run();
+            } else {
+                /**
+                 * 启动线程计算位置
+                 */
+                thread.start();
+            }
         }
-
     }
 
 
@@ -98,29 +98,40 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
         int firstcompletevisable = getFirstcompletevisable(recyclerView);
 
         /**
-         * {@link type=0 定了itemtype 1 定了position}
-         * 启动子线程，一次计算100万内的type position 分段1000个记录一个标记位置用于优化查找
+         * {@link type}
+         * 启动子线程，一次计算10万内的type position 分段100个记录一个标记位置用于优化查找
          * 超过计算位置，重启线程计算
          */
         int currentnearestposition = -1;
         if (type == 0) {
             return;
+        } else if (type == 2) {
+            /**
+             * 找到里的最近的viewtype的position
+             */
+            for (int i = arrays.size() - 1; i >= 0; i--) {
+                if (arrays.get(i) < firstcompletevisable) {
+                    currentnearestposition = arrays.get(i);
+                    break;
+                }
+            }
         } else {
-            if (firstcompletevisable > arrays.get(arrays.size() - 1)) {
+            if (firstcompletevisable >calculated) {
                 /**
                  * 继续计算
                  */
-                thread.start();
-                type = 0;
-                return;
+                thread.run();
             }
-            int mark = arrays.size() - 1;
+            int mark = -1;
             int size = marks.size();
             for (int i = 0; i < size; i++) {
                 if (marks.valueAt(i) > firstcompletevisable) {
                     mark = marks.keyAt(i);
                     break;
                 }
+            }
+            if(mark==-1){
+                mark=arrays.size()-1;
             }
             for (int i1 = mark; i1 >= 0; i1--) {
                 Integer integer = arrays.get(i1);
@@ -130,7 +141,6 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
                 }
             }
         }
-
 
         /**
          * 如果没有要悬浮的了，并且有悬浮过就隐藏掉
@@ -200,7 +210,8 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
         return RecyclerviewFloatHelper.getFirstvisable(recyclerView);
     }
 
-    int MAX_PERIOD = 1000000;
+    int MAX_PERIOD = 100000;
+    int calculated = -1;
     SparseArray<Integer> marks = new SparseArray<>();
     int mark = 0;
 
@@ -213,11 +224,12 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
             i = arrays.get(size - 1);
         }
         int end = MAX_PERIOD + i;
-
+        int itemCount = adapter.getItemCount();
         for (; i < end && i < itemCount; i++) {
+            calculated = i;
             if (adapter.getItemViewType(i) == viewtype) {
                 arrays.add(i);
-                if (i / 1000 == mark) {
+                if (i / 100 == mark) {
                     marks.put(arrays.size() - 1, i);
                     mark++;
                 }
