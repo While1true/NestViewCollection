@@ -140,10 +140,13 @@ public class StateAdapter extends SAdapter implements ShowStateInterface {
             switch (showstate) {
                 case SHOW_EMPTY:
                     stateHandler.BindEmptyHolder((Holder) holder, object);
+                    break;
                 case SHOW_ERROR:
                     stateHandler.BindErrorHolder((Holder) holder, object);
+                    break;
                 case SHOW_LOADING:
                     stateHandler.BindLoadingHolder((Holder) holder, object);
+                    break;
                 case SHOW_NOMORE:
                     if (position == getItemCount() - 1)
                         stateHandler.BindNomoreHolder((Holder) holder, object);
