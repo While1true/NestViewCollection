@@ -345,7 +345,13 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     public void setRefreshing() {
         if (state != State.REFRESHING && state != State.LOADING) {
             state = State.REFRESHING;
-            aninatorTo(scrolls, -attrsUtils.mHeaderRefreshPosition);
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    aninatorTo(scrolls, -attrsUtils.mHeaderRefreshPosition);
+                }
+            });
+
         }
 
     }
