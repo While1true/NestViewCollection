@@ -17,6 +17,7 @@ import com.nestrefreshlib.Adpater.Impliment.PositionHolder;
 import com.nestrefreshlib.Adpater.Impliment.SAdapter;
 import com.nestrefreshlib.RecyclerviewFloatHelper.*;
 import com.nestrefreshlib.RecyclerviewFloatHelper.RecyclerviewFloatHelper;
+import com.nestrefreshlib.RefreshViews.AdapterHelper.AdapterScrollListener;
 import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.RefreshListener;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshAdapterHandler;
@@ -135,10 +136,10 @@ public class Main3Activity extends AppCompatActivity {
         })
                 .addLifeOwener(this);
         recyclerView1 = layout.getmScroll();
-//        recyclerView1.setAdapter(sAdapter);
-//        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
-//        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
-        new RefreshAdapterHandler().attachRefreshLayout(layout, sAdapter, new LinearLayoutManager(this));
+        recyclerView1.setAdapter(sAdapter);
+        recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+//        new RefreshAdapterHandler().attachRefreshLayout(layout, sAdapter, new LinearLayoutManager(this));
         v1(null);
     }
 

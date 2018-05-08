@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -38,7 +39,7 @@ import static java.lang.Math.signum;
  * 若果默认配置都是true，oncreat后再代码中都生效  默认false时不加载布局是为了神曲一些不必要的加载布局
  */
 
-public class RefreshLayout extends FrameLayout implements NestedScrollingParent, ValueAnimator.AnimatorUpdateListener, Runnable{
+public class RefreshLayout extends FrameLayout implements NestedScrollingParent, ValueAnimator.AnimatorUpdateListener, Runnable {
     public static final String TAG = "RefreshLayout";
     private NestedScrollingParentHelper helper;
 
@@ -62,6 +63,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      */
     private AttrsUtils attrsUtils;
 
+    private boolean canhandle = true;
 
     /**
      * 方向
@@ -357,6 +359,14 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (!canhandle) {
+            return true;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public void onAnimationUpdate(ValueAnimator animation) {
         float animatedFraction = animation.getAnimatedFraction();
         int animatedValue = (int) animation.getAnimatedValue();
@@ -375,6 +385,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         if (animatedFraction == 1) {
             if (animatedValue != 0) {
                 if (!isComplete) {
+                    canhandle = false;
                     if (animatedValue > 0) {
                         state = State.LOADING;
                     } else {
@@ -384,6 +395,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
                     NotifyCompleteRefresh0();
                 }
             } else {
+                canhandle = true;
                 state = State.IDEL;
             }
             callbackState(state);
