@@ -99,10 +99,7 @@ public class RefreshHandlerImpl extends RefreshHanderBase implements Runnable {
     protected void handleview(RefreshLayout layout, View header, View footer) {
         this.layout = layout;
         if (header != null) {
-            if (header != null) {
-                this.refreshText = (TextView) header.findViewById(com.nestrefreshlib.R.id.refreshText);
-            }
-
+            this.refreshText = (TextView) header.findViewById(com.nestrefreshlib.R.id.refreshText);
             this.icon = (ImageView) header.findViewById(com.nestrefreshlib.R.id.icon);
             this.refreshTime = (TextView) header.findViewById(com.nestrefreshlib.R.id.refreshTime);
             if (this.refreshTime != null) {

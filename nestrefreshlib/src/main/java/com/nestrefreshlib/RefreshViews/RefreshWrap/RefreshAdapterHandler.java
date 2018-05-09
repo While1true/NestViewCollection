@@ -1,10 +1,12 @@
 package com.nestrefreshlib.RefreshViews.RefreshWrap;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,16 +16,25 @@ import com.nestrefreshlib.RefreshViews.RefreshLayout;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by 不听话的好孩子 on 2018/2/6.
  * 调整recyclerview第一个，和最后一个Item的高度
  */
 
-public class RefreshAdapterHandler extends RefreshHanderBase {
-    private TextView mHeadertextView;
-    private ProgressBar mHeaderPrgress;
+public class RefreshAdapterHandler extends RefreshHanderBase implements Runnable {
+    private TextView refreshText;
+    private TextView refreshTime;
+    private ImageView icon;
     private RefreshLayout.State currentState;
+    private TextView mfootertextView;
+    private ProgressBar mfootPrgress;
     RefreshLayout layout;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    private boolean canswitch = true;
+
     private View header;
     private View footer;
     private int footerHeight;
@@ -43,11 +54,19 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             header.requestLayout();
         }
 
-        if (mHeadertextView != null) {
-            if (mHeadertextView != null && scrolls > layout.getAttrsUtils().getmHeaderRefreshPosition()) {
-                mHeadertextView.setText(title[1]);
+        if (this.refreshText != null) {
+            if (this.refreshText != null && scrolls > layout.getAttrsUtils().getmHeaderRefreshPosition()) {
+                this.refreshText.setText(this.title[1]);
+                if (canswitch && this.icon.getRotation() != 180.0F) {
+                    canswitch = false;
+                    this.icon.animate().rotation(180.0F).withEndAction(this).start();
+                }
             } else {
-                mHeadertextView.setText(title[0]);
+                this.refreshText.setText(this.title[0]);
+                if (canswitch && this.icon.getRotation() != 0.0F) {
+                    canswitch = false;
+                    this.icon.animate().rotation(0.0F).withEndAction(this).start();
+                }
             }
         }
 
@@ -116,25 +135,39 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
         return true;
     }
 
-    @Override
+    public String getCurrentTime(Context context) {
+        String time = "上次刷新时间：" + this.simpleDateFormat.format(new Date());
+        String simpleName = context.getClass().getSimpleName();
+        context.getSharedPreferences("RefreshHandlerImpl", 0).edit().putString(simpleName, time).commit();
+        return time;
+    }
+
     public void OnStateChange(RefreshLayout.State state) {
-        currentState = state;
+        this.currentState = state;
         switch (state) {
             case REFRESHCOMPLETE:
-                if (mHeaderPrgress != null) {
-                    mHeaderPrgress.setVisibility(View.INVISIBLE);
-                    mHeadertextView.setText(data == null ? title[6] : data);
+                if (this.refreshText != null) {
+                    this.refreshText.setText(this.data == null ? this.title[6] : (String) this.data);
+                    this.refreshTime.setText(this.getCurrentTime(this.refreshText.getContext()));
                 }
                 break;
             case LOADING:
+                if (mfootPrgress != null) {
+                    mfootPrgress.setVisibility(View.VISIBLE);
+                    mfootertextView.setText(title[5]);
+                }
                 break;
             case REFRESHING:
-                if (mHeaderPrgress != null) {
-                    mHeaderPrgress.setVisibility(View.VISIBLE);
-                    mHeadertextView.setText(title[2]);
+                if (this.refreshText != null) {
+                    this.refreshText.setVisibility(View.VISIBLE);
+                    this.refreshText.setText(this.title[2]);
                 }
                 break;
             case LOADINGCOMPLETE:
+                if (mfootPrgress != null) {
+                    mfootPrgress.setVisibility(View.INVISIBLE);
+                    mfootertextView.setText(data == null ? title[7] : data);
+                }
                 break;
             case IDEL:
                 break;
@@ -143,7 +176,6 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             case PULL_FOOTER:
                 break;
         }
-
     }
 
     public static int dp2px(View view, float dp) {
@@ -180,8 +212,14 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
         }
 
         if (header != null) {
-            mHeadertextView = header.findViewById(R.id.textView);
-            mHeaderPrgress = header.findViewById(R.id.progressBar);
+            this.refreshText = (TextView) header.findViewById(com.nestrefreshlib.R.id.refreshText);
+            this.icon = (ImageView) header.findViewById(com.nestrefreshlib.R.id.icon);
+            this.refreshTime = (TextView) header.findViewById(com.nestrefreshlib.R.id.refreshTime);
+            if (this.refreshTime != null) {
+                String simpleName = this.refreshTime.getContext().getClass().getSimpleName();
+                String timelast = this.refreshTime.getContext().getSharedPreferences("RefreshHandlerImpl", 0).getString(simpleName, "");
+                this.refreshTime.setText(timelast);
+            }
         }
         this.header = header;
         this.footer = footer;
@@ -228,5 +266,10 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
             inFooterView.setText(charSequence);
         }
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void run() {
+        canswitch = true;
     }
 }
