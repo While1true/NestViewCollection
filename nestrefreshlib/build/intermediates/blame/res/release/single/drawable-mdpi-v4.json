@@ -6,5 +6,13 @@
     {
         "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\empty.png",
         "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-mdpi\\empty.png"
+    },
+    {
+        "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\ic_arrow_horizontal.png",
+        "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-mdpi\\ic_arrow_horizontal.png"
+    },
+    {
+        "merged": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\ic_arrow.png",
+        "source": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\generated\\res\\pngs\\release\\drawable-mdpi\\ic_arrow.png"
     }
 ]

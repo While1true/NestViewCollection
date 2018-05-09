@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
 import com.nestrefreshlib.RefreshViews.RefreshWrap.Base.RefreshHanderBase;
+import com.nestrefreshlib.RefreshViews.RefreshWrap.RefreshHandlerImpl;
 
 import static java.lang.Math.signum;
 
@@ -869,10 +870,10 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * 保存全局默认配置
      */
     public static class DefaultBuilder {
-        private int HEADER_LAYOUTID_DEFAULT, SCROLL_LAYOUT_ID_DEFAULT, FOOTER_LAYOUTID_DEFAULT;
+        private int  HEADER_LAYOUTID_DEFAULT = R.layout.header_layout,SCROLL_LAYOUT_ID_DEFAULT = R.layout.recyclerview,FOOTER_LAYOUTID_DEFAULT = R.layout.footer_layout;
         private float PULLRATE = 2.5f;
         private boolean CANHEADER_DEFAULT = true, CANFOOTR_DEFAULT = true, OVERSCROLL_DEFAULT = false, OVERSCROLL_ELASTIC_DEFAULT = false;
-        private Class defaultRefreshHandler = RefreshHanderBase.class;
+        private Class defaultRefreshHandler = RefreshHandlerImpl.class;
 
         public DefaultBuilder setBaseRefreshHandler(Class defaultRefreshWrap) {
             this.defaultRefreshHandler = defaultRefreshWrap;

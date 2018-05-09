@@ -45,21 +45,27 @@ public final class R {
         public static int bt_bg = 0x7f090002;
         public static int empty = 0x7f090003;
         public static int error = 0x7f090004;
+        public static int ic_arrow = 0x7f090005;
+        public static int ic_arrow_horizontal = 0x7f090006;
     }
     public static final class id {
         public static int HORIZONTAL = 0x7f0c0001;
         public static int VERTICAL = 0x7f0c0002;
         public static int footer = 0x7f0c0003;
         public static int header = 0x7f0c0004;
-        public static int imageView = 0x7f0c0005;
-        public static int iv = 0x7f0c0006;
-        public static int progressBar = 0x7f0c0007;
-        public static int recyclerview = 0x7f0c0008;
-        public static int reload = 0x7f0c0009;
-        public static int sloading = 0x7f0c000a;
-        public static int textView = 0x7f0c000b;
-        public static int tv = 0x7f0c000c;
-        public static int tv_nomore = 0x7f0c000d;
+        public static int icon = 0x7f0c0005;
+        public static int imageView = 0x7f0c0006;
+        public static int iv = 0x7f0c0007;
+        public static int linearLayout = 0x7f0c0008;
+        public static int progressBar = 0x7f0c0009;
+        public static int recyclerview = 0x7f0c000a;
+        public static int refreshText = 0x7f0c000b;
+        public static int refreshTime = 0x7f0c000c;
+        public static int reload = 0x7f0c000d;
+        public static int sloading = 0x7f0c000e;
+        public static int textView = 0x7f0c000f;
+        public static int tv = 0x7f0c0010;
+        public static int tv_nomore = 0x7f0c0011;
     }
     public static final class layout {
         public static int footer_layout = 0x7f0f0001;

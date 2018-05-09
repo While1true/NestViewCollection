@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="65dp"
-    android:paddingLeft="5dp"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:padding="5dp"
+    android:id="@+id/header"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:ems="1"
-        android:gravity="center"
-        android:layout_gravity="right"
-        android:layout_marginRight="5dp"
-        android:text="下拉刷新哦" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/icon"
         android:layout_width="30dp"
-        android:indeterminate="true"
-        android:visibility="invisible"
         android:layout_height="30dp"
-        android:layout_gravity="center_vertical" />
-
-</FrameLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/linearLayout"
+        android:src="@drawable/ic_arrow_horizontal"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout">
+        <TextView
+            android:id="@+id/refreshText"
+            android:text="正在刷新"
+            android:ems="1"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/refreshTime"
+            android:visibility="gone"
+            android:text="上次刷新时间：            "
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>
