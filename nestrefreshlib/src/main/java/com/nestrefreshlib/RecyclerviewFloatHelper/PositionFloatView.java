@@ -80,19 +80,26 @@ public class PositionFloatView extends RecyclerView.OnScrollListener implements 
             }
         }
         if (crashmove && viewHolder != null) {
-            View childAt = recyclerView.getChildAt(firstcompletevisable == getFirstvisable(recyclerView) ? 0 : 1);
-            if (firstcompletevisable != -1 && list.contains(firstcompletevisable) && childAt.getTop() <= viewHolder.itemView.getHeight()) {
-
-                int height = viewHolder.itemView.getHeight();
-                int top = height - childAt.getTop();
-                if (top >= 0 && top <= height) {
-                    translationx = -top;
-                    viewHolder.itemView.setTranslationY(-top);
+            View childAt=null;
+            for (int i = 0; i < 3; i++) {
+                View child = recyclerView.getChildAt(i);
+                int childAdapterPosition = recyclerView.getChildAdapterPosition(child);
+                if(list.contains(childAdapterPosition)&&childAdapterPosition>=getFirstcompletevisable(recyclerView)){
+                    childAt=child;
+                    break;
                 }
-            } else {
-                translationx = 0;
-                viewHolder.itemView.setTranslationY(0);
             }
+                if (childAt!=null&&firstcompletevisable != -1&& childAt.getTop() <= viewHolder.itemView.getHeight()) {
+                    int height = viewHolder.itemView.getHeight();
+                    int top = height - childAt.getTop();
+                    if (top >= 0 && top <= height) {
+                        translationx = -top;
+                        viewHolder.itemView.setTranslationY(-top);
+                    }
+                } else {
+                    translationx = 0;
+                    viewHolder.itemView.setTranslationY(0);
+                }
         }
         if (currentnearestposition == -1) {
             if (viewHolder != null) {

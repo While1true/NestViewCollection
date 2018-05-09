@@ -140,7 +140,7 @@ public class Main3Activity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new AdapterScrollListener(layout));
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
 //        new RefreshAdapterHandler().attachRefreshLayout(layout, sAdapter, new LinearLayoutManager(this));
-        v1(null);
+        v2(null);
     }
 
     private void addlist() {
@@ -163,7 +163,7 @@ public class Main3Activity extends AppCompatActivity {
         if (floatInterface != null) {
             floatInterface.detachRecyclerview();
         }
-        floatInterface = new PositionFloatView(fm, 4,7,10,13);
+        floatInterface = new PositionFloatView(fm, 0,2,7,8,12,17);
         floatInterface.attachRecyclerview(recyclerView1);
         floatInterface.setOnFloatClickListener(new RecyclerviewFloatHelper.OnFloatClickListener() {
             @Override

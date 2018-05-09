@@ -116,7 +116,7 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
                 }
             }
         } else {
-            if (firstcompletevisable >calculated) {
+            if (firstcompletevisable > calculated) {
                 /**
                  * 继续计算
                  */
@@ -130,8 +130,8 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
                     break;
                 }
             }
-            if(mark==-1){
-                mark=arrays.size()-1;
+            if (mark == -1) {
+                mark = arrays.size() - 1;
             }
             for (int i1 = mark; i1 >= 0; i1--) {
                 Integer integer = arrays.get(i1);
@@ -156,8 +156,16 @@ public class ViewTypeFloatView extends RecyclerView.OnScrollListener implements 
          * {@link crashmove}从一个悬浮view过渡到另一个的移动动画
          */
         if (crashmove && viewHolder != null) {
-            View childAt = recyclerView.getChildAt(firstcompletevisable == getFirstvisable(recyclerView) ? 0 : 1);
-            if (firstcompletevisable != -1 && adapter.getItemViewType(firstcompletevisable) == viewtype && childAt.getTop() <= viewHolder.itemView.getHeight()) {
+            View childAt=null;
+            for (int i = 0; i < 3; i++) {
+                View child = recyclerView.getChildAt(i);
+                int childAdapterPosition = recyclerView.getChildAdapterPosition(child);
+                if(arrays.contains(childAdapterPosition)&&childAdapterPosition>=getFirstcompletevisable(recyclerView)){
+                    childAt=child;
+                    break;
+                }
+            }
+            if (childAt != null && firstcompletevisable != -1 && childAt.getTop() <= viewHolder.itemView.getHeight()) {
 
                 int height = viewHolder.itemView.getHeight();
                 int top = height - childAt.getTop();

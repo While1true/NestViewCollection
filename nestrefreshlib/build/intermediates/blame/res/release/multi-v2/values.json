@@ -23,46 +23,6 @@
             ]
         },
         {
-            "outputFile": "D:\\Github\\NestPullView2\\nestrefreshlib\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
-            "map": [
-                {
-                    "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "-1,-1",
-                        "startColumns": "-1,-1",
-                        "startOffsets": "-1,-1"
-                    },
-                    "to": {
-                        "startLines": "8,9",
-                        "startColumns": "4,4",
-                        "startOffsets": "1742,1794",
-                        "endColumns": "51,55",
-                        "endOffsets": "1789,1845"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "D:\\Github\\NestPullView2\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
-            "map": [
-                {
-                    "source": "D:\\Github\\NestPullView2\\nestrefreshlib\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "-1,-1",
-                        "startColumns": "-1,-1",
-                        "startOffsets": "-1,-1"
-                    },
-                    "to": {
-                        "startLines": "8,9",
-                        "startColumns": "4,4",
-                        "startOffsets": "1742,1794",
-                        "endColumns": "51,55",
-                        "endOffsets": "1789,1845"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "D:\\Github\\NestViewCollection\\nestrefreshlib\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
             "map": [
                 {
