@@ -23,7 +23,6 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     private TextView mHeadertextView;
     private ProgressBar mHeaderPrgress;
     private RefreshLayout.State currentState;
-    RefreshLayout layout;
     private View header;
     private View footer;
     private int footerHeight;
@@ -57,11 +56,11 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     public void onPullFooter(View view, int scrolls) {
         super.onPullFooter(view, scrolls);
         restHeader();
-        if (!calculatIsFull(layout)) {
+        if (!calculatIsFull(getRefreshLayout())) {
             if (isvirtical) {
-                layout.scrollTo(0, scrolls);
+                getRefreshLayout().scrollTo(0, scrolls);
             } else {
-                layout.scrollTo(scrolls, 0);
+                getRefreshLayout().scrollTo(scrolls, 0);
             }
         } else {
             if (footer != null) {
@@ -152,7 +151,6 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
 
     @Override
     protected void handleview(RefreshLayout layout, View header, View footer) {
-        this.layout = layout;
         View view = layout.getmScroll();
         if (view instanceof RecyclerView) {
             RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
@@ -213,8 +211,8 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     }
 
     public void startLoading(CharSequence charSequence) {
-        TextView inFooterView = layout.findInFooterView(R.id.textView);
-        ProgressBar progressBar = layout.findInFooterView(R.id.progressBar);
+        TextView inFooterView = getRefreshLayout().findInFooterView(R.id.textView);
+        ProgressBar progressBar = getRefreshLayout().findInFooterView(R.id.progressBar);
         if (inFooterView != null) {
             inFooterView.setText(charSequence);
         }
@@ -222,8 +220,8 @@ public class RefreshAdapterHandler extends RefreshHanderBase {
     }
 
     public void stopLoading(CharSequence charSequence) {
-        TextView inFooterView = layout.findInFooterView(R.id.textView);
-        ProgressBar progressBar = layout.findInFooterView(R.id.progressBar);
+        TextView inFooterView = getRefreshLayout().findInFooterView(R.id.textView);
+        ProgressBar progressBar = getRefreshLayout().findInFooterView(R.id.progressBar);
         if (inFooterView != null) {
             inFooterView.setText(charSequence);
         }
