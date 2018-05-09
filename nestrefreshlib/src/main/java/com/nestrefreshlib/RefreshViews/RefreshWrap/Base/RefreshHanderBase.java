@@ -12,12 +12,6 @@ import java.lang.ref.WeakReference;
  */
 
 public class RefreshHanderBase extends RefreshLayout.BaseRefreshHeaderAndFooterHandler<String> {
-    protected WeakReference<RefreshLayout> layoutWeakReference;
-
-    public RefreshLayout getRefreshLayout() {
-        return layoutWeakReference.get();
-    }
-
     protected String[] title;
 
     @Override
@@ -38,7 +32,6 @@ public class RefreshHanderBase extends RefreshLayout.BaseRefreshHeaderAndFooterH
     @Override
     protected void initView(RefreshLayout layout) {
         super.initView(layout);
-        layoutWeakReference = new WeakReference<RefreshLayout>(layout);
         View header = layout.getmHeader();
         View footer = layout.getmFooter();
         String[] tempVertical = {"下拉刷新", "释放刷新", "正在刷新中", "上拉加载", "释放加载", "正在加载中", "刷新完成", "加载完成"};

@@ -40,11 +40,11 @@ public class RefreshRecyclerview extends RefreshLayout {
     }
 
     public void setLinearVirtical(RecyclerView.Adapter adapter) {
-        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext()), null);
+        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext()));
     }
 
     public void setLinearHorizotal(RecyclerView.Adapter adapter) {
-        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false), null);
+        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
     }
 
     public void setLinearVirticalWithDecorate(RecyclerView.Adapter adapter) {
