@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -16,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.nestrefreshlib.R;
 import com.nestrefreshlib.RefreshViews.AdapterHelper.Base.AdapterRefreshInterface;
@@ -65,6 +68,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
     private AttrsUtils attrsUtils;
 
     private boolean canhandle = true;
+    private DefaultNomoreHeaderAndFooterWrap adapter;
 
     /**
      * 方向
@@ -870,7 +874,7 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
      * 保存全局默认配置
      */
     public static class DefaultBuilder {
-        private int  HEADER_LAYOUTID_DEFAULT = R.layout.header_layout,SCROLL_LAYOUT_ID_DEFAULT = R.layout.recyclerview,FOOTER_LAYOUTID_DEFAULT = R.layout.footer_layout;
+        private int HEADER_LAYOUTID_DEFAULT = R.layout.header_layout, SCROLL_LAYOUT_ID_DEFAULT = R.layout.recyclerview, FOOTER_LAYOUTID_DEFAULT = R.layout.footer_layout;
         private float PULLRATE = 2.5f;
         private boolean CANHEADER_DEFAULT = true, CANFOOTR_DEFAULT = true, OVERSCROLL_DEFAULT = false, OVERSCROLL_ELASTIC_DEFAULT = false;
         private Class defaultRefreshHandler = RefreshHandlerImpl.class;
@@ -1053,6 +1057,57 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
 //                y = caculateZhangli(y, y < 0 ? (mHeader == null ? attrsUtils.mMaxHeaderScroll / 3 : mHeader.getMeasuredHeight()) : (mFooter == null ? attrsUtils.mMaxFooterScroll / 3 : mFooter.getMeasuredHeight()));
                 super.scrollTo(x, y);
             }
+        }
+    }
+
+
+    public void setLinearVirtical(RecyclerView.Adapter adapter) {
+        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext()));
+    }
+
+    public void setLinearHorizotal(RecyclerView.Adapter adapter) {
+        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    public void setLinearVirticalWithDecorate(RecyclerView.Adapter adapter) {
+        setRecyclerviewProperity(adapter, new LinearLayoutManager(getContext()), new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
+    }
+
+    public void setRecyclerviewProperity(RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager, RecyclerView.ItemDecoration... decorations) {
+        setRecyclerviewProperity(adapter, manager, null, decorations);
+    }
+
+    public void setRecyclerviewProperity(RecyclerView.Adapter adapter, RecyclerView.LayoutManager manager, RecyclerView.ItemAnimator animator, RecyclerView.ItemDecoration... decorations) {
+        RecyclerView recyclerView = getmScroll();
+        recyclerView.setLayoutManager(manager);
+        this.adapter = new DefaultNomoreHeaderAndFooterWrap(adapter).attachDefaultHeaderFooterView(this);
+        recyclerView.setAdapter(this.adapter);
+        if (animator != null) {
+            recyclerView.setItemAnimator(animator);
+        }
+        if (decorations != null) {
+            for (RecyclerView.ItemDecoration decoration : decorations) {
+                recyclerView.addItemDecoration(decoration);
+            }
+        }
+    }
+
+    public void setShowNomore(boolean nomore) {
+        setShowNomore(nomore, null);
+    }
+
+    public void setShowNomore(boolean nomore, String text) {
+        if (nomore) {
+            attrsUtils.setCANFOOTR(false);
+        } else {
+            attrsUtils.setCANFOOTR(true);
+        }
+        if(adapter!=null) {
+            adapter.setIsnomore(nomore);
+            if (text != null) {
+                adapter.showNoMore(text);
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 }
