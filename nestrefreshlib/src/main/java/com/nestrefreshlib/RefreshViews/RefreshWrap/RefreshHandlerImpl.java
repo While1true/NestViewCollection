@@ -19,17 +19,12 @@ public class RefreshHandlerImpl extends RefreshHanderBase {
     private TextView mfootertextView;
     private ProgressBar mfootPrgress;
     private RefreshLayout.State currentState;
+    private RefreshLayout layout;
 
     @Override
     public void onPullHeader(View view, int scrolls) {
-        /**
-         * 完成状态时不要改变字
-         */
-        if (currentState == RefreshLayout.State.REFRESHCOMPLETE || currentState == RefreshLayout.State.REFRESHING) {
-            return;
-        }
         if (mHeadertextView != null) {
-            if (mHeadertextView != null && scrolls > getRefreshLayout().getAttrsUtils().getmHeaderRefreshPosition()) {
+            if (mHeadertextView != null && scrolls > layout.getAttrsUtils().getmHeaderRefreshPosition()) {
                 mHeadertextView.setText(title[1]);
             } else {
                 mHeadertextView.setText(title[0]);
@@ -47,7 +42,7 @@ public class RefreshHandlerImpl extends RefreshHanderBase {
             return;
         }
         if (mfootertextView != null) {
-            if (mfootertextView != null && scrolls > getRefreshLayout().getAttrsUtils().getmFooterRefreshPosition()) {
+            if (mfootertextView != null && scrolls > layout.getAttrsUtils().getmFooterRefreshPosition()) {
                 mfootertextView.setText(title[4]);
             } else {
                 mfootertextView.setText(title[3]);
@@ -95,6 +90,7 @@ public class RefreshHandlerImpl extends RefreshHanderBase {
 
     @Override
     protected void handleview(RefreshLayout layout, View header, View footer) {
+        this.layout=layout;
         if (header != null) {
             if (header != null)
                 mHeadertextView = header.findViewById(R.id.textView);
