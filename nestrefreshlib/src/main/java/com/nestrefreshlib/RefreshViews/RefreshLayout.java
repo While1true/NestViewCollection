@@ -150,9 +150,28 @@ public class RefreshLayout extends FrameLayout implements NestedScrollingParent,
         valueAnimatorfooter = valueAnimatorHeader.clone();
     }
 
+    public interface KeyBoardChangedListener {
+        void changed(boolean visable,int range);
+    }
 
+    private KeyBoardChangedListener keyBoardlistener;
+
+    public void setKeyBoardChangedListener(KeyBoardChangedListener keyBoardlistener) {
+        this.keyBoardlistener = keyBoardlistener;
+    }
+
+    private int layoutbottom = -1;
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        if(keyBoardlistener!=null) {
+            if (bottom - layoutbottom > 100) {
+                keyBoardlistener.changed(false, layoutbottom - bottom);
+            } else if (bottom - layoutbottom < -100) {
+                keyBoardlistener.changed(true, layoutbottom - bottom);
+            }
+            layoutbottom = bottom;
+        }
+
         if (top == bottom || left == right) {
             return;
         }
